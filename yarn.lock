@@ -4143,6 +4143,11 @@ get-value@^2.0.3, get-value@^2.0.6:
   resolved "https://registry.yarnpkg.com/get-value/-/get-value-2.0.6.tgz#dc15ca1c672387ca76bd37ac0a395ba2042a2c28"
   integrity sha1-3BXKHGcjh8p2vTesCjlbogQqLCg=
 
+getopts@^2.2.5:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/getopts/-/getopts-2.3.0.tgz#71e5593284807e03e2427449d4f6712a268666f4"
+  integrity sha512-5eDf9fuSXwxBL6q5HX+dhDj+dslFGWzU5thZ9kNKUkcPtaPdatmUFKwHFrLb/uf/WpA4BHET+AX3Scl56cAjpA==
+
 glob-parent@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-3.1.0.tgz#9e6af6299d8d3bd2bd40430832bd113df906c5ae"
@@ -8401,6 +8406,13 @@ vm-browserify@^1.0.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
   integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
+
+vue-command@^23.0.1:
+  version "23.0.1"
+  resolved "https://registry.yarnpkg.com/vue-command/-/vue-command-23.0.1.tgz#c5cbaec507364bc24bef9fe70ad1b2ea52056060"
+  integrity sha512-BNaQw6Pq681+C97atmGKQDZU5hgX7LIwbm/zPmHFy6j87Li5/baF3nqVGxKQVP1ddjCO0GfD9642ZfayPtoHTw==
+  dependencies:
+    getopts "^2.2.5"
 
 vue-eslint-parser@^7.0.0:
   version "7.5.0"
