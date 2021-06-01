@@ -8,7 +8,7 @@
             <q-card-section class="q-pt-none scroll" style="max-height: 50vh">
               <div class="text-caption text-grey">
                 <div class="tw-mr-[-15px] tw-ml-[-15px] tw-100">
-                  <q-img src="img/auxion-site.png" class="tw-w-full">
+                  <q-img src="img/auxion-site.png" position="top" class="tw-w-full tw-h-[280px]">
                     <div class="absolute-bottom text-subtitle1 text-center !tw-bg-opacity-80 !tw-bg-teal-900">
                       <a href="https://auxion.net/" target="_blank" class="tw-no-underline tw-group tw-relative tw-transition hover:!tw-text-blue-300 tw-text-lg tw-text-white tw-cursor-pointer">
                         www.auxion.net
@@ -35,8 +35,7 @@
                   </q-item>
                   <q-item>
                     <q-item-section>
-                      <q-parallax :height="300"
-                          src="img/auxion-site-registration.png">
+                      <q-parallax :height="200" src="img/auxion-registration.png">
                       </q-parallax>
                       Salvage Agents can register for the platform using an online registration form.
                     </q-item-section>
