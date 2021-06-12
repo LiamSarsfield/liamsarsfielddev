@@ -8,8 +8,7 @@
                  :stdin.sync=stdinBind
                  :history.sync="historyBind"
     >
-      <div class="tw-flex tw-justify-center tw-border-0 tw-border-b-[1px] tw-border-solid tw-border-gray-800 tw-py-2"
-           slot="bar">
+      <div class="tw-flex tw-justify-center tw-border-0 tw-border-b-[1px] tw-border-solid tw-border-gray-800 tw-py-2" slot="bar">
         {{ title }}
       </div>
       <span class="term-ps"
@@ -176,6 +175,7 @@ export default {
         &:focus-visible {
           outline: 0;
         }
+
         &[disabled] {
           cursor: default !important;
         }
