@@ -26,14 +26,20 @@
                         class="q-pt-none scroll parallax-scroll parallax-about-scroll"
                         style="max-height: 50vh">
           <div class="text-caption text-grey">
-            <div class="tw-mr-[-15px] tw-ml-[-15px] tw-mt-[-3vw] tw-100">
+            <div class="tw-mr-[-15px] tw-ml-[-15px] tw-mt-[-3vw]">
               <ls-parallax :height="300"
                            class="parallax-about"
                            scale="0.375"
                            scroll-target=".parallax-about-scroll">
                 <template>
-                  <div class="absolute-bottom text-subtitle1 text-center">
-                    Caption
+                  <div
+                    class="tw-absolute tw-bottom-0 tw-w-full tw-py-2 tw-text-center tw-text-gray-200 tw-text-4xl">
+                    <div class="tw-absolute tw-inset-0 tw-w-full tw-h-full tw-bg-gradient-to-r tw-from-black tw-to-red-900 tw-opacity-70">
+                    </div>
+                    <span class="tw-relative">
+                      auxion.net
+                      <q-icon name="link"></q-icon>
+                    </span>
                   </div>
                 </template>
                 <template v-slot:media>
@@ -56,17 +62,17 @@
               </q-item>
               <q-item>
                 <q-item-section>
-                  <span>Uses jQuery</span>parsed with Laravel Webpack to provide a modern UX on mobile and desktop.
-                </q-item-section>
-              </q-item>
-              <q-item>
-                <q-item-section>
                   <ls-parallax :height="220" scale="0.55" class="parallax-about" scroll-target=".parallax-about-scroll">
+                    <template>
+                      <div
+                        class="tw-absolute tw-bottom-0 tw-w-full tw-py-2 tw-text-center tw-text-gray-200 tw-text-xl tw-bg-black tw-bg-opacity-70">
+                        Salvage Agents can register for the platform using an online registration form.
+                      </div>
+                    </template>
                     <template v-slot:media>
                       <img class="parallax-img-about" src="img/auxion-site-registration.png">
                     </template>
                   </ls-parallax>
-                  Salvage Agents can register for the platform using an online registration form.
                 </q-item-section>
               </q-item>
             </q-list>
@@ -145,12 +151,11 @@
 </template>
 
 <script>
-import {QBtn} from 'quasar';
 import componentLiaison from 'src/store/componentLiaison';
-import VueCommand, {createStdout, createStderr, createDummyStdout} from 'vue-command';
 import VueTerminal from 'components/terminal/VueTerminal';
 import LsParallax from 'components/custom/LsParallax';
 import LsDialog from 'components/custom/LsDialog';
+import LsAnchor from 'components/custom/LsAnchor';
 
 export default {
   name: 'PageIndex',
@@ -199,13 +204,23 @@ export default {
           'vmstat': () =>
             function(h) {
               let _this = this;
-              return <span class="">Current portfolio includes: <a v-on:click={() => {
-                // Communicate to the Index Component that the Auxion Modal needs to show when the user clicks the link
-                _this.$store.commit('index/updateState', {showAuxionModal: true});
-              }}
-                                                                   class="tw-group tw-relative tw-transition hover:!tw-text-blue-400 tw-text-lg tw-text-green-400 tw-cursor-pointer">auxion.net (Laravel/MySQL/jquery/SCSS)<span
-                class="group-hover:tw-w-full tw-w-0 tw-h-[1px] tw-bg-gradient-to-r tw-from-green-400 tw-to-blue-500 tw-ease-in-out tw-transition-bg-width tw-duration-500 tw-absolute tw-bottom-0 tw-left-0"
-              ></span></a>, Discord checkers bot (NodeJS/Discord API), and this website(Vue/Quasar Framework/Docker).</span>;
+              return <span class="">Current portfolio includes:
+                <LsAnchor  v-on:click={() => {
+                  // Communicate to the Index Component that the Auxion Modal needs to show when the user clicks the link
+                  _this.$store.commit('index/updateState', {showAuxionModal: true});
+                }} className="tw-cursor-pointer tw-text-lg tw-text-green-400 hover:!tw-text-blue-400" underlineGradient={['tw-from-green-400',
+                  'tw-to-blue-500']}>
+                  auxion.net (Laravel/MySQL/jquery/SCSS)
+                </LsAnchor>
+                <a v-on:click={() => {
+                  // Communicate to the Index Component that the Auxion Modal needs to show when the user clicks the link
+                  _this.$store.commit('index/updateState', {showAuxionModal: true});
+                }}
+                   class="tw-text-lg tw-text-green-400 tw-cursor-pointer tw-group tw-relative tw-transition hover:!tw-text-blue-400">
+                auxion.net (Laravel/MySQL/jquery/SCSS)
+                <span
+                  class="tw-w-0 tw-h-[1px] group-hover:tw-w-full tw-bg-gradient-to-r tw-from-green-400 tw-to-blue-500 tw-ease-in-out tw-transition-bg-width tw-duration-500 tw-absolute tw-bottom-0 tw-left-0"
+                ></span></a>, Discord checkers bot (NodeJS/Discord API), and this website(Vue/Quasar Framework/Docker).</span>;
             },
         },
         styles: {
