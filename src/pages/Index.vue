@@ -33,8 +33,8 @@
                            scroll-target=".parallax-about-scroll">
                 <template>
                   <div
-                    class="tw-absolute tw-bottom-0 tw-w-full tw-py-2 tw-text-center tw-text-gray-200 tw-text-4xl">
-                    <div class="tw-absolute tw-inset-0 tw-w-full tw-h-full tw-bg-gradient-to-r tw-from-black tw-to-red-900 tw-opacity-70">
+                    class="tw-absolute tw-bottom-0 tw-w-full tw-py-2 tw-text-center tw-group tw-text-gray-200 tw-text-4xl">
+                    <div class="tw-absolute tw-inset-0 tw-w-full tw-h-full group-hover:!tw-bg-black group-hover:tw-bg-none tw-bg-gradient-to-r tw-from-black tw-to-red-900 tw-opacity-70">
                     </div>
                     <span class="tw-relative">
                       auxion.net
@@ -211,16 +211,7 @@ export default {
                 }} className="tw-cursor-pointer tw-text-lg tw-text-green-400 hover:!tw-text-blue-400" underlineGradient={['tw-from-green-400',
                   'tw-to-blue-500']}>
                   auxion.net (Laravel/MySQL/jquery/SCSS)
-                </LsAnchor>
-                <a v-on:click={() => {
-                  // Communicate to the Index Component that the Auxion Modal needs to show when the user clicks the link
-                  _this.$store.commit('index/updateState', {showAuxionModal: true});
-                }}
-                   class="tw-text-lg tw-text-green-400 tw-cursor-pointer tw-group tw-relative tw-transition hover:!tw-text-blue-400">
-                auxion.net (Laravel/MySQL/jquery/SCSS)
-                <span
-                  class="tw-w-0 tw-h-[1px] group-hover:tw-w-full tw-bg-gradient-to-r tw-from-green-400 tw-to-blue-500 tw-ease-in-out tw-transition-bg-width tw-duration-500 tw-absolute tw-bottom-0 tw-left-0"
-                ></span></a>, Discord checkers bot (NodeJS/Discord API), and this website(Vue/Quasar Framework/Docker).</span>;
+                </LsAnchor>, Discord checkers bot (NodeJS/Discord API), and this website(Vue/Quasar Framework/Docker).</span>;
             },
         },
         styles: {

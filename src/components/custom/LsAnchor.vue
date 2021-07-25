@@ -46,7 +46,7 @@ export default {
     computedUnderlineClass() {
       let _this = this;
       // The basic classes, that will always be used to achieve the animation
-      let parsedUnderlineClass = 'tw-w-0 tw-h-[1px] group-hover:tw-w-full tw-absolute tw-inset-0';
+      let parsedUnderlineClass = 'tw-w-0 tw-h-[1px] group-hover:tw-w-full tw-absolute tw-bottom-0 tw-left-0';
       if (_this.hasUnderline) {
         // If underline gradients were passed, add the gradient class and append everyone to the parsedUnderlineClass
         parsedUnderlineClass += ' tw-bg-gradient-to-r ';
