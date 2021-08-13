@@ -70,8 +70,13 @@ export default {
         // We now need get the distance between the stickyElement and the actual mediaElem and ensure there is no space between them (So the mediaElem always "starts" from the stickyElem)
         let parallaxScrollTop = _this.stickyElement.getBoundingClientRect().top;
         let imgTop = _this.mediaElem.getBoundingClientRect().top;
+        let thisElemTop = _this.$el.getBoundingClientRect().top;
         // This is the formula the q-parallax uses to get the translate3d
-        let transformProperty = (_this.mediaElem.height - _this.height) * percentage;
+        let transformProperty = 0;
+        if (parallaxScrollTop < thisElemTop) {
+          transformProperty += thisElemTop - parallaxScrollTop;
+        }
+        transformProperty = (transformProperty + _this.mediaElem.height - _this.height) * percentage;
         let offset = transformProperty - (imgTop - parallaxScrollTop);
         _this.translate3dStyle = `-50%, ${offset}px, 0px`;
       }

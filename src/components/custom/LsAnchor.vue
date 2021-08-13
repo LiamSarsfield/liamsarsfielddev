@@ -1,5 +1,10 @@
 <template>
-  <a :class="computedClass" @click="$emit('click', $event)">
+  <a :class="computedClass"
+     :href="href ? href : false"
+     ref="noopener"
+     :target="newTab ? '_self' : '_blank'"
+     @click="$emit('click', $event)"
+  >
     <slot/>
     <span v-if="hasUnderline" :class="computedUnderlineClass"></span>
   </a>
@@ -10,12 +15,20 @@ export default {
   name: 'LsAnchor',
   props: {
     /** START: anchor props */
+    // Cannot use prop name class in JSX as is reserved attribute
     className: {
       value: String,
       default: () => '',
     },
+    href: {
+      value: String,
+      default: () => '',
+    },
+    newTab: {
+      value: Boolean,
+      default: () => false,
+    },
     /** END: anchor props */
-    //
     underlineGradient: {
       value: Array,
       default: () => [],
@@ -38,6 +51,8 @@ export default {
         parsedClass += ' tw-group tw-relative';
         parsedClass += (_this.underlineTransition) ? ' tw-transition' : '';
       }
+      // For now, we assume every anchor has a text-decoration of no underline/default. To overwrite the rule we can mark the text-decoration as important
+      parsedClass += ' tw-no-underline';
       return parsedClass;
     },
     hasUnderline() {

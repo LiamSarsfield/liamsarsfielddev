@@ -1,6 +1,6 @@
 <template>
   <q-page class="row justify-center">
-    <q-card class="col-8 my-card">
+    <q-card class="col-8">
       <q-card-section>
         <div class="text-h6">Hey there :) thanks for visiting my site</div>
       </q-card-section>
@@ -17,29 +17,25 @@
       </q-card-section>
     </q-card>
     <ls-dialog v-model="showAuxionModal"
-               ref="projectDialog"
                content-class="about-project-dialog"
-               :has-parallax="true"
+               :parallax-scroll-target="indexLiaison.auxionModal.parallaxScrollTarget"
     >
-      <q-card class="my-card" style="width: 920px; max-width: 80vw;">
-        <q-card-section ref="projectDialogScroll"
-                        class="q-pt-none scroll parallax-scroll parallax-about-scroll"
-                        style="max-height: 50vh">
+      <q-card class="!tw-w-[1120px] !tw-max-w-[80vw]">
+        <q-card-section class="q-pt-none scroll parallax-about-scroll parallax-scroll-target tw-max-h-[50vh]">
           <div class="text-caption text-grey">
             <div class="tw-mr-[-15px] tw-ml-[-15px] tw-mt-[-3vw]">
               <ls-parallax :height="300"
                            class="parallax-about"
-                           scale="0.375"
-                           scroll-target=".parallax-about-scroll">
+                           scale="0.375">
                 <template>
-                  <div
-                    class="tw-absolute tw-bottom-0 tw-w-full tw-py-2 tw-text-center tw-group tw-text-gray-200 tw-text-4xl">
-                    <div class="tw-absolute tw-inset-0 tw-w-full tw-h-full group-hover:!tw-bg-black group-hover:tw-bg-none tw-bg-gradient-to-r tw-from-black tw-to-red-900 tw-opacity-70">
+                  <div class="tw-absolute tw-bottom-0 tw-w-full tw-text-center tw-group tw-text-gray-200 tw-text-4xl">
+                    <div
+                      class="tw-absolute tw-inset-0 tw-w-full tw-h-full group-hover:tw-bg-red-900 group-hover:tw-bg-none group-hover:tw-opacity-90 tw-bg-gradient-to-r tw-from-black tw-to-red-900 tw-opacity-70">
                     </div>
-                    <span class="tw-relative">
+                    <ls-anchor href="https://auxion.net" className="tw-relative tw-flex tw-justify-center tw-align-center tw-py-2 tw-text-white">
                       auxion.net
-                      <q-icon name="link"></q-icon>
-                    </span>
+                      <q-icon name="launch" class="tw-ml-1 tw-my-auto"></q-icon>
+                    </ls-anchor>
                   </div>
                 </template>
                 <template v-slot:media>
@@ -47,26 +43,24 @@
                 </template>
               </ls-parallax>
             </div>
-            <q-list class="tw-mr-[-15px] tw-ml-[-15px]" separator>
+            <q-list class="tw-mr-[-15px] tw-ml-[-15px] tw-text-lg" separator>
               <q-item>
                 <q-item-section>
-                  Brochure website developed for one of Mackessy Technology’s products which provides daily auctions on
-                  salvaged vehicles.
+                  Brochure website developed for one of Mackessy Technology’s products which sells salvaged vehicles in an auction format.
                 </q-item-section>
               </q-item>
               <q-item>
                 <q-item-section>
-                  Displays a carousel of current salvage vehicles in auction that pulls data frequently from the
-                  platform.
+                  Displays a carousel of current salvage vehicles in auction that pulls data frequently from the platform.
                 </q-item-section>
               </q-item>
-              <q-item>
+              <q-item class="tw-relative">
                 <q-item-section>
-                  <ls-parallax :height="220" scale="0.55" class="parallax-about" scroll-target=".parallax-about-scroll">
+                  <ls-parallax :height="220" scale="0.55" class="parallax-about">
                     <template>
                       <div
                         class="tw-absolute tw-bottom-0 tw-w-full tw-py-2 tw-text-center tw-text-gray-200 tw-text-xl tw-bg-black tw-bg-opacity-70">
-                        Salvage Agents can register for the platform using an online registration form.
+                        Salvage Agents can also register for the platform using an online registration form.
                       </div>
                     </template>
                     <template v-slot:media>
@@ -147,6 +141,13 @@
         </q-card-actions>
       </q-card>
     </ls-dialog>
+    <ls-dialog v-model="showDiscordCheckersModal">
+      <q-card class="!tw-w-[1120px] !tw-max-w-[80vw]">
+        <q-card-section class="!tw-w-[1120px] !tw-max-w-[80vw]">
+
+        </q-card-section>
+      </q-card>
+    </ls-dialog>
   </q-page>
 </template>
 
@@ -159,15 +160,12 @@ import LsAnchor from 'components/custom/LsAnchor';
 
 export default {
   name: 'PageIndex',
-  components: {LsDialog, VueTerminal, LsParallax},
+  components: {LsAnchor, LsDialog, VueTerminal, LsParallax},
   preFetch({store}) {
     store.registerModule('index', componentLiaison);
-    store.commit('index/updateState', {'showAuxionModal': false});
+    store.commit('index/updateState', {'auxionModal': {show: false}, 'discordCheckersModal': {show: false}});
   },
   created() {
-  },
-  mounted() {
-    let _this = this;
   },
   data: () => ({
       terminalOptions: {
@@ -187,31 +185,25 @@ export default {
           // _this in the below objects refers to the VueTerminal Vue Instance
           'whoami': () =>
             function(h) {
-              let _this = this;
-              return <span v-on:click={() => {
-                // Communicate to the Index Component that the Auxion Modal needs to show when the user clicks the link
-                _this.$store.commit('index/updateState', {showAuxionModal: true});
-              }}>Enthusiastic web developer with a passion for software development and full-stack web development.</span>;
+              return <span>Enthusiastic web developer with a passion for software development and full-stack web development.</span>;
             },
           'htop': () =>
             function(h) {
-              let _this = this;
-              return <span v-on:click={() => {
-                // Communicate to the Index Component that the Auxion Modal needs to show when the user clicks the link
-                _this.$store.commit('index/updateState', {showAuxionModal: true});
-              }}>I have 2 years experience working with PHP (Kohana/Laravel), MySQL, jQuery/CSS. I have also dabbled with NodeJS. I am currently experimenting into Vue, GraphQL and Docker.</span>;
+              return <span>I have 2 years experience working with PHP (Kohana/Laravel), MySQL, jQuery/CSS. I have also dabbled with NodeJS. I am currently experimenting into Vue, GraphQL and Docker.</span>;
             },
           'vmstat': () =>
             function(h) {
               let _this = this;
               return <span class="">Current portfolio includes:
-                <LsAnchor  v-on:click={() => {
+                <LsAnchor v-on:click={() => {
                   // Communicate to the Index Component that the Auxion Modal needs to show when the user clicks the link
-                  _this.$store.commit('index/updateState', {showAuxionModal: true});
-                }} className="tw-cursor-pointer tw-text-lg tw-text-green-400 hover:!tw-text-blue-400" underlineGradient={['tw-from-green-400',
-                  'tw-to-blue-500']}>
+                  _this.$store.commit('index/updateState', {auxionModal: {...this.$store.getters['index/getState'].auxionModal, show: true}});
+                }} className="tw-cursor-pointer tw-text-red-600 hover:!tw-text-red-700" underlineGradient={['tw-from-gray-700', 'tw-to-red-900']}>
                   auxion.net (Laravel/MySQL/jquery/SCSS)
-                </LsAnchor>, Discord checkers bot (NodeJS/Discord API), and this website(Vue/Quasar Framework/Docker).</span>;
+                </LsAnchor>, <LsAnchor v-on:click={() => {
+                  _this.$store.commit('index/updateState', {discordCheckersModal: {...this.$store.getters['index/getState'].discordCheckersModal, show: true}});
+                }} className="tw-cursor-pointer tw-text-yellow-500 hover:!tw-text-yellow-600" underlineGradient={['tw-from-gray-700', 'tw-to-yellow-800']}>
+                  Discord Checkers bot (Node.js/Discord.js)</LsAnchor>, and this website(Vue/Quasar Framework/Docker).</span>;
             },
         },
         styles: {
@@ -232,10 +224,18 @@ export default {
     },
     showAuxionModal: {
       get() {
-        return this.indexLiaison.showAuxionModal;
+        return this.indexLiaison.auxionModal.show;
       },
       set(newValue) {
-        this.$store.commit('index/updateState', {showAuxionModal: newValue});
+        this.$store.commit('index/updateState', {auxionModal: {...this.indexLiaison.auxionModal, show: newValue}});
+      },
+    },
+    showDiscordCheckersModal: {
+      get() {
+        return this.indexLiaison.discordCheckersModal.show;
+      },
+      set(newValue) {
+        this.$store.commit('index/updateState', {discordCheckersModal: {...this.indexLiaison.discordCheckersModal, show: newValue}});
       },
     },
   },
