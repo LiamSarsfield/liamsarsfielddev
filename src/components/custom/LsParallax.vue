@@ -17,8 +17,17 @@ export default {
     let _this = this;
     // Get the actual DOM element of the scrollTarget
     _this.stickyElement = _this.$el.closest(_this.scrollTarget);
-    _this.mediaElem = _this.$refs.parallaxMedia.media;
-    _this.mediaElem.style.transform += ` scale(${_this.scale})`;
+    // The media element either belongs to the qParallax or the sticky element
+    _this.mediaElem = _this.$refs.parallaxMedia?.media ?? _this.$refs.mediaContainer.firstElementChild;
+
+    /**
+     * Watches the computed property, if either the translate or the scale changes, update the media's transform with this value, immediately trigger the watch.
+     * We cannot have this in the component's watch property as we don't have access to the mediaElem property when the watch first triggers.
+     */
+    _this.$watch('transformStyle', (newValue) => {
+      let _this = this;
+      _this.mediaElem.style.transform = newValue;
+    }, {immediate: true});
   },
   /** END: Lifecycle Hooks */
   props: {
@@ -47,23 +56,15 @@ export default {
   }),
   computed: {
     transformStyle() {
-      return `translate3d(${this.translate3dStyle}) scale(${this.scale})`;
-    },
-  },
-  watch: {
-    // From the computed property, if either the translate or the scale changes, update the transform
-    transformStyle(newValue) {
-      this.mediaElem.style.transform = newValue;
+      let transformStyle = (this.translate3dStyle) ? `translate3d(${this.translate3dStyle})` : '';
+      transformStyle += (this.scale) ? `scale(${this.scale})` : '';
+      return transformStyle;
     },
   },
   methods: {
-    /**
-     * When we scroll, the transform property is reset. We need to update it to our own custom properties
-     * @param percentage
-     */
-    onScroll: async function(percentage) {
+    onScroll: function(amountChanged) {
       let _this = this;
-      if (percentage !== 0) {
+      if (amountChanged !== 0) {
         // Firstly reapply the scaling straight away so the imgTop gets an accurate reading
         _this.mediaElem.style.transform += ` scale(${_this.scale})`;
 
@@ -71,12 +72,12 @@ export default {
         let parallaxScrollTop = _this.stickyElement.getBoundingClientRect().top;
         let imgTop = _this.mediaElem.getBoundingClientRect().top;
         let thisElemTop = _this.$el.getBoundingClientRect().top;
-        // This is the formula the q-parallax uses to get the translate3d
         let transformProperty = 0;
         if (parallaxScrollTop < thisElemTop) {
           transformProperty += thisElemTop - parallaxScrollTop;
         }
-        transformProperty = (transformProperty + _this.mediaElem.height - _this.height) * percentage;
+        // This is the formula the q-parallax uses to get the translate3d
+        transformProperty = (transformProperty + _this.mediaElem.height - _this.height) * amountChanged;
         let offset = transformProperty - (imgTop - parallaxScrollTop);
         _this.translate3dStyle = `-50%, ${offset}px, 0px`;
       }
@@ -84,3 +85,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+.sticky-parallax-media-container::v-deep > * {
+  position: fixed;
+  pointer-events: none;
+}
+</style>

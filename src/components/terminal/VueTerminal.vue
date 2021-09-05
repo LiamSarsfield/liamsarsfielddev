@@ -11,17 +11,15 @@
       <div class="tw-flex tw-justify-center tw-border-0 tw-border-b-[1px] tw-border-solid tw-border-gray-800 tw-py-2" slot="bar">
         {{ title }}
       </div>
-      <span class="term-ps"
-            slot="prompt">
+      <span class="term-ps" slot="prompt">
       {{ prompt }}
-    </span>
+      </span>
     </vue-command>
   </div>
 </template>
 
 <script>
 import VueCommand, {createStdout, createStderr, createDummyStdout} from 'vue-command';
-// import 'vue-command/dist/vue-command.css';
 
 export default {
   name: 'VueTerminal',
@@ -36,7 +34,7 @@ export default {
     onMount: {
       type: Function,
       default: () => {
-      }
+      },
     },
     /** START: Vue-Commands data */
     commands: {
@@ -53,7 +51,7 @@ export default {
     styles: {
       backgroundColor: {
         type: String,
-      }
+      },
     },
     /** START: Properties used in vue-command */
     builtIn: {
@@ -70,7 +68,7 @@ export default {
     },
     history: {
       type: Array,
-    }
+    },
     /** END: Properties used in vue-command */
     /** END: Vue-Commands data */
   },
@@ -83,24 +81,24 @@ export default {
         return this.stdin;
       },
       set(newValue) {
-        this.$emit("update:stdin", newValue);
-      }
+        this.$emit('update:stdin', newValue);
+      },
     },
     historyBind: {
       get() {
         return this.history;
       },
       set(newValue) {
-        this.$emit("update:history", newValue);
-      }
+        this.$emit('update:history', newValue);
+      },
     },
     cssVars() {
       let cssVars = {};
       for (let cssProp in this.styles) {
         cssVars[`--${cssProp}`] = this.styles[cssProp];
       }
-      return cssVars
-    }
+      return cssVars;
+    },
   },
   watch: {},
   methods: {
@@ -122,29 +120,29 @@ export default {
       let terminalOptions = options.terminalOptionsKey;
 
       if (options.typingAnimation) {
-        await _this.typing("stdinBind", command, {dataOptionsKey: terminalOptions, typingSpeed: options.typingSpeed})
+        await _this.typing('stdinBind', command, {dataOptionsKey: terminalOptions, typingSpeed: options.typingSpeed});
       } else {
         _this.stdinBind = command;
       }
       // Ensure we wait for the page to rerender, otherwise the command may not show fully
       await _this.$nextTick();
 
-      if (typeof terminalOptions.commands[command] === "function") {
+      if (typeof terminalOptions.commands[command] === 'function') {
         /*
          * We know the command exists, we can execute it
          * However, we render the command's response either through an existing component or an anonymous component.
          * Existing components are an object, whereas an anonymous component we assume will be a function, which we will make into an object
          */
         let terminalCommand = terminalOptions.commands[command]();
-        terminalCommand = (typeof terminalCommand === "function") ? {render: terminalCommand} : terminalCommand;
+        terminalCommand = (typeof terminalCommand === 'function') ? {render: terminalCommand} : terminalCommand;
         terminalOptions.history.push(terminalCommand);
       } else {
         terminalOptions.history.push(createStdout(`${command}: command not found`));
       }
-      _this.stdinBind = "";
-    }
-  }
-}
+      _this.stdinBind = '';
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -162,22 +160,28 @@ export default {
 
       .term-ps {
         display: flex;
+        flex-shrink: 0;
         align-items: center;
         margin-right: 0.25rem;
       }
 
-      .term-stdin > input {
-        cursor: text;
-        color: $white;
-        background-color: transparent;
-        border: 0;
+      .term-stdin {
+        min-width: 0;
 
-        &:focus-visible {
-          outline: 0;
-        }
+        & > input {
+          cursor: text;
+          color: $white;
+          background-color: transparent;
+          border: 0;
+          width: 100%;
 
-        &[disabled] {
-          cursor: default !important;
+          &:focus-visible {
+            outline: 0;
+          }
+
+          &[disabled] {
+            cursor: default !important;
+          }
         }
       }
     }
