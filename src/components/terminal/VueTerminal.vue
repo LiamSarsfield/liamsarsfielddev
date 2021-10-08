@@ -8,7 +8,8 @@
                  :stdin.sync=stdinBind
                  :history.sync="historyBind"
     >
-      <div class="tw-flex tw-justify-center tw-border-0 tw-border-b-[1px] tw-border-solid tw-border-gray-800 tw-py-2" slot="bar">
+      <div class="tw-flex tw-justify-center tw-border-0 tw-border-b-[1px] tw-border-solid tw-border-gray-800 tw-bg-primary tw-bg-opacity-30 tw-py-2"
+           slot="bar">
         {{ title }}
       </div>
       <span class="term-ps" slot="prompt">
@@ -19,23 +20,15 @@
 </template>
 
 <script>
-import VueCommand, {createStdout, createStderr, createDummyStdout} from 'vue-command';
+import VueCommand, {createStdout} from 'vue-command';
 
 export default {
   name: 'VueTerminal',
   components: {VueCommand},
   /** START: Lifecycle Hooks */
-  mounted() {
-    let _this = this;
-    this.onMount(this);
-  },
+  mounted() {},
   /** END: Lifecycle Hooks */
   props: {
-    onMount: {
-      type: Function,
-      default: () => {
-      },
-    },
     /** START: Vue-Commands data */
     commands: {
       /**
@@ -148,7 +141,7 @@ export default {
 <style lang="scss" scoped>
 .vue-terminal-command::v-deep {
   font-family: 'Roboto Mono', monospace;
-  background-color: var(--backgroundColor, $black);
+  background-color: var(--q-color-dark, $dark);
   word-break: break-word;
 
 
