@@ -14,7 +14,7 @@ export default {
   name: 'LsParallax',
   /** START: Lifecycle Hooks */
   mounted() {
-    let _this = this;
+    const _this = this;
     // Get the actual DOM element of the scrollTarget
     _this.stickyElement = _this.$el.closest(_this.scrollTarget);
     // The media element either belongs to the qParallax or the sticky element
@@ -25,7 +25,7 @@ export default {
      * We cannot have this in the component's watch property as we don't have access to the mediaElem property when the watch first triggers.
      */
     _this.$watch('transformStyle', (newValue) => {
-      let _this = this;
+      const _this = this;
       _this.mediaElem.style.transform = newValue;
     }, {immediate: true});
   },
@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     onScroll: function(amountChanged) {
-      let _this = this;
+      const _this = this;
       if (amountChanged !== 0) {
         // Firstly reapply the scaling straight away so the imgTop gets an accurate reading
         _this.mediaElem.style.transform += ` scale(${_this.scale})`;

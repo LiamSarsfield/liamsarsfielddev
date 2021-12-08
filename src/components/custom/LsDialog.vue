@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     onShow(event) {
-      let _this = this;
+      const _this = this;
       _this.refreshDialogElements();
       _this.$emit('show', event);
     },
@@ -64,7 +64,7 @@ export default {
      * as computed properties do not work due to the default slot not being present when it's first watched by Vue
      */
     refreshDialogElements() {
-      let _this = this;
+      const _this = this;
 
       _this.dialogElement = (_this.dialogScrollElement && _this.dialogScrollElement.isConnected) ? _this.dialogElement : _this.$slots.default[0].elm;
       if (_this.dialogElement instanceof Element) {

@@ -8,3 +8,49 @@
     background-color: $variable
   }
 }
+
+.slide-in {
+  animation: slidein-top 1s forwards;
+  -webkit-animation-fill-mode: forwards;
+}
+
+.slide-out {
+  animation: slideout-top 1s forwards;
+  -webkit-animation-fill-mode: forwards;
+}
+
+@keyframes slidein-top {
+  from {
+    margin-top: -50px;
+    opacity: 0;
+    display: none;
+    position: fixed;
+    z-index: -5;
+  }
+
+  to {
+    margin-bottom: 0px;
+    opacity: 1;
+    display: block;
+    position: static;
+    z-index: 1;
+  }
+}
+
+@keyframes slideout-top {
+  from {
+    margin-bottom: 0px;
+    opacity: 1;
+    display: block;
+    position: static;
+    z-index: 1;
+  }
+
+  to {
+    margin-top: -50px;
+    opacity: 0;
+    display: none;
+    position: fixed;
+    z-index: -5;
+  }
+}

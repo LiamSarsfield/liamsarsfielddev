@@ -16,9 +16,18 @@
             </q-item-section>
           </template>
           <q-card class="col-12">
-
             <q-card>
               <q-card-section>
+                <q-btn @click="clickMe">Click me</q-btn>
+                <q-select
+                  filled
+                  v-model="timelineOptions.selectedTags"
+                  multiple
+                  :options="Object.keys(this.timelineOptions.tags)"
+                  :option-label="(timelineTagKey) => this.timelineOptions.tags[timelineTagKey].label"
+                  label="Multiple"
+                  style="width: 250px"
+                />
                 <ls-timeline v-bind="timelineOptions"/>
               </q-card-section>
             </q-card>
@@ -200,30 +209,29 @@ import LsParallax from 'components/custom/LsParallax';
 import LsDialog from 'components/custom/LsDialog';
 import LsAnchor from 'components/custom/LsAnchor';
 import LsTimeline from 'components/custom/LsTimeline';
+import {merge} from 'lodash';
 
 export default {
   name: 'PageIndex',
   components: {LsTimeline, LsAnchor, LsDialog, VueTerminal, LsParallax},
-  /**
-   * https://quasar.dev/quasar-cli/prefetch-feature
-   * "The preFetch hook runs only once, when the app boots up, so you can use this opportunity to initialize the Vuex Store here."
-   */
+  /** https://quasar.dev/quasar-cli/prefetch-feature
+   * "The preFetch hook runs only once, when the app boots up, so you can use this opportunity to initialize the Vuex Store here." */
   preFetch({store}) {
     store.registerModule('index', componentLiaison);
     store.commit('index/updateState', {'auxionModal': {show: false}, 'discordCheckersModal': {show: false}, 'claimLinkCheckersModal': {show: false}});
   },
   /** START: Lifecycle Hooks */
   created() {
-    this.generateBaseData();
   },
   /** END: Lifecycle Hooks */
-  data: () => ({
+  data() {
+    return {
       terminalOptions: {
         /**
          * NOTE: onMount function will be executed in the VueTerminal component, therefore "this", does NOT refer to the current component but actually VueTerminal
          */
         async onMount() {
-          let _this = this;
+          const _this = this;
           let commands = ['whoami', 'htop', 'vmstat'];
           let executionOptions = {terminalOptionsKey: this, typingAnimation: false, typingSpeed: 150};
           for (let i = 0; i < commands.length; i++) {
@@ -244,7 +252,7 @@ export default {
             },
           'vmstat': () =>
             function(h) {
-              let _this = this;
+              const _this = this;
               return <span class="">Current portfolio includes:
                 <LsAnchor v-on:click={() => {
                   // Communicate to the Index State that the Auxion, ClaimLink Modal, etc. needs to show when the user clicks the link
@@ -273,6 +281,20 @@ export default {
         stdin: '',
       },
       timelineOptions: {
+        'tags': {
+          'html': {'label': 'HTML'},
+          'javascript': {'label': 'JavaScript'},
+          'jquery': {'label': 'jQuery'},
+          'vuejs': {'label': 'Vue.js'},
+          'css': {'label': 'CSS'},
+          'nodeJS': {'label': 'NodeJS'},
+          'php': {'label': 'PHP'},
+          'laravel': {'label': 'Laravel'},
+          'codeigniter': {'label': 'CodeIgniter'},
+          'mysql': {'label': 'MySQL'},
+          'java': {'label': 'Java'},
+        },
+        'selectedTags': [],
         'timestamps': ['2016', '2017', '2018', '2019', '2020', '2021'],
         'timelineEvents': {
           'internetSystemsDevelopment': {
@@ -282,9 +304,10 @@ export default {
               'from': {'value': 2016, 'month': '4'},
               'to': {'value': 2019, 'month': '8'},
             },
+            'tags': ['html', 'javascript'],
           },
           'courseco': {
-            'label': 'Software Engineer', 'tooltip': {'label': 'CourseCo'},
+            'label': 'Full Stack Web Developer', 'tooltip': {'label': 'CourseCo'},
             'styleProps': {'borderColour': 'tw-border-green-400'},
             'plot': {
               'from': {'value': 2019, 'month': '3'},
@@ -292,7 +315,7 @@ export default {
             },
           },
           'mtx': {
-            'label': 'Full Stack Web Developer', 'tooltip': {'label': 'CourseCo'},
+            'label': 'Software Developer', 'tooltip': {'label': 'Mackessy Technology'},
             'styleProps': {'borderColour': 'tw-border-red-800'},
             'plot': {
               'from': {'value': 2020, 'month': '3'},
@@ -333,8 +356,8 @@ export default {
           },
         },
       },
-    }
-  ),
+    };
+  },
   computed: {
     indexLiaison() {
       return this.$store.getters['index/getState'];
@@ -366,10 +389,16 @@ export default {
     },
     /** END: Modal Computed Properties */
   },
-  methods: {},
+  methods: {
+    clickMe() {
+      /** "Vue cannot detect property addition or deletion", instead use the $set function
+       * https://vuejs.org/v2/guide/reactivity.html#For-Objects */
+      this.$set(this.timelineOptions.timelineEvents.internetSystemsDevelopment.styleProps, 'classes',
+        merge(this.timelineOptions.timelineEvents.internetSystemsDevelopment.styleProps.classes, {'slide-out': true}));
+    },
+  },
 };
 </script>
 
 <style lang="scss">
-
 </style>

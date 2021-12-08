@@ -45,7 +45,7 @@ export default {
   data: () => ({}),
   computed: {
     computedClass() {
-      let _this = this;
+      const _this = this;
       let parsedClass = _this.className;
       if (_this.hasUnderline) {
         parsedClass += ' tw-group tw-relative';
@@ -59,7 +59,7 @@ export default {
       return (this.underlineGradient.length > 1);
     },
     computedUnderlineClass() {
-      let _this = this;
+      const _this = this;
       // The basic classes, that will always be used to achieve the animation
       let parsedUnderlineClass = 'tw-w-0 tw-h-[1px] group-hover:tw-w-full tw-absolute tw-bottom-0 tw-left-0';
       if (_this.hasUnderline) {

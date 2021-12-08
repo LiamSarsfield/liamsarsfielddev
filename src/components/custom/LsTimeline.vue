@@ -1,19 +1,7 @@
 <template>
   <div class="tw-flex tw-flex-col">
     <div class="tw-flex tw-flex-wrap tw-mb-2 tw-gap-y-2">
-      <div v-for="timelineEvent in timelineEventsParsed" :key="timelineEvent.key" :style="timelineEvent.style" :class="timelineEvent.class">
-        {{ timelineEvent.label }}
-        <q-tooltip anchor="bottom left" self="center start" :offset="[0, 30]">
-          <div :class="timelineEvent.tooltip.class" class="tw-bg-secondary">
-            <div :class="timelineEvent.tooltip.headerClass">
-              {{ timelineEvent.label }}
-            </div>
-            <div v-show="timelineEvent.tooltip" :class="timelineEvent.tooltip.labelClass">
-              {{ timelineEvent.tooltip.label }}
-            </div>
-          </div>
-        </q-tooltip>
-      </div>
+      <ls-timeline-event v-for="timelineEvent in timelineEventsParsed" :key="timelineEvent.key" v-bind="timelineEvent"/>
     </div>
     <div class="tw-flex">
       <div class="tw-flex-1 tw-flex tw-flex-col" v-for="(timestamp, index) in timestampPlots" :key="index">
@@ -26,28 +14,89 @@
 </template>
 
 <script>
-import {range, max, min} from 'lodash';
+import LsTimelineEvent from 'components/custom/LsTimelineEvent';
+import {range, max, min, cloneDeep, has, omit, intersection} from 'lodash';
 
 export default {
   name: 'LsTimeline',
+  components: {LsTimelineEvent},
   /** START: Lifecycle Hooks */
   /** END: Lifecycle Hooks */
   props: {
+    tags: {
+      type: Object,
+      default: () => {},
+      validator: function(tags) {
+        let requiredProps = ['label'];
+        for (let [key, tag] of Object.entries(tags)) {
+          for (const requiredProp of requiredProps) {
+            if (has(tag, requiredProp) === false) {
+              return false;
+            }
+          }
+        }
+        return true;
+      },
+    },
+    selectedTags: {
+      type: [Array, Object],
+      default: () => null,
+    },
     timestamps: {
       type: Array,
       default: () => [],
+      // Timestamps must all be a form of number
       validator: (timestamps) => !timestamps.some(isNaN),
     },
-    /**
-     *
-     */
     timelineEvents: {
       type: Object,
-      default: () => ({}),
+      /** Checks if the correct object property values are entered */
+      validator: function(timelineEvents) {
+        let requiredProps = ['label', 'plot.from.value', 'plot.to.value'];
+        for (let [key, timelineEvent] of Object.entries(timelineEvents)) {
+          for (const requiredProp of requiredProps) {
+            if (has(timelineEvent, requiredProp) === false) {
+              return false;
+            }
+          }
+        }
+        return true;
+      },
     },
     tooltip: {
       type: Boolean,
       default: () => true,
+    },
+  },
+  data() {
+    return {
+      timelineEventsCloned: {},
+      tagsCloned: {},
+      selectedTagsCloned: {},
+    };
+  },
+  watch: {
+    /** Clone the timelineEvent so the parent's timelineEvent is not changed and One-Way Data Flow is not broken */
+    timelineEvents: {
+      immediate: true,
+      deep: true,
+      handler(newVal, oldVal) {
+        this.timelineEventsCloned = cloneDeep(newVal);
+      },
+    },
+    tags: {
+      immediate: true,
+      deep: true,
+      handler(newVal, oldVal) {
+        this.tagsCloned = cloneDeep(newVal);
+      },
+    },
+    selectedTags: {
+      immediate: true,
+      deep: true,
+      handler(newVal, oldVal) {
+        this.selectedTagsCloned = cloneDeep(newVal);
+      },
     },
   },
   computed: {
@@ -62,97 +111,91 @@ export default {
       return Number(max(this.timestamps));
     },
     timestampPlots() {
-      let _this = this;
+      const _this = this;
       return (_this.timestamps.length <= 0) ? [] : range(_this.minTimestamp, (_this.maxTimestamp + 1)).map((rangedTimestamp) => ({
         'value': rangedTimestamp,
         // Loose compare the current rangedTimestamp value with the timestamp value to compare if this was generated or not
         'isPublicTimestamp': _this.timestamps.some((timestamp) => timestamp == rangedTimestamp),
       }));
     },
-    timelineEventsSorted() {
-      let _this = this;
-      return Object.keys(_this.timelineEvents).map((key) => ({'key': key, ..._this.timelineEvents[key]})).sort((firstEl, secondEl) => {
-        _this.generateSumTimelineTotalMonths(firstEl);
-        _this.generateSumTimelineTotalMonths(secondEl);
-        if (firstEl.plot.from.date.getTime() < secondEl.plot.from.date.getTime()) {
-          // firstEl is less than second El
-          return -1;
-        } else if (firstEl.plot.from.date.getTime() > secondEl.plot.from.date.getTime()) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-    },
     /**
      * Returns an array that generated the necessary CSS style that's needed to show the timelineEvent
      * @returns {[]}
      */
     timelineEventsParsed() {
-      let _this = this;
+      const _this = this;
       let timelineEventsParsed = [];
       let totalAmountMonths = (1 + _this.maxTimestamp - _this.minTimestamp) * 12;
       /** Compares the previous offset to the current iteration's offset in the below loop. If the timelineOffset is less than the prevTotalOffset, we assume
        * we can put the current iteration on the same line as the previous */
       let prevTotalOffset = 100;
 
-      for (let [key, timelineEvent] of Object.entries(_this.timelineEvents)) {
+      for (let [key, timelineEvent] of Object.entries(_this.timelineEventsCloned)) {
+        // Used for the v-for :key
+        timelineEvent['key'] = key;
+
         _this.generateSumTimelineTotalMonths(timelineEvent);
 
-        let cssStyles;
-        if (timelineEvent.totalAmountMonths > 0) {
-          // Get the percentage of months this current timeline event was present
-          let timelinePercentage = Math.floor((timelineEvent.totalAmountMonths / totalAmountMonths) * 100);
-
-          let monthsFromBase = ((timelineEvent.plot.from.value - _this.minTimestamp) * 12) + timelineEvent.plot.from.month;
-          /** timelineOffset generates the offset % based on the timelineEvent's from value and the minTimestamp entered */
-          let timelineOffset = Math.floor((monthsFromBase / totalAmountMonths) * 100);
-          let totalOffset = prevTotalOffset;
-          prevTotalOffset = timelinePercentage + timelineOffset;
-          debugger;
-          if (timelineOffset >= totalOffset) {
-            timelineOffset -= totalOffset;
-          }
-
-          cssStyles = {'width': `${timelinePercentage}%`, 'margin-left': `${timelineOffset}%`};
-        } else {
-          // There was a logic error with the passed parameters -> Do not show the timeline event
-          cssStyles = {'display': 'none'};
+        if (timelineEvent.totalAmountMonths < 1) {
+          // There was a logic error with the passed parameters -> Do not show this timeline event
+          continue;
         }
 
-        let cssClasses = ['tw-pl-1', 'tw-text-lg', 'tw-whitespace-nowrap'];
+        // Get the percentage of months this current timeline event was present
+        let timelinePercentage = Math.floor((timelineEvent.totalAmountMonths / totalAmountMonths) * 100);
+        let monthsFromBase = ((timelineEvent.plot.from.value - _this.minTimestamp) * 12) + timelineEvent.plot.from.month;
+        /** timelineOffset generates the offset % based on the timelineEvent's from value and the minTimestamp entered */
+        let timelineOffset = Math.floor((monthsFromBase / totalAmountMonths) * 100);
+        let totalOffset = prevTotalOffset;
+        prevTotalOffset = timelinePercentage + timelineOffset;
+        if (timelineOffset >= totalOffset) {
+          timelineOffset -= totalOffset;
+        }
+        timelineEvent['style'] = {'width': `${timelinePercentage}%`, 'margin-left': `${timelineOffset}%`};
+
+        let cssClasses = ['tw-px-1', 'tw-text-lg', 'tw-truncate'];
+
         if (timelineEvent?.styleProps.borderColour) {
           cssClasses = cssClasses.concat(['tw-border-0', '!tw-border-b-2', 'tw-border-solid', timelineEvent.styleProps.borderColour]);
         }
 
         // Convert the array to an object so if we want, we can overwrite the classes that were set from the parsing
         cssClasses = cssClasses.reduce((prevElem, nextElem) => ({...prevElem, [nextElem]: true}), {});
-        cssClasses = {...cssClasses, ...timelineEvent?.styleProps.classes ?? {}};
 
-        // START: Generate tooltip styles
-        let tooltipCssClasses = ['tw-px-2', 'tw-py-1 tw-text-sm'];
-        let tooltipHeaderCssClasses = [];
-        let tooltipLabelCssClasses = ['tw-mt-2', 'tw-ml-1'];
-        if (timelineEvent?.tooltip.headerBorderColour) {
-          tooltipHeaderCssClasses = tooltipHeaderCssClasses.
-            concat(['tw-border-0', '!tw-border-b-2', 'tw-border-solid', timelineEvent.tooltip.headerBorderColour]);
-        } else if (timelineEvent?.styleProps.borderColour) {
-          tooltipHeaderCssClasses = tooltipHeaderCssClasses.concat(['tw-border-0', '!tw-border-b-2', 'tw-border-solid', timelineEvent.styleProps.borderColour]);
+        let timelineHasSelectedTag = (Object.keys(_this.tags).length > 0 && Array.isArray(_this.selectedTags)
+          && intersection(timelineEvent.tags, _this.selectedTags).length === 0);
+        cssClasses['slide-out'] = timelineHasSelectedTag;
+        cssClasses['slide-in'] = !timelineHasSelectedTag;
+
+        timelineEvent['class'] = {...cssClasses, ...timelineEvent?.styleProps.classes ?? {}};
+
+        // START: Generate tooltip props
+        let defaultTooltipCssClasses = {'tw-px-2': true, 'tw-py-1 tw-text-sm': true};
+        timelineEvent.tooltip.classes = {...defaultTooltipCssClasses, ...timelineEvent?.tooltip.classes ?? {}};
+
+        let defaultTooltipHeaderCssClasses = {};
+        if (timelineEvent?.tooltip.headerBorderColour || timelineEvent?.styleProps.borderColour) {
+          defaultTooltipHeaderCssClasses = {...defaultTooltipHeaderCssClasses, ...{'tw-border-0': true, '!tw-border-b-2': true, 'tw-border-solid': true}};
+
+          if (timelineEvent?.tooltip?.headerBorderColour) {
+            defaultTooltipHeaderCssClasses[timelineEvent.tooltip.headerBorderColour] = true;
+          }
+
+          if (timelineEvent?.styleProps?.borderColour) {
+            defaultTooltipHeaderCssClasses[timelineEvent.styleProps.borderColour] = true;
+          }
         }
+        timelineEvent.tooltip.headerClasses = {...defaultTooltipHeaderCssClasses, ...timelineEvent?.tooltip.headerClasses ?? {}};
 
-        // The class properties can be overwritten from the passed timelineEvent object by converting the array to an object and merging the passed props
-        tooltipCssClasses = tooltipCssClasses.reduce((prevElem, nextElem) => ({...prevElem, [nextElem]: true}), {});
-        timelineEvent.tooltip.class = {...tooltipCssClasses, ...timelineEvent?.tooltip.classes ?? {}};
+        let defaultTooltipLabelCssClasses = {'tw-mt-2': true, 'tw-ml-1': true};
+        timelineEvent.tooltip.labelClasses = {...defaultTooltipLabelCssClasses, ...timelineEvent?.tooltip?.labelClasses ?? {}};
+        timelineEvent.tooltip.showTooltip = false;
+        // END: Generate tooltip props
 
-        tooltipHeaderCssClasses = tooltipHeaderCssClasses.reduce((prevElem, nextElem) => ({...prevElem, [nextElem]: true}), {});
-        timelineEvent.tooltip.headerClass = {...tooltipHeaderCssClasses, ...timelineEvent?.tooltip.headerClassProps ?? {}};
-
-        tooltipLabelCssClasses = tooltipLabelCssClasses.reduce((prevElem, nextElem) => ({...prevElem, [nextElem]: true}), {});
-        timelineEvent.tooltip.labelClass = {...tooltipLabelCssClasses, ...timelineEvent?.tooltip.labelClassProps ?? {}};
-        // END: Generate tooltip styles
-
-        timelineEventsParsed.push({'key': key, 'style': cssStyles, 'class': cssClasses, ...timelineEvent});
+        // Remove the below properties from the object so the v-binding doesn't show them in the HTML
+        timelineEventsParsed.push(omit(timelineEvent, ['totalAmountMonths', 'plot', 'styleProps']));
       }
+      console.log({timelineEventsParsed});
       return timelineEventsParsed;
     },
   },

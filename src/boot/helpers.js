@@ -16,12 +16,12 @@ export default async ({Vue}) => {
        * @param options
        */
       typing(dataKey, string, options) {
-        let _this = this;
+        const _this = this;
         let defaultOptions = {
           // The key at which all the terminal properties are kept
           dataOptionsKey: _this,
           typingSpeed: 100,
-        }
+        };
         // Merge the options together
         options = {...defaultOptions, ...options};
 
@@ -34,7 +34,7 @@ export default async ({Vue}) => {
           resolve();
         });
       },
-    }
+    },
 
-  })
+  });
 }

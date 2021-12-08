@@ -26,9 +26,16 @@ export default {
   name: 'VueTerminal',
   components: {VueCommand},
   /** START: Lifecycle Hooks */
-  mounted() {},
+  mounted() {
+    this.onMount(this);
+  },
   /** END: Lifecycle Hooks */
   props: {
+    onMount: {
+      type: Function,
+      default: () => {
+      },
+    },
     /** START: Vue-Commands data */
     commands: {
       /**
@@ -101,7 +108,7 @@ export default {
      * @param options
      */
     async executeTermCommand(command, options = {}) {
-      let _this = this;
+      const _this = this;
       let defaultOptions = {
         // The key at which all the terminal properties are kept
         terminalOptionsKey: _this,
