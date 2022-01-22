@@ -66,7 +66,7 @@ export default {
     refreshDialogElements() {
       const _this = this;
 
-      _this.dialogElement = (_this.dialogScrollElement && _this.dialogScrollElement.isConnected) ? _this.dialogElement : _this.$slots.default[0].elm;
+      _this.dialogElement = (_this.dialogScrollElement && _this.dialogScrollElement.isConnected) ? _this.dialogElement : _this.$slots.default()[0].elm;
       if (_this.dialogElement instanceof Element) {
         //If we already have the dialogScrollElement already, no point is trying to find it again
         _this.dialogScrollElement = (_this.dialogScrollElement && _this.dialogScrollElement.isConnected)

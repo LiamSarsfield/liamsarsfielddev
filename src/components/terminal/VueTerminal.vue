@@ -5,16 +5,19 @@
                  :built-in="builtIn"
                  :title="title"
                  :prompt="prompt"
-                 :stdin.sync=stdinBind
-                 :history.sync="historyBind"
+                 v-model:stdin=stdinBind
+                 v-model:history="historyBind"
     >
-      <div class="tw-flex tw-justify-center tw-border-0 tw-border-b-[1px] tw-border-solid tw-border-gray-800 tw-bg-primary tw-bg-opacity-30 tw-py-2"
-           slot="bar">
-        {{ title }}
-      </div>
-      <span class="term-ps" slot="prompt">
+      <template v-slot:bar>
+        <div class="tw-flex tw-justify-center tw-border-0 tw-border-b-[1px] tw-border-solid tw-border-gray-800 tw-bg-primary tw-bg-opacity-30 tw-py-2">
+          {{ title }}
+        </div>
+      </template>
+      <template v-slot:prompt>
+        <span class="term-ps">
       {{ prompt }}
       </span>
+      </template>
     </vue-command>
   </div>
 </template>
@@ -146,7 +149,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.vue-terminal-command::v-deep {
+.vue-terminal-command:deep() {
   font-family: 'Roboto Mono', monospace;
   background-color: var(--q-color-dark, $dark);
   word-break: break-word;

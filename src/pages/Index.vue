@@ -54,8 +54,8 @@
                         :built-in="terminalOptions.builtIn"
                         :title="terminalOptions.title"
                         :prompt="terminalOptions.prompt"
-                        :stdin.sync="terminalOptions.stdin"
-                        :history.sync="terminalOptions.history"/>
+                        v-model:stdin="terminalOptions.stdin"
+                        v-model:history="terminalOptions.history"/>
         </q-expansion-item>
       </q-card-section>
     </q-card>

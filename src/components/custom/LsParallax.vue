@@ -86,7 +86,7 @@ export default {
 };
 </script>
 <style scoped>
-.sticky-parallax-media-container::v-deep > * {
+.sticky-parallax-media-container:deep(> *) {
   position: fixed;
   pointer-events: none;
 }

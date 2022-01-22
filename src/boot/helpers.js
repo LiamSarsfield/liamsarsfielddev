@@ -1,5 +1,5 @@
-export default async ({Vue}) => {
-  Vue.mixin({
+export default async ({app}) => {
+  app.mixin({
     methods: {
       /**
        * Force the application to sleep for a set amount of time

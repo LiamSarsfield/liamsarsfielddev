@@ -2,7 +2,7 @@
  * This file runs in a Node context (it's NOT transpiled by Babel), so use only
  * the ES6 features that are supported by your Node version. https://node.green/
  */
-
+const path = require('path')
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 /* eslint-env node */
@@ -25,6 +25,7 @@ module.exports = function (/* ctx */) {
         // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
         css: [
             'app.scss',
+            'tailwind.css'
         ],
 
         // https://github.com/quasarframework/quasar/tree/dev/extras
@@ -43,33 +44,33 @@ module.exports = function (/* ctx */) {
 
         // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
         build: {
-            vueRouterMode: 'history', // available values: 'hash', 'history'
+          vueRouterMode: 'history', // available values: 'hash', 'history'
 
-            // transpile: false,
+          // transpile: false,
 
-            // Add dependencies for transpiling with Babel (Array of string/regex)
-            // (from node_modules, which are by default not transpiled).
-            // Applies only if "transpile" is set to true.
-            // transpileDependencies: [],
+          // Add dependencies for transpiling with Babel (Array of string/regex)
+          // (from node_modules, which are by default not transpiled).
+          // Applies only if "transpile" is set to true.
+          // transpileDependencies: [],
 
-            // rtl: false, // https://quasar.dev/options/rtl-support
-            // preloadChunks: true,
-            // showProgress: false,
-            // gzip: true,
-            // analyze: true,
+          // rtl: false, // https://quasar.dev/options/rtl-support
+          // preloadChunks: true,
+          // showProgress: false,
+          // gzip: true,
+          // analyze: true,
 
-            // Options below are automatically set depending on the env, set them if you want to override
-            // extractCSS: false,
+          // Options below are automatically set depending on the env, set them if you want to override
+          // extractCSS: false,
 
-            // https://quasar.dev/quasar-cli/handling-webpack
-            extendWebpack(cfg) {
-                cfg.module.rules.push({
-                    enforce: 'pre',
-                    test: /\.(js|vue)$/,
-                    loader: 'eslint-loader',
-                    exclude: /node_modules/
-                })
-            },
+          // https://quasar.dev/quasar-cli/handling-webpack
+          extendWebpack(cfg) {
+            cfg.module.rules.push({
+              enforce: 'pre',
+              test: /\.(js|vue)$/,
+              loader: 'eslint-loader',
+              exclude: /node_modules/,
+            });
+          },
         },
 
         // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
@@ -82,7 +83,7 @@ module.exports = function (/* ctx */) {
         // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
         framework: {
             iconSet: 'material-icons', // Quasar icon set
-            lang: 'en-us', // Quasar language pack
+            lang: 'en-US', // Quasar language pack
             config: {
                 // Dark mode by default
                 dark: true
