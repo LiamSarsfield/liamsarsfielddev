@@ -1,9 +1,9 @@
 <template>
   <a :class="computedClass"
-     :href="href ? href : false"
+     :href="href || null"
      ref="noopener"
-     :target="newTab ? '_self' : '_blank'"
-     @click="$emit('click', $event)"
+     :target="newTab ? '_self' : href ? '_blank' : null"
+     @click="onClick($event)"
   >
     <slot/>
     <span v-if="hasUnderline" :class="computedUnderlineClass"></span>
@@ -70,6 +70,14 @@ export default {
       parsedUnderlineClass += (_this.underlineTransition) ? ` tw-ease-in-out tw-transition-bg-width tw-duration-${_this.underlineTransitionDuration}` : '';
 
       return parsedUnderlineClass;
+    },
+  },
+  methods: {
+    onClick($event) {
+      if (!this.href) {
+        $event.preventDefault();
+      }
+      this.$emit('anchorClick', $event);
     },
   },
 };

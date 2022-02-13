@@ -13,12 +13,12 @@
 export default {
   name: 'LsParallax',
   /** START: Lifecycle Hooks */
-  mounted() {
+  async mounted() {
     const _this = this;
     // Get the actual DOM element of the scrollTarget
     _this.stickyElement = _this.$el.closest(_this.scrollTarget);
     // The media element either belongs to the qParallax or the sticky element
-    _this.mediaElem = _this.$refs.parallaxMedia?.media ?? _this.$refs.mediaContainer.firstElementChild;
+    _this.mediaElem = _this.$slots.media()[0].el ?? _this.$refs.mediaContainer.firstElementChild;
 
     /**
      * Watches the computed property, if either the translate or the scale changes, update the media's transform with this value, immediately trigger the watch.

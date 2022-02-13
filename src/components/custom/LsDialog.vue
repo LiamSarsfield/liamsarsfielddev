@@ -18,7 +18,7 @@ export default {
   /** END: Lifecycle Hooks */
   props: {
     /** START: q-dialog props */
-    value: {
+    modelValue: {
       type: Boolean,
       default: () => false,
     },
@@ -46,10 +46,10 @@ export default {
   computed: {
     valueBind: {
       get() {
-        return this.value;
+        return this.modelValue;
       },
       set(newValue) {
-        this.$emit('input', newValue);
+        this.$emit('update:modelValue', newValue);
       },
     },
   },

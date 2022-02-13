@@ -1,10 +1,9 @@
 <template>
-  <div :style="styles" :class="classes">
+  <div :style="styles" :class="classes" @mouseenter="showTooltip = true;" @mouseleave="onTimelineEventLeave">
     {{ label }}
     <q-tooltip anchor="bottom left" self="center start" :offset="[0, 30]" v-if="Object.keys(tooltipParsed).length !== 0"
-               @before-hide="beforeTooltipHides" transition-show="scale" transition-hide="scale"
-               v-model="showTooltip" content-style="pointer-events: auto !important;">
-      <div :class="tooltipParsed.classes" class="tw-bg-secondary"
+               transition-show="scale" transition-hide="scale" v-model="showTooltip" :no-parent-event="true">
+      <div :class="tooltipParsed.classes" class="tw-bg-secondary" style="pointer-events: auto !important;"
            @mouseenter="hoveringTooltip = true" @mouseleave="showTooltip = false; hoveringTooltip = false;">
         <div :class="tooltipParsed.headerClasses">
           {{ label }}
@@ -47,7 +46,6 @@ export default {
       tooltipCloned: {},
       showTooltip: false,
       hoveringTooltip: false,
-      beforeTooltipHidesTriggered: false,
     };
   },
   watch: {
@@ -80,25 +78,16 @@ export default {
   methods: {
     /** Gets triggered when either we set the showTooltip to false or the user hovers outside the timelineEvent element
      * @param evt */
-    async beforeTooltipHides(evt) {
-      if (this.beforeTooltipHidesTriggered === false) {
-        // First set the tooltip to show so the animation doesn't trigger
-        this.showTooltip = true;
+    async onTimelineEventLeave(evt) {
+      /**
+       * Todo: I don't like this approach as it doesn't fix the core problem, but it's workable for now
+       * We need to wait a small amount of time to check if the user switched from the timeline Element to the hovering toolTip.
+       */
+      await this.sleep(50);
 
-        /**
-         * Todo: I don't like this approach as it doesn't fix the core problem, but it's workable for now
-         * We need to wait a small amount of time to check if the user switched from the timeline Element to the hovering toolTip.
-         */
-        await this.sleep(20);
-
-        if (!this.hoveringTooltip) {
-          /** If the user is NOT hovering hover the tooltip. We can safely hide the tooltip.
-           Mark the beforeTooltipHidesTriggered as true to prevent infinite recursion */
-          this.showTooltip = false;
-          this.beforeTooltipHidesTriggered = true;
-        }
-      } else {
-        this.beforeTooltipHidesTriggered = false;
+      if (!this.hoveringTooltip) {
+        // If the user is NOT hovering over the tooltip. We can safely hide the tooltip.
+        this.showTooltip = false;
       }
     },
   },

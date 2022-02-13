@@ -59,10 +59,7 @@
         </q-expansion-item>
       </q-card-section>
     </q-card>
-    <ls-dialog v-model="showAuxionModal"
-               content-class="about-project-dialog"
-    >
-
+    <ls-dialog v-model="showAuxionModal" content-class="about-project-dialog">
       <q-card class="!tw-w-[1120px] !tw-max-w-[80vw] text-caption">
         <div class="tw-h-[300px] tw-w-full tw-absolute tw-overflow-hidden tw-flex tw-justify-center">
           <img src="/img/modal-showcase/auxion/auxion-site.jpeg" class="tw-absolute tw-w-[calc(100%-15px)]">
@@ -227,9 +224,7 @@ export default {
   data() {
     return {
       terminalOptions: {
-        /**
-         * NOTE: onMount function will be executed in the VueTerminal component, therefore "this", does NOT refer to the current component but actually VueTerminal
-         */
+        // onMount function will be executed in the VueTerminal component, therefore "this", does NOT refer to the current component but actually VueTerminal
         async onMount() {
           const _this = this;
           let commands = ['whoami', 'htop', 'vmstat'];
@@ -246,25 +241,25 @@ export default {
               return <span>Enthusiastic web developer with a passion for software development and full-stack web development.</span>;
             },
           'htop': () =>
-            function(h) {
+            function() {
               return <span>I have 2 years experience working with PHP (Laravel), MySQL, jQuery/JavaScript and CSS. I have also dabbled with NodeJS. I am
                 currently experimenting into Vue, GraphQL and Docker.</span>;
             },
           'vmstat': () =>
-            function(h) {
+            function() {
               const _this = this;
               return <span class="">Current portfolio includes:
-                <LsAnchor v-on:click={() => {
+                <LsAnchor onClick={() => {
                   // Communicate to the Index State that the Auxion, ClaimLink Modal, etc. needs to show when the user clicks the link
                   _this.$store.commit('index/updateState', {auxionModal: {...this.$store.getters['index/getState'].auxionModal, show: true}});
                 }} className="tw-cursor-pointer tw-text-red-600 hover:!tw-text-red-700" underlineGradient={['tw-from-gray-700', 'tw-to-red-900']}>
                   auxion.net (Laravel/MySQL/jQuery/SCSS)
-                </LsAnchor>, <LsAnchor v-on:click={() => {
+                </LsAnchor>, <LsAnchor onClick={() => {
                   _this.$store.commit('index/updateState',
                     {claimLinkCheckersModal: {...this.$store.getters['index/getState'].claimLinkCheckersModal, show: true}});
                 }} className="tw-cursor-pointer tw-text-yellow-500 hover:!tw-text-yellow-600" underlineGradient={['tw-from-gray-700', 'tw-to-yellow-800']}>
                   claimlink.net (Laravel/MySQL/jQuery/SCSS)
-                </LsAnchor>, <LsAnchor v-on:click={() => {
+                </LsAnchor>, <LsAnchor onClick={() => {
                   _this.$store.commit('index/updateState', {discordCheckersModal: {...this.$store.getters['index/getState'].discordCheckersModal, show: true}});
                 }} className="tw-cursor-pointer tw-text-yellow-500 hover:!tw-text-yellow-600" underlineGradient={['tw-from-gray-700', 'tw-to-yellow-800']}>
                   Discord Checkers bot (Node.js/Discord.js)</LsAnchor>, and this website(Vue/Quasar Framework/Docker).</span>;
@@ -304,7 +299,7 @@ export default {
               'from': {'value': 2016, 'month': '4'},
               'to': {'value': 2019, 'month': '8'},
             },
-            'tags': ['html', 'javascript'],
+            'tags': ['html', 'javascript', 'javascript', 'css', 'php', 'codeigniter', 'java', 'mysql'],
           },
           'courseco': {
             'label': 'Full Stack Web Developer', 'tooltip': {'label': 'CourseCo'},

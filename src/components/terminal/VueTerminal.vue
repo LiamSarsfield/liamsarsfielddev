@@ -24,6 +24,7 @@
 
 <script>
 import VueCommand, {createStdout} from 'vue-command';
+import { markRaw } from 'vue';
 
 export default {
   name: 'VueTerminal',
@@ -130,18 +131,20 @@ export default {
       // Ensure we wait for the page to rerender, otherwise the command may not show fully
       await _this.$nextTick();
 
+      let terminalCommand;
       if (typeof terminalOptions.commands[command] === 'function') {
         /*
          * We know the command exists, we can execute it
          * However, we render the command's response either through an existing component or an anonymous component.
          * Existing components are an object, whereas an anonymous component we assume will be a function, which we will make into an object
          */
-        let terminalCommand = terminalOptions.commands[command]();
+        terminalCommand = terminalOptions.commands[command]();
         terminalCommand = (typeof terminalCommand === 'function') ? {render: terminalCommand} : terminalCommand;
-        terminalOptions.history.push(terminalCommand);
       } else {
-        terminalOptions.history.push(createStdout(`${command}: command not found`));
+        terminalCommand = createStdout(`${command}: command not found`);
       }
+      // Vue-command uses anonymous components executing commands
+      terminalOptions.history.push(markRaw(terminalCommand));
       _this.stdinBind = '';
     },
   },
@@ -149,7 +152,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.vue-terminal-command:deep() {
+.vue-terminal-command:deep(*) {
   font-family: 'Roboto Mono', monospace;
   background-color: var(--q-color-dark, $dark);
   word-break: break-word;
