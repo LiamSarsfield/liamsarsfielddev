@@ -32,7 +32,7 @@ module.exports = function (/* ctx */) {
         extras: [
             // 'ionicons-v4',
             // 'mdi-v5',
-            // 'fontawesome-v5',
+            'fontawesome-v5',
             // 'eva-icons',
             // 'themify',
             'line-awesome',
@@ -119,9 +119,9 @@ module.exports = function (/* ctx */) {
             workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
             workboxOptions: {}, // only for GenerateSW
             manifest: {
-                name: `Quasar App`,
-                short_name: `Quasar App`,
-                description: `A Quasar Framework app`,
+                name: `liamsarsfield.dev`,
+                short_name: `liamsarsfield.dev`,
+                description: `Liam Sarsfield's Website`,
                 display: 'standalone',
                 orientation: 'portrait',
                 background_color: '#ffffff',

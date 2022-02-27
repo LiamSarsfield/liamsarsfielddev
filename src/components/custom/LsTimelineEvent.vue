@@ -1,96 +1,89 @@
 <template>
-  <div :style="styles" :class="classes" @mouseenter="showTooltip = true;" @mouseleave="onTimelineEventLeave">
-    {{ label }}
-    <q-tooltip anchor="bottom left" self="center start" :offset="[0, 30]" v-if="Object.keys(tooltipParsed).length !== 0"
-               transition-show="scale" transition-hide="scale" v-model="showTooltip" :no-parent-event="true">
-      <div :class="tooltipParsed.classes" class="tw-bg-secondary" style="pointer-events: auto !important;"
-           @mouseenter="hoveringTooltip = true" @mouseleave="showTooltip = false; hoveringTooltip = false;">
-        <div :class="tooltipParsed.headerClasses">
-          {{ label }}
-        </div>
-        <div :class="tooltipParsed.labelClasses">
-          {{ tooltipParsed.label }}
-        </div>
-      </div>
-    </q-tooltip>
-  </div>
+  <q-item :style="styles" :class="classesParsed" dense clickable v-ripple>
+    <q-item-section clickable v-ripple><span class="tw-truncate tw-w-full">{{ label }}</span></q-item-section>
+    <slot name="tooltip">
+      <q-menu fit v-model="menuExpanded">
+        <slot name="tooltipHeader" :menuExpanded="menuExpanded" :identifier="identifier">
+          <q-bar dense class="tw-p-0">
+            <span class="tw-border-0 !tw-border-b-2 tw-border-solid tw-pl-2 tw-w-full tw-inline-block">{{ label }}</span>
+
+            <q-btn flat icon="crop_square"/>
+            <q-btn flat icon="close" @click="menuExpanded = false"/>
+          </q-bar>
+        </slot>
+        <q-item>
+          <q-item-section>
+            <slot name="tooltipContent" :menuExpanded="menuExpanded" :identifier="identifier"/>
+          </q-item-section>
+        </q-item>
+      </q-menu>
+    </slot>
+  </q-item>
 </template>
 
 <script>
-import {cloneDeep} from 'lodash';
-
 export default {
   name: 'LsTimelineEvent',
   /** START: Lifecycle Hooks */
   /** END: Lifecycle Hooks */
   props: {
+    /**
+     * Unique key passed to every timeline event to differentiate it between the other Timeline Events on the Timeline
+     */
+    identifier: {
+      type: String,
+      required: true,
+    },
     label: {
       type: String,
       required: true,
     },
-    styles: {
-      type: Object,
-      default: () => {},
-    },
     classes: {
       type: Object,
-      default: () => {},
+      default: () => ({}),
     },
-    tooltip: {
+    styles: {
       type: Object,
-      default: () => {},
+      default: () => ({}),
+    },
+    borderColour: {
+      type: String,
     },
   },
   data() {
     return {
-      tooltipCloned: {},
-      showTooltip: false,
-      hoveringTooltip: false,
+      classDefaults: {
+        '!tw-px-1': true,
+        'tw-text-lg': true,
+        'tw-truncate': true,
+        '!tw-relative': true,
+      },
+      menuExpanded: false,
     };
   },
-  watch: {
-    tooltip: {
-      immediate: true,
-      deep: true,
-      handler(newVal, oldVal) {
-        this.tooltipCloned = cloneDeep(newVal);
-      },
-    },
-  },
+  mounted() {},
   computed: {
-    tooltipParsed() {
-      const _this = this;
-      let tooltipParsed = _this.tooltipCloned;
+    classesParsed() {
+      let _this = this;
+      let classes = {...this.classDefaults, ..._this.classes};
 
-      let defaultTooltipClasses = {};
-      tooltipParsed.classes = {...defaultTooltipClasses, ...tooltipParsed.classes};
+      if (_this.borderColour) {
+        let borderClasses = {
+          '!tw-border-b-2': true,
+          'tw-border-0': true,
+          'tw-border-solid': true,
+        };
+        borderClasses[_this.borderColour] = true;
 
-      let defaultTooltipHeaderClasses = {};
-      tooltipParsed.headerClasses = {...defaultTooltipHeaderClasses, ...tooltipParsed.headerClasses};
-
-
-      let defaultTooltipLabelClasses = {};
-      tooltipParsed.labelClasses = {...defaultTooltipLabelClasses, ...tooltipParsed.labelClasses};
-
-      return tooltipParsed;
-    }
-  },
-  methods: {
-    /** Gets triggered when either we set the showTooltip to false or the user hovers outside the timelineEvent element
-     * @param evt */
-    async onTimelineEventLeave(evt) {
-      /**
-       * Todo: I don't like this approach as it doesn't fix the core problem, but it's workable for now
-       * We need to wait a small amount of time to check if the user switched from the timeline Element to the hovering toolTip.
-       */
-      await this.sleep(50);
-
-      if (!this.hoveringTooltip) {
-        // If the user is NOT hovering over the tooltip. We can safely hide the tooltip.
-        this.showTooltip = false;
+        classes = {
+          ...borderClasses,
+          ...classes,
+        };
       }
+      return classes;
     },
   },
+  methods: {},
 };
 </script>
 

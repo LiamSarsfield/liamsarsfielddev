@@ -5,8 +5,7 @@
         <q-expansion-item
           expand-separator
           default-opened
-          header-class="!tw-bg-black"
-        >
+          header-class="!tw-bg-black">
           <template v-slot:header>
             <q-item-section avatar class="tw-pr-2 !tw-min-w-0 ">
               <q-icon name="las la-stream"/>
@@ -18,17 +17,66 @@
           <q-card class="col-12">
             <q-card>
               <q-card-section>
-                <q-btn @click="clickMe">Click me</q-btn>
                 <q-select
                   filled
-                  v-model="timelineOptions.selectedTags"
+                  v-model="selectedTimelineOptions"
                   multiple
-                  :options="Object.keys(this.timelineOptions.tags)"
-                  :option-label="(timelineTagKey) => this.timelineOptions.tags[timelineTagKey].label"
-                  label="Multiple"
-                  style="width: 250px"
-                />
-                <ls-timeline v-bind="timelineOptions"/>
+                  :options="selectTimelineOptions"
+                  label="My Languages"
+                  color="secondary"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="fas fa-layer-group"/>
+                  </template>
+                  <template v-slot:append>
+                    <q-icon name="close" @click.stop="allTimelineOptionsSelected = false" class="cursor-pointer"/>
+                  </template>
+                  <template v-slot:before-options>
+                    <q-item clickable :class="{'tw-text-secondary': allTimelineOptionsSelected}"
+                            @click="allTimelineOptionsSelected = !allTimelineOptionsSelected">
+                      <q-item-section>
+                        <q-item-label>Select All</q-item-label>
+                      </q-item-section>
+                      <q-item-section side>
+                        <q-checkbox v-model="allTimelineOptionsSelected"></q-checkbox>
+                      </q-item-section>
+                    </q-item>
+                  </template>
+                  <template v-slot:option="{ itemProps, opt }">
+                    <q-item v-bind="itemProps">
+                      <q-item-section avatar v-if="opt.icon">
+                        <q-icon :name="opt.icon"/>
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>{{ opt.label }}</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </template>
+                </q-select>
+                <ls-timeline v-bind="timelineOptions">
+                  <template v-slot:timelineEventTooltipContent="{tooltipContent}">
+                    <q-list dark separator dense class="tw--mx-[15px]">
+                      <q-item class="tw-mb-2">
+                        <q-item-section>
+                          <q-item-label>
+                            {{ timelineOptions.timelineEvents[tooltipContent.identifier].tooltip.label }}</q-item-label>
+                          <q-item-label caption class="tw-pl-1 tw-flex tw-items-center"><q-icon name="schedule" class="tw-pr-1"/>{{
+                              timelineOptionDates[tooltipContent.identifier].from }} to
+                            {{ timelineOptionDates[tooltipContent.identifier].to }}
+                          </q-item-label>
+                        </q-item-section>
+                      </q-item>
+                      <q-item dense clickable v-ripple bordered v-for="(tag) in timelineOptions.timelineEvents[tooltipContent.identifier].tags" :key="tag">
+                        <q-item-section v-if="timelineOptions.tags[tag].icon" avatar>
+                          <q-icon :name="timelineOptions.tags[tag].icon"/>
+                        </q-item-section>
+                        <q-item-section>
+                          {{ timelineOptions.tags[tag].label }}
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </template>
+                </ls-timeline>
               </q-card-section>
             </q-card>
           </q-card>
@@ -134,8 +182,9 @@
               <div
                 class="tw-absolute tw-w-full tw-h-full group-hover:tw-bg-red-900 group-hover:tw-bg-none group-hover:tw-opacity-90 tw-bg-gradient-to-r tw-from-black tw-to-red-900 tw-opacity-70">
               </div>
-              <ls-anchor href="https://auxion.net" className="tw-relative tw-flex tw-justify-center tw-align-center tw-py-2 tw-text-white">
-                auxion.net
+              <ls-anchor href="https://github.com/LiamSarsfield/checkers-bot"
+                         className="tw-relative tw-flex tw-justify-center tw-align-center tw-py-2 tw-text-white">
+                Discord Checkers Bot
                 <q-icon name="launch" class="tw-ml-1 tw-my-auto"></q-icon>
               </ls-anchor>
             </div>
@@ -143,12 +192,12 @@
           <q-list class="tw-text-lg tw-relative q-dark" separator>
             <q-item>
               <q-item-section>
-                Brochure website developed for one of Mackessy Technology’s products which sells salvaged vehicles in an auction format.
+                Checkers bot designed to work with Discord, a messaging and VoIP app.
               </q-item-section>
             </q-item>
             <q-item>
               <q-item-section>
-                Displays a carousel of current salvage vehicles in auction that pulls data frequently from the platform.
+                The bot uses emojies to show the black pieces (⚫) and white pieces(⚪).
               </q-item-section>
             </q-item>
           </q-list>
@@ -206,7 +255,8 @@ import LsParallax from 'components/custom/LsParallax';
 import LsDialog from 'components/custom/LsDialog';
 import LsAnchor from 'components/custom/LsAnchor';
 import LsTimeline from 'components/custom/LsTimeline';
-import {merge} from 'lodash';
+import {isEqual, clone} from 'lodash';
+import {QList, QItem, QItemSection, QIcon} from 'quasar';
 
 export default {
   name: 'PageIndex',
@@ -219,7 +269,12 @@ export default {
   },
   /** START: Lifecycle Hooks */
   created() {
+    let _this = this;
+    _this.selectedTimelineOptions = _this.selectTimelineOptions;
+    // Testing anonymous components and JSX.
+    // "tooltipContent" property will be rendered in the LsTimelineEvent component
   },
+  mounted() {},
   /** END: Lifecycle Hooks */
   data() {
     return {
@@ -237,7 +292,7 @@ export default {
         commands: {
           // _this in the below objects refers to the VueTerminal Vue Instance
           'whoami': () =>
-            function(h) {
+            function() {
               return <span>Enthusiastic web developer with a passion for software development and full-stack web development.</span>;
             },
           'htop': () =>
@@ -254,12 +309,14 @@ export default {
                   _this.$store.commit('index/updateState', {auxionModal: {...this.$store.getters['index/getState'].auxionModal, show: true}});
                 }} className="tw-cursor-pointer tw-text-red-600 hover:!tw-text-red-700" underlineGradient={['tw-from-gray-700', 'tw-to-red-900']}>
                   auxion.net (Laravel/MySQL/jQuery/SCSS)
-                </LsAnchor>, <LsAnchor onClick={() => {
+                </LsAnchor>,
+                <LsAnchor onClick={() => {
                   _this.$store.commit('index/updateState',
                     {claimLinkCheckersModal: {...this.$store.getters['index/getState'].claimLinkCheckersModal, show: true}});
-                }} className="tw-cursor-pointer tw-text-yellow-500 hover:!tw-text-yellow-600" underlineGradient={['tw-from-gray-700', 'tw-to-yellow-800']}>
+                }} className="tw-cursor-pointer tw-text-orange-500 hover:!tw-text-orange-600" underlineGradient={['tw-from-gray-700', 'tw-to-orange-500']}>
                   claimlink.net (Laravel/MySQL/jQuery/SCSS)
-                </LsAnchor>, <LsAnchor onClick={() => {
+                </LsAnchor>,
+                <LsAnchor onClick={() => {
                   _this.$store.commit('index/updateState', {discordCheckersModal: {...this.$store.getters['index/getState'].discordCheckersModal, show: true}});
                 }} className="tw-cursor-pointer tw-text-yellow-500 hover:!tw-text-yellow-600" underlineGradient={['tw-from-gray-700', 'tw-to-yellow-800']}>
                   Discord Checkers bot (Node.js/Discord.js)</LsAnchor>, and this website(Vue/Quasar Framework/Docker).</span>;
@@ -277,80 +334,104 @@ export default {
       },
       timelineOptions: {
         'tags': {
-          'html': {'label': 'HTML'},
-          'javascript': {'label': 'JavaScript'},
-          'jquery': {'label': 'jQuery'},
-          'vuejs': {'label': 'Vue.js'},
-          'css': {'label': 'CSS'},
-          'nodeJS': {'label': 'NodeJS'},
-          'php': {'label': 'PHP'},
-          'laravel': {'label': 'Laravel'},
-          'codeigniter': {'label': 'CodeIgniter'},
-          'mysql': {'label': 'MySQL'},
-          'java': {'label': 'Java'},
+          'html': {'label': 'HTML', 'icon': 'fab fa-html5'},
+          'javascript': {'label': 'JavaScript', 'icon': 'fab fa-js'},
+          'jquery': {'label': 'jQuery', 'icon': 'fab fa-js-square'},
+          'vuejs': {'label': 'Vue.js', 'icon': 'fab fa-vuejs'},
+          'nodeJS': {'label': 'NodeJS', 'icon': 'fab fa-node'},
+          'css': {'label': 'CSS', 'icon': 'fab fa-css3-alt'},
+          'php': {'label': 'PHP', 'icon': 'fab fa-php'},
+          'laravel': {'label': 'Laravel', 'icon': 'fab fa-laravel'},
+          'codeigniter': {'label': 'CodeIgniter', 'icon': 'code'},
+          'mysql': {'label': 'MySQL', 'icon': 'fas fa-database'},
+          'java': {'label': 'Java', 'icon': 'fab fa-java'},
         },
         'selectedTags': [],
-        'timestamps': ['2016', '2017', '2018', '2019', '2020', '2021'],
+        'timestamps': ['2016', '2017', '2018', '2019', '2020', '2021', '2022'],
         'timelineEvents': {
           'internetSystemsDevelopment': {
-            'label': 'B.S. in Internet Systems Development', 'tooltip': {'label': 'Limerick Institute Of Technology'},
-            'styleProps': {'borderColour': 'tw-border-yellow-300'},
+            'label': 'B.S. in Internet Systems Development',
+            'tooltip': {'label': 'Limerick Institute Of Technology'},
+            'borderColour': 'tw-border-yellow-300',
             'plot': {
               'from': {'value': 2016, 'month': '4'},
               'to': {'value': 2019, 'month': '8'},
             },
-            'tags': ['html', 'javascript', 'javascript', 'css', 'php', 'codeigniter', 'java', 'mysql'],
+            'tags': ['html', 'javascript', 'jquery', 'css', 'php', 'codeigniter', 'java', 'mysql'],
           },
           'courseco': {
-            'label': 'Full Stack Web Developer', 'tooltip': {'label': 'CourseCo'},
-            'styleProps': {'borderColour': 'tw-border-green-400'},
+            'label': 'Full Stack Web Developer',
+            'tooltip': {'label': 'CourseCo'},
+            'borderColour': 'tw-border-green-400',
             'plot': {
               'from': {'value': 2019, 'month': '3'},
               'to': {'value': 2020, 'month': '3'},
             },
+            'tags': ['html', 'javascript', 'jquery', 'css', 'php', 'mysql'],
           },
           'mtx': {
-            'label': 'Software Developer', 'tooltip': {'label': 'Mackessy Technology'},
-            'styleProps': {'borderColour': 'tw-border-red-800'},
+            'label': 'Software Developer',
+            'tooltip': {'label': 'Mackessy Technology'},
+            'borderColour': 'tw-border-red-800',
             'plot': {
               'from': {'value': 2020, 'month': '3'},
-              'to': {'value': 2021},
+              'to': {'value': 'now'},
             },
+            'tags': ['html', 'javascript', 'jquery', 'vuejs', 'css', 'php', 'laravel', 'mysql'],
           },
           'groupProject': {
-            'label': 'Group Project', 'tooltip': {'label': 'Web Project Tooltip'},
-            'styleProps': {'borderColour': 'tw-border-gray-600'},
+            'label': 'Group Project',
+            'tooltip': {'label': 'Web Project Tooltip'},
+            'borderColour': 'tw-border-gray-600',
             'plot': {
               'from': {'value': 2018, 'month': '10'},
               'to': {'value': 2019, 'month': '5'},
             },
+            'tags': ['html', 'javascript', 'jquery', 'css', 'php', 'codeigniter', 'mysql'],
           },
           'checkersBot': {
-            'label': 'Checkers Bot', 'tooltip': {'label': 'Discord Checkers Bot'},
-            'styleProps': {'borderColour': 'tw-border-teal-900'},
+            'label': 'Checkers Bot',
+            'tooltip': {'label': 'Discord Checkers Bot'},
+            'borderColour': 'tw-border-teal-900',
             'plot': {
               'from': {'value': 2019, 'month': '8'},
               'to': {'value': 2020, 'month': '3'},
             },
+            'tags': ['javascript', 'nodeJS'],
           },
           'auxion': {
-            'label': 'auxion.net', 'tooltip': {'label': 'Web Project Tooltip'},
-            'styleProps': {'borderColour': 'tw-border-red-600'},
+            'label': 'auxion.net',
+            'tooltip': {'label': 'Brochure Website'},
+            'borderColour': 'tw-border-red-600',
             'plot': {
               'from': {'value': 2020, 'month': '9'},
               'to': {'value': 2021, 'month': '3'},
             },
+            'tags': ['html', 'javascript', 'jquery', 'css', 'php', 'laravel', 'mysql'],
           },
           'claimlink': {
-            'label': 'claimlink', 'tooltip': {'label': 'Web Project Tooltip'},
-            'styleProps': {'borderColour': 'tw-border-blue-600'},
+            'label': 'claimlink.net',
+            'tooltip': {'label': 'Brochure Website'},
+            'borderColour': 'tw-border-blue-600',
             'plot': {
               'from': {'value': 2021, 'month': '3'},
               'to': {'value': 2021, 'month': '9'},
             },
+            'tags': ['html', 'javascript', 'jquery', 'css', 'php', 'laravel', 'mysql'],
+          },
+          'liamsarsfield': {
+            'label': 'liamsarsfield.dev',
+            'tooltip': {'label': 'This Website :)'},
+            'borderColour': 'tw-border-orange-500',
+            'plot': {
+              'from': {'value': 2021, 'month': '9'},
+              'to': {'value': 2022, 'month': '2'},
+            },
+            'tags': ['html', 'javascript', 'vuejs', 'css'],
           },
         },
       },
+      selectedTimelineOptions: [],
     };
   },
   computed: {
@@ -383,13 +464,54 @@ export default {
       },
     },
     /** END: Modal Computed Properties */
+    timelineOptionsKey() {
+      return Object.keys(this.timelineOptions.tags);
+    },
+    selectTimelineOptions() {
+      return this.timelineOptionsKey.map((key) => ({value: key, ...this.timelineOptions.tags[key]}));
+    },
+    allTimelineOptionsSelected: {
+      get() {
+        return isEqual(clone(this.timelineOptionsKey).sort(), clone(this.timelineOptions.selectedTags).sort());
+      },
+      set(allTimelineOptionsSelected) {
+        this.selectedTimelineOptions = (allTimelineOptionsSelected) ? this.selectTimelineOptions : [];
+      },
+    },
+    timelineOptionDates() {
+      let _this = this;
+      let timelineEvents = _this.timelineOptions.timelineEvents;
+
+      let timelineOptionDates = {};
+      for (let timelineKey in timelineEvents) {
+        let timelineEvent = timelineEvents[timelineKey];
+
+        let timelineOptionDate = {};
+        let fromDate = (timelineEvent.plot.from.value === 'now') ? new Date() : new Date(timelineEvent.plot.from.value, timelineEvent.plot.from.month);
+        timelineOptionDate.from = fromDate.toLocaleDateString('en-US',
+          {year: 'numeric', month: 'short'});
+
+        if (timelineEvent.plot.to.value === 'now') {
+          timelineOptionDate.to = `currently (${(new Date()).toLocaleDateString('en-US', {year: 'numeric', month: 'short'})})`;
+        } else {
+          timelineOptionDate.to = (new Date(timelineEvent.plot.to.value, timelineEvent.plot.to.month)).toLocaleDateString('en-US',
+            {year: 'numeric', month: 'short'});
+        }
+
+        timelineOptionDates[timelineKey] = timelineOptionDate;
+      }
+
+      return timelineOptionDates;
+    },
   },
-  methods: {
-    clickMe() {
-      /** "Vue cannot detect property addition or deletion", instead use the $set function
-       * https://vuejs.org/v2/guide/reactivity.html#For-Objects */
-      this.$set(this.timelineOptions.timelineEvents.internetSystemsDevelopment.styleProps, 'classes',
-        merge(this.timelineOptions.timelineEvents.internetSystemsDevelopment.styleProps.classes, {'slide-out': true}));
+  watch: {
+    selectedTimelineOptions(newTimelineOptions) {
+      /*
+        Need to tell the timelineEvents components which timeline events must be shown.
+        We do this via the selectedTags property, however it only selects a 1D array instead of an object which the selectedTimelineOptions gives us
+        Convert the object to give us just the keys
+       */
+      this.timelineOptions.selectedTags = newTimelineOptions.map((key) => key.value);
     },
   },
 };

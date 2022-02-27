@@ -152,7 +152,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.vue-terminal-command:deep(*) {
+.vue-terminal-command:deep() {
   font-family: 'Roboto Mono', monospace;
   background-color: var(--q-color-dark, $dark);
   word-break: break-word;

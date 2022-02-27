@@ -17,15 +17,14 @@ module.exports = {
         accent: '#BF0603',
         tertiary: '#F4D58D',
         quaternary: '#8D0801',
+        dark: '#1d1d1d',
       },
       transitionProperty: {
         'bg-width': 'background-color, width',
       },
     },
   },
-
   prefix: 'tw-',
-
   variants: {},
   plugins: [],
 };
