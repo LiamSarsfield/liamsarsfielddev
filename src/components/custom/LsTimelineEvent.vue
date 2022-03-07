@@ -11,7 +11,7 @@
             <q-btn flat icon="close" @click="menuExpanded = false"/>
           </q-bar>
         </slot>
-        <q-item>
+        <q-item class="tw-pb-0">
           <q-item-section>
             <slot name="tooltipContent" :menuExpanded="menuExpanded" :identifier="identifier"/>
           </q-item-section>

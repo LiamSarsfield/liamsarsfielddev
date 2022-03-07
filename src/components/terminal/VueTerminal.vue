@@ -5,8 +5,11 @@
                  :built-in="builtIn"
                  :title="title"
                  :prompt="prompt"
+                 v-model:is-in-progress="isInProgress"
                  v-model:stdin=stdinBind
                  v-model:history="historyBind"
+                 @execute="onExecute"
+                 ref="vueCommandRef"
     >
       <template v-slot:bar>
         <div class="tw-flex tw-justify-center tw-border-0 tw-border-b-[1px] tw-border-solid tw-border-gray-800 tw-bg-primary tw-bg-opacity-30 tw-py-2">
@@ -23,23 +26,15 @@
 </template>
 
 <script>
-import VueCommand, {createStdout} from 'vue-command';
-import { markRaw } from 'vue';
+import VueCommand from 'vue-command';
 
 export default {
   name: 'VueTerminal',
   components: {VueCommand},
   /** START: Lifecycle Hooks */
-  mounted() {
-    this.onMount(this);
-  },
+  mounted() {},
   /** END: Lifecycle Hooks */
   props: {
-    onMount: {
-      type: Function,
-      default: () => {
-      },
-    },
     /** START: Vue-Commands data */
     commands: {
       /**
@@ -77,7 +72,10 @@ export default {
     /** END: Vue-Commands data */
   },
   data() {
-    return {};
+    return {
+      isInProgress: false,
+      executingCommand: null,
+    };
   },
   computed: {
     stdinBind: {
@@ -104,7 +102,15 @@ export default {
       return cssVars;
     },
   },
-  watch: {},
+  watch: {
+    isInProgress(newVal) {
+      if (newVal === true) {
+        this.executingCommand = this.stdinBind;
+      } else {
+        this.executingCommand = null;
+      }
+    },
+  },
   methods: {
     /**
      *
@@ -114,45 +120,37 @@ export default {
     async executeTermCommand(command, options = {}) {
       const _this = this;
       let defaultOptions = {
-        // The key at which all the terminal properties are kept
-        terminalOptionsKey: _this,
         typingAnimation: false,
         typingSpeed: 100,
       };
       // Merge the options together
       options = {...defaultOptions, ...options};
-      let terminalOptions = options.terminalOptionsKey;
-
       if (options.typingAnimation) {
-        await _this.typing('stdinBind', command, {dataOptionsKey: terminalOptions, typingSpeed: options.typingSpeed});
+        await _this.typing('stdinBind', command, {dataOptionsKey: _this, typingSpeed: options.typingSpeed});
       } else {
         _this.stdinBind = command;
       }
       // Ensure we wait for the page to rerender, otherwise the command may not show fully
       await _this.$nextTick();
 
-      let terminalCommand;
-      if (typeof terminalOptions.commands[command] === 'function') {
-        /*
-         * We know the command exists, we can execute it
-         * However, we render the command's response either through an existing component or an anonymous component.
-         * Existing components are an object, whereas an anonymous component we assume will be a function, which we will make into an object
-         */
-        terminalCommand = terminalOptions.commands[command]();
-        terminalCommand = (typeof terminalCommand === 'function') ? {render: terminalCommand} : terminalCommand;
-      } else {
-        terminalCommand = createStdout(`${command}: command not found`);
+      let vueCommandRef = _this.$refs.vueCommandRef;
+      await vueCommandRef.handle(command);
+    },
+    async onExecute() {
+      let _this = this;
+      await _this.$nextTick();
+      await _this.$refs.vueCommandRef.terminate();
+
+      if (_this.history[_this.history.length - 1].type) {
+        // If the last executed component has a type property, we assume it's a JSX generated component
       }
-      // Vue-command uses anonymous components executing commands
-      terminalOptions.history.push(markRaw(terminalCommand));
-      _this.stdinBind = '';
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.vue-terminal-command:deep() {
+.vue-terminal-parent:deep(.vue-terminal-command) {
   font-family: 'Roboto Mono', monospace;
   background-color: var(--q-color-dark, $dark);
   word-break: break-word;

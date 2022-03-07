@@ -29,7 +29,7 @@
                     <q-icon name="fas fa-layer-group"/>
                   </template>
                   <template v-slot:append>
-                    <q-icon name="close" @click.stop="allTimelineOptionsSelected = false" class="cursor-pointer"/>
+                    <q-icon name="close" clickable @click.stop="allTimelineOptionsSelected = false" class="cursor-pointer"/>
                   </template>
                   <template v-slot:before-options>
                     <q-item clickable :class="{'tw-text-secondary': allTimelineOptionsSelected}"
@@ -59,9 +59,13 @@
                       <q-item class="tw-mb-2">
                         <q-item-section>
                           <q-item-label>
-                            {{ timelineOptions.timelineEvents[tooltipContent.identifier].tooltip.label }}</q-item-label>
-                          <q-item-label caption class="tw-pl-1 tw-flex tw-items-center"><q-icon name="schedule" class="tw-pr-1"/>{{
-                              timelineOptionDates[tooltipContent.identifier].from }} to
+                            {{ timelineOptions.timelineEvents[tooltipContent.identifier].tooltip.label }}
+                          </q-item-label>
+                          <q-item-label caption class="tw-pl-1 tw-flex tw-items-center">
+                            <q-icon name="schedule" class="tw-pr-1"/>
+                            {{
+                              timelineOptionDates[tooltipContent.identifier].from
+                            }} to
                             {{ timelineOptionDates[tooltipContent.identifier].to }}
                           </q-item-label>
                         </q-item-section>
@@ -72,6 +76,19 @@
                         </q-item-section>
                         <q-item-section>
                           {{ timelineOptions.tags[tag].label }}
+                        </q-item-section>
+                      </q-item>
+                      <q-item
+                        v-if="timelineOptions.timelineEvents[tooltipContent.identifier].tooltip.github || timelineOptions.timelineEvents[tooltipContent.identifier].tooltip.link"
+                        class="tw-justify-end !tw-py-1">
+                        <q-item-section v-if="timelineOptions.timelineEvents[tooltipContent.identifier].tooltip.github" thumbnail class="!tw-pr-2">
+                          <q-btn flat color="tertiary" round
+                                 icon="lab la-github" type="a" :href="timelineOptions.timelineEvents[tooltipContent.identifier].tooltip.github"
+                                 target="_blank" size="md"/>
+                        </q-item-section>
+                        <q-item-section v-if="timelineOptions.timelineEvents[tooltipContent.identifier].tooltip.link" thumbnail class="!tw-pr-2">
+                          <q-btn flat color="tertiary" round
+                                 icon="launch" type="a" :href="timelineOptions.timelineEvents[tooltipContent.identifier].tooltip.link" target="_blank"/>
                         </q-item-section>
                       </q-item>
                     </q-list>
@@ -103,18 +120,20 @@
                         :title="terminalOptions.title"
                         :prompt="terminalOptions.prompt"
                         v-model:stdin="terminalOptions.stdin"
-                        v-model:history="terminalOptions.history"/>
+                        v-model:history="terminalOptions.history"
+                        ref="vueTerminal"
+          />
         </q-expansion-item>
       </q-card-section>
     </q-card>
-    <ls-dialog v-model="showAuxionModal" content-class="about-project-dialog">
+    <ls-dialog v-model="showAuxionModal">
       <q-card class="!tw-w-[1120px] !tw-max-w-[80vw] text-caption">
         <div class="tw-h-[300px] tw-w-full tw-absolute tw-overflow-hidden tw-flex tw-justify-center">
           <img src="/img/modal-showcase/auxion/auxion-site.jpeg" class="tw-absolute tw-w-[calc(100%-15px)]">
         </div>
         <q-card-section class="tw-p-0 scroll parallax-about-scroll parallax-scroll-target tw-max-h-[50vh]">
-          <div class="tw-h-[300px] tw-flex tw-flex-col">
-            <div class="tw-relative tw-group tw-text-4xl tw-mt-auto">
+          <div class="tw-h-[150px] md:tw-h-[300px] tw-flex tw-flex-col">
+            <div class="tw-relative tw-group tw-text-2xl md:tw-text-4xl tw-mt-auto">
               <div
                 class="tw-absolute tw-w-full tw-h-full group-hover:tw-bg-red-900 group-hover:tw-bg-none group-hover:tw-opacity-90 tw-bg-gradient-to-r tw-from-black tw-to-red-900 tw-opacity-70">
               </div>
@@ -171,16 +190,52 @@
         </q-card-actions>
       </q-card>
     </ls-dialog>
+    <ls-dialog v-model="claimLinkCheckersModal">
+      <q-card class="!tw-w-[1120px] !tw-max-w-[80vw] text-caption">
+        <div class="tw-h-[300px] tw-w-full tw-absolute tw-overflow-hidden tw-flex tw-justify-center">
+          <img src="/img/modal-showcase/claimlink/claimlink-site-lg.png" class="tw-absolute tw-w-[calc(100%-15px)]">
+        </div>
+        <q-card-section class="tw-p-0 scroll parallax-about-scroll parallax-scroll-target tw-max-h-[50vh]">
+          <div class="tw-h-[150px] md:tw-h-[300px] tw-flex tw-flex-col">
+            <div class="tw-relative tw-group tw-text-2xl md:tw-text-4xl tw-mt-auto">
+              <div
+                class="tw-absolute tw-w-full tw-h-full group-hover:tw-bg-orange-800 group-hover:tw-bg-none group-hover:tw-opacity-90 tw-bg-gradient-to-r tw-from-black tw-to-orange-700 tw-opacity-70">
+              </div>
+              <ls-anchor href="https://www.claimlink.net/" className="tw-relative tw-flex tw-justify-center tw-align-center tw-py-2 tw-text-white">
+                www.claimlink.net
+                <q-icon name="launch" class="tw-ml-1 tw-my-auto"></q-icon>
+              </ls-anchor>
+            </div>
+          </div>
+          <q-list class="tw-text-lg tw-relative q-dark" separator>
+            <q-item>
+              <q-item-section>
+                Brochure website developed for one of Mackessy Technology’s products which sells salvaged vehicles in an auction format.
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                Displays a carousel of current salvage vehicles in auction that pulls data frequently from the platform.
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card-section>
+        <q-separator/>
+        <q-card-actions align="right">
+          <q-btn flat color="tertiary" round icon="launch" type="a" href="https://www.claimlink.net/" target="_blank"/>
+        </q-card-actions>
+      </q-card>
+    </ls-dialog>
     <ls-dialog v-model="showDiscordCheckersModal">
       <q-card class="!tw-w-[1120px] !tw-max-w-[80vw] text-caption">
         <div class="tw-h-[300px] tw-w-full tw-absolute tw-overflow-hidden tw-flex tw-justify-center">
           <img src="/img/modal-showcase/discord-checkers-bot/discord-checkers.png" class="tw-absolute tw-w-[calc(100%-15px)]">
         </div>
         <q-card-section class="tw-p-0 scroll parallax-about-scroll parallax-scroll-target tw-max-h-[50vh]">
-          <div class="tw-h-[300px] tw-flex tw-flex-col">
-            <div class="tw-relative tw-group tw-text-4xl tw-mt-auto">
+          <div class="tw-h-[150px] md:tw-h-[300px] tw-flex tw-flex-col">
+            <div class="tw-relative tw-group tw-text-2xl md:tw-text-4xl tw-mt-auto">
               <div
-                class="tw-absolute tw-w-full tw-h-full group-hover:tw-bg-red-900 group-hover:tw-bg-none group-hover:tw-opacity-90 tw-bg-gradient-to-r tw-from-black tw-to-red-900 tw-opacity-70">
+                class="tw-absolute tw-w-full tw-h-full group-hover:tw-bg-yellow-700 group-hover:tw-bg-none group-hover:tw-opacity-90 tw-bg-gradient-to-r tw-from-black tw-to-yellow-700 tw-opacity-70">
               </div>
               <ls-anchor href="https://github.com/LiamSarsfield/checkers-bot"
                          className="tw-relative tw-flex tw-justify-center tw-align-center tw-py-2 tw-text-white">
@@ -209,42 +264,6 @@
         </q-card-actions>
       </q-card>
     </ls-dialog>
-    <ls-dialog v-model="claimLinkCheckersModal">
-      <q-card class="!tw-w-[1120px] !tw-max-w-[80vw] text-caption">
-        <div class="tw-h-[300px] tw-w-full tw-absolute tw-overflow-hidden tw-flex tw-justify-center">
-          <img src="/img/modal-showcase/claimlink/claimlink-site-lg.png" class="tw-absolute tw-w-[calc(100%-15px)]">
-        </div>
-        <q-card-section class="tw-p-0 scroll parallax-about-scroll parallax-scroll-target tw-max-h-[50vh]">
-          <div class="tw-h-[300px] tw-flex tw-flex-col">
-            <div class="tw-relative tw-group tw-text-4xl tw-mt-auto">
-              <div
-                class="tw-absolute tw-w-full tw-h-full group-hover:tw-bg-red-900 group-hover:tw-bg-none group-hover:tw-opacity-90 tw-bg-gradient-to-r tw-from-black tw-to-red-900 tw-opacity-70">
-              </div>
-              <ls-anchor href="https://www.claimlink.net/" className="tw-relative tw-flex tw-justify-center tw-align-center tw-py-2 tw-text-white">
-                www.claimlink.net
-                <q-icon name="launch" class="tw-ml-1 tw-my-auto"></q-icon>
-              </ls-anchor>
-            </div>
-          </div>
-          <q-list class="tw-text-lg tw-relative q-dark" separator>
-            <q-item>
-              <q-item-section>
-                Brochure website developed for one of Mackessy Technology’s products which sells salvaged vehicles in an auction format.
-              </q-item-section>
-            </q-item>
-            <q-item>
-              <q-item-section>
-                Displays a carousel of current salvage vehicles in auction that pulls data frequently from the platform.
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-card-section>
-        <q-separator/>
-        <q-card-actions align="right">
-          <q-btn flat color="tertiary" round icon="launch" type="a" href="https://www.claimlink.net/" target="_blank"/>
-        </q-card-actions>
-      </q-card>
-    </ls-dialog>
   </q-page>
 </template>
 
@@ -256,8 +275,9 @@ import LsDialog from 'components/custom/LsDialog';
 import LsAnchor from 'components/custom/LsAnchor';
 import LsTimeline from 'components/custom/LsTimeline';
 import {isEqual, clone} from 'lodash';
-import {QList, QItem, QItemSection, QIcon} from 'quasar';
 
+// Needed so JSX event handlers can point to the store (which is updated in this event handler's hook)
+let _store = null;
 export default {
   name: 'PageIndex',
   components: {LsTimeline, LsAnchor, LsDialog, VueTerminal, LsParallax},
@@ -269,58 +289,48 @@ export default {
   },
   /** START: Lifecycle Hooks */
   created() {
-    let _this = this;
-    _this.selectedTimelineOptions = _this.selectTimelineOptions;
-    // Testing anonymous components and JSX.
-    // "tooltipContent" property will be rendered in the LsTimelineEvent component
+    _store = this.$store;
+    // Select all timeline options by default
+    this.selectedTimelineOptions = this.selectTimelineOptions;
   },
-  mounted() {},
+  async mounted() {
+    let _this = this;
+
+    await _this.$nextTick();
+    let vueCommandRef = _this.$refs.vueTerminal;
+    let commands = ['whoami', 'htop', 'vmstat'];
+    let executionOptions = {terminalOptionsKey: this, typingAnimation: true, typingSpeed: 150};
+    for (let i = 0; i < commands.length; i++) {
+      await vueCommandRef.executeTermCommand(commands[i], executionOptions);
+      await _this.sleep(500);
+    }
+  },
   /** END: Lifecycle Hooks */
   data() {
     return {
       terminalOptions: {
-        // onMount function will be executed in the VueTerminal component, therefore "this", does NOT refer to the current component but actually VueTerminal
-        async onMount() {
-          const _this = this;
-          let commands = ['whoami', 'htop', 'vmstat'];
-          let executionOptions = {terminalOptionsKey: this, typingAnimation: false, typingSpeed: 150};
-          for (let i = 0; i < commands.length; i++) {
-            await _this.executeTermCommand(commands[i], executionOptions);
-            await _this.sleep(500);
-          }
-        },
         commands: {
           // _this in the below objects refers to the VueTerminal Vue Instance
-          'whoami': () =>
-            function() {
-              return <span>Enthusiastic web developer with a passion for software development and full-stack web development.</span>;
-            },
-          'htop': () =>
-            function() {
-              return <span>I have 2 years experience working with PHP (Laravel), MySQL, jQuery/JavaScript and CSS. I have also dabbled with NodeJS. I am
-                currently experimenting into Vue, GraphQL and Docker.</span>;
-            },
-          'vmstat': () =>
-            function() {
-              const _this = this;
-              return <span class="">Current portfolio includes:
+          'whoami': () => <span>Enthusiastic web developer with a passion for software development and full-stack web development.</span>,
+          'htop': () => <span>I have 2 years experience working with PHP (Laravel), MySQL, jQuery/JavaScript and CSS. I have also dabbled with NodeJS. I am
+                currently experimenting into Vue, GraphQL and Docker.</span>,
+          'vmstat': function() {
+            return <span class="">Current portfolio includes:
                 <LsAnchor onClick={() => {
                   // Communicate to the Index State that the Auxion, ClaimLink Modal, etc. needs to show when the user clicks the link
-                  _this.$store.commit('index/updateState', {auxionModal: {...this.$store.getters['index/getState'].auxionModal, show: true}});
+                  _store.commit('index/updateState', {auxionModal: {..._store.getters['index/getState'].auxionModal, show: true}});
                 }} className="tw-cursor-pointer tw-text-red-600 hover:!tw-text-red-700" underlineGradient={['tw-from-gray-700', 'tw-to-red-900']}>
-                  auxion.net (Laravel/MySQL/jQuery/SCSS)
-                </LsAnchor>,
+                  auxion.net (Laravel/MySQL/jQuery/SCSS)</LsAnchor>,
                 <LsAnchor onClick={() => {
-                  _this.$store.commit('index/updateState',
-                    {claimLinkCheckersModal: {...this.$store.getters['index/getState'].claimLinkCheckersModal, show: true}});
+                  _store.commit('index/updateState',
+                    {claimLinkCheckersModal: {..._store.getters['index/getState'].claimLinkCheckersModal, show: true}});
                 }} className="tw-cursor-pointer tw-text-orange-500 hover:!tw-text-orange-600" underlineGradient={['tw-from-gray-700', 'tw-to-orange-500']}>
-                  claimlink.net (Laravel/MySQL/jQuery/SCSS)
-                </LsAnchor>,
+                  claimlink.net (Laravel/MySQL/jQuery/SCSS)</LsAnchor>,
                 <LsAnchor onClick={() => {
-                  _this.$store.commit('index/updateState', {discordCheckersModal: {...this.$store.getters['index/getState'].discordCheckersModal, show: true}});
+                  _store.commit('index/updateState', {discordCheckersModal: {..._store.getters['index/getState'].discordCheckersModal, show: true}});
                 }} className="tw-cursor-pointer tw-text-yellow-500 hover:!tw-text-yellow-600" underlineGradient={['tw-from-gray-700', 'tw-to-yellow-800']}>
                   Discord Checkers bot (Node.js/Discord.js)</LsAnchor>, and this website(Vue/Quasar Framework/Docker).</span>;
-            },
+          },
         },
         styles: {
           backgroundColor: 'red',
@@ -381,7 +391,7 @@ export default {
           },
           'groupProject': {
             'label': 'Group Project',
-            'tooltip': {'label': 'Web Project Tooltip'},
+            'tooltip': {'label': 'Group Project With My Course', 'github': 'https://github.com/LiamSarsfield/Web-Project'},
             'borderColour': 'tw-border-gray-600',
             'plot': {
               'from': {'value': 2018, 'month': '10'},
@@ -391,8 +401,8 @@ export default {
           },
           'checkersBot': {
             'label': 'Checkers Bot',
-            'tooltip': {'label': 'Discord Checkers Bot'},
-            'borderColour': 'tw-border-teal-900',
+            'tooltip': {'label': 'Discord Checkers Bot', 'github': 'https://github.com/LiamSarsfield/checkers-bot'},
+            'borderColour': 'tw-border-yellow-500',
             'plot': {
               'from': {'value': 2019, 'month': '8'},
               'to': {'value': 2020, 'month': '3'},
@@ -401,7 +411,7 @@ export default {
           },
           'auxion': {
             'label': 'auxion.net',
-            'tooltip': {'label': 'Brochure Website'},
+            'tooltip': {'label': 'Brochure Website', 'link': 'https://auxion.net/'},
             'borderColour': 'tw-border-red-600',
             'plot': {
               'from': {'value': 2020, 'month': '9'},
@@ -411,8 +421,8 @@ export default {
           },
           'claimlink': {
             'label': 'claimlink.net',
-            'tooltip': {'label': 'Brochure Website'},
-            'borderColour': 'tw-border-blue-600',
+            'tooltip': {'label': 'Brochure Website', 'link': 'https://www.claimlink.net/'},
+            'borderColour': 'tw-border-orange-500',
             'plot': {
               'from': {'value': 2021, 'month': '3'},
               'to': {'value': 2021, 'month': '9'},
@@ -421,8 +431,8 @@ export default {
           },
           'liamsarsfield': {
             'label': 'liamsarsfield.dev',
-            'tooltip': {'label': 'This Website :)'},
-            'borderColour': 'tw-border-orange-500',
+            'tooltip': {'label': 'This Website :)', 'github': 'https://github.com/LiamSarsfield/liamsarsfielddev'},
+            'borderColour': 'tw-border-blue-600',
             'plot': {
               'from': {'value': 2021, 'month': '9'},
               'to': {'value': 2022, 'month': '2'},
@@ -487,14 +497,14 @@ export default {
         let timelineEvent = timelineEvents[timelineKey];
 
         let timelineOptionDate = {};
-        let fromDate = (timelineEvent.plot.from.value === 'now') ? new Date() : new Date(timelineEvent.plot.from.value, timelineEvent.plot.from.month);
+        let fromDate = new Date(timelineEvent.plot.from.value, Number(timelineEvent.plot.from.month) - 1);
         timelineOptionDate.from = fromDate.toLocaleDateString('en-US',
           {year: 'numeric', month: 'short'});
 
         if (timelineEvent.plot.to.value === 'now') {
-          timelineOptionDate.to = `currently (${(new Date()).toLocaleDateString('en-US', {year: 'numeric', month: 'short'})})`;
+          timelineOptionDate.to = `Currently (${(new Date()).toLocaleDateString('en-US', {year: 'numeric', month: 'short'})})`;
         } else {
-          timelineOptionDate.to = (new Date(timelineEvent.plot.to.value, timelineEvent.plot.to.month)).toLocaleDateString('en-US',
+          timelineOptionDate.to = (new Date(timelineEvent.plot.to.value, Number(timelineEvent.plot.to.month) - 1)).toLocaleDateString('en-US',
             {year: 'numeric', month: 'short'});
         }
 
@@ -514,6 +524,7 @@ export default {
       this.timelineOptions.selectedTags = newTimelineOptions.map((key) => key.value);
     },
   },
+  methods: {},
 };
 </script>
 
