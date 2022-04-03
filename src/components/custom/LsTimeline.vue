@@ -20,7 +20,8 @@
       <div class="tw-flex">
         <div v-for="(timestamp, index) in timestampPlots" :key="index" class="tw-flex tw-flex-col"
              :style="{'width': `${(timestamp.numMonths / totalAmountMonths) * 100}%`}">
-          <div class="tw-border-0 !tw-border-t-2 tw-border-solid tw-border-white tw-mt-auto tw-flex" :class="{'tw-justify-end' : timestamp.isPresent}">
+          <div class="tw-border-0 !tw-border-t-2 tw-border-solid tw-border-white tw-mt-auto tw-flex"
+               :class="{'tw-justify-end' : timestamp.isPresent}">
             <span :class="{'tw-invisible': !timestamp.isPublicTimestamp}">{{ timestamp.value }}</span>
           </div>
         </div>
@@ -43,7 +44,7 @@ export default {
     tags: {
       type: Object,
       default: () => ({}),
-      validator: function(tags) {
+      validator: function (tags) {
         let requiredProps = ['label'];
         for (let [key, tag] of Object.entries(tags)) {
           for (const requiredProp of requiredProps) {
@@ -68,7 +69,7 @@ export default {
     timelineEvents: {
       type: Object,
       /** Checks if the correct object property values are entered */
-      validator: function(timelineEvents) {
+      validator: function (timelineEvents) {
         let requiredProps = ['label', 'plot.from.value', 'plot.to.value'];
         for (let [key, timelineEvent] of Object.entries(timelineEvents)) {
           for (const requiredProp of requiredProps) {
@@ -212,10 +213,7 @@ export default {
         }
 
         timelineEvent['style'] = {'width': `${timelineWidth}%`, 'margin-left': `${timelineOffset}%`};
-        timelineEvent['class'] = {
-          'slide-out': !timelineHasASelectedTag,
-          'slide-in': timelineHasASelectedTag,
-        };
+        timelineEvent['class'] = {'tw-hidden': !timelineHasASelectedTag};
 
         if (timelineHasASelectedTag) {
           // The total amount of space this timelineEvent takes up is assigned the prevTimelineTotalWidth

@@ -5,9 +5,10 @@
       <q-menu fit v-model="menuExpanded">
         <slot name="tooltipHeader" :menuExpanded="menuExpanded" :identifier="identifier">
           <q-bar dense class="tw-p-0">
-            <span class="tw-border-0 !tw-border-b-2 tw-border-solid tw-pl-2 tw-w-full tw-inline-block">{{ label }}</span>
+            <span class="tw-border-0 !tw-border-b-2 tw-border-solid tw-pl-2 tw-w-full tw-inline-block tw-truncate">
+              {{ label }}
+            </span>
 
-            <q-btn flat icon="crop_square"/>
             <q-btn flat icon="close" @click="menuExpanded = false"/>
           </q-bar>
         </slot>
@@ -56,7 +57,6 @@ export default {
         '!tw-px-1': true,
         'tw-text-lg': true,
         'tw-truncate': true,
-        '!tw-relative': true,
       },
       menuExpanded: false,
     };

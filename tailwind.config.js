@@ -23,6 +23,12 @@ module.exports = {
         'bg-width': 'background-color, width',
       },
     },
+    screens: {
+      'sm': '1024px',
+      'md': '1440px',
+      'lg': '1920px',
+      'xl': '2560px',
+    }
   },
   prefix: 'tw-',
   variants: {},

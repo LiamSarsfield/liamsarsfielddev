@@ -10,6 +10,7 @@
                  v-model:history="historyBind"
                  @execute="onExecute"
                  ref="vueCommandRef"
+                 :scroll-stdin-into-view="false"
     >
       <template v-slot:bar>
         <div class="tw-flex tw-justify-center tw-border-0 tw-border-b-[1px] tw-border-solid tw-border-gray-800 tw-bg-primary tw-bg-opacity-30 tw-py-2">

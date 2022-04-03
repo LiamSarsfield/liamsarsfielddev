@@ -49,7 +49,7 @@
   to {
     margin-top: -50px;
     opacity: 0;
-    display: none;
+    display: none !important;
     position: fixed;
     z-index: -5;
   }

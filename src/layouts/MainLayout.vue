@@ -2,71 +2,29 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated class="tw-bg-secondary">
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
-        <q-toolbar-title>
-          <q-btn round>
-            <q-avatar size="44px">
-              <img src="logos/avatar.jpg">
-            </q-avatar>
-          </q-btn>
+        <q-toolbar-title class="tw-flex tw-items-center">
+          <q-avatar size="44px" class="tw-mr-2">
+            <img src="logos/avatar.jpg">
+          </q-avatar>
           Liam Sarsfield
+          <span class="tw-ml-auto">
+            <q-btn flat round icon="fab fa-linkedin" type="a"
+                   href="https://www.linkedin.com/in/liam-sarsfield-b38448137/" target="_blank"/>
+            <q-btn flat round icon="lab la-github" type="a"
+                   href="https://github.com/LiamSarsfield" target="_blank"/>
+            <q-btn flat round icon="fas fa-file-pdf" type="a" href="/cv/sarsfield-liam-cv.pdf" target="_blank"/>
+          </span>
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      bordered
-      content-class=""
-    >
-      <q-list>
-        <q-item-label
-          header
-          class="text-grey-8"
-        >
-          Essential Links
-        </q-item-label>
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
-
     <q-page-container>
-      <router-view />
+      <router-view/>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-import EssentialLink from 'components/EssentialLink.vue'
-
-const linksData = [
-  {
-    title: 'My Website',
-    caption: 'This is a caption',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-];
-
 export default {
   name: 'MainLayout',
-  components: { EssentialLink },
-  data () {
-    return {
-      leftDrawerOpen: false,
-      essentialLinks: linksData
-    }
-  }
 }
 </script>
