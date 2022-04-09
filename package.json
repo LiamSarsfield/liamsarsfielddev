@@ -1,8 +1,8 @@
 {
   "name": "liamsarsfielddev",
   "version": "0.0.1",
-  "description": "A Quasar Framework app",
-  "productName": "liamsarsfield.dev",
+  "description": "Liam Sarsfield - Personal Website",
+  "productName": "Liam Sarsfield - Software Developer",
   "author": "lsarsfield",
   "private": true,
   "scripts": {

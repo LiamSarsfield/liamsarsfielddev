@@ -54,3 +54,9 @@
     z-index: -5;
   }
 }
+
+@font-face {
+  font-family: 'Roboto Mono';
+  src: url(./fonts/RobotoMono-VariableFont.ttf), local('Monaco');
+  font-display: swap;
+}

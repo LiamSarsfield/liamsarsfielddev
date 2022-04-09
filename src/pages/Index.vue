@@ -475,7 +475,8 @@
                             </q-item>
                             <q-item>
                               <q-item-section>
-                                Displays information regarding the productions functionality.
+                                Displays information regarding the product's functionality which sends a ClaimLink
+                                (mobile web application) to a claimant to help process their claim.
                               </q-item-section>
                             </q-item>
                           </q-list>
@@ -711,7 +712,6 @@
               <q-card-section
                 class="col-12 col-md tw-order-first md:tw-order-last tw-pb-0">
                 <div class="tw-flex tw-flex-col tw-gap-2 tw-sticky tw-top-[50px]">
-
                   <q-select
                     filled
                     v-model="selectedTimelineOptions"
@@ -892,11 +892,6 @@
             </q-item>
             <q-item>
               <q-item-section>
-                Mobile compatible with a priority on engagement, ease of use and compatibility.
-              </q-item-section>
-            </q-item>
-            <q-item>
-              <q-item-section>
                 A strong SEO score was also high priority for this project.
               </q-item-section>
             </q-item>
@@ -932,13 +927,18 @@
           <q-list class="tw-text-lg tw-relative q-dark" separator>
             <q-item>
               <q-item-section>
-                Brochure website developed for one of Mackessy Technology’s products which sells salvaged vehicles in an
-                auction format.
+                Brochure website developed for one of Mackessy Technology’s products which sends a ClaimLink
+                (mobile web application) to a claimant to help process their claim.
               </q-item-section>
             </q-item>
             <q-item>
               <q-item-section>
-                Displays a carousel of current salvage vehicles in auction that pulls data frequently from the platform.
+                Mobile compatible with a priority on engagement, ease of use and compatibility.
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                Technologies used: Laravel/PHP, jQuery/JavaScript.
               </q-item-section>
             </q-item>
           </q-list>
@@ -977,6 +977,11 @@
             <q-item>
               <q-item-section>
                 The bot uses emojies to show the black pieces (⚫) and white pieces(⚪).
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                Technologies used: JavaScript/NodeJS.
               </q-item-section>
             </q-item>
           </q-list>
@@ -1186,7 +1191,7 @@ export default {
             'borderColour': 'tw-border-blue-600',
             'plot': {
               'from': {'value': 2021, 'month': '9'},
-              'to': {'value': 2022, 'month': '2'},
+              'to': {'value': 2022, 'month': '3'},
             },
             'tags': ['html', 'javascript', 'vuejs', 'css'],
           },

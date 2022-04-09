@@ -56,7 +56,7 @@ module.exports = function (/* ctx */) {
           // rtl: false, // https://quasar.dev/options/rtl-support
           // preloadChunks: true,
           // showProgress: false,
-          // gzip: true,
+          gzip: true,
           // analyze: true,
 
           // Options below are automatically set depending on the env, set them if you want to override
@@ -119,7 +119,7 @@ module.exports = function (/* ctx */) {
             workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
             workboxOptions: {}, // only for GenerateSW
             manifest: {
-                name: `liamsarsfield.dev`,
+                name: `Liam Sarsfield - Software Developer`,
                 short_name: `liamsarsfield.dev`,
                 description: `Liam Sarsfield's Website`,
                 display: 'standalone',
