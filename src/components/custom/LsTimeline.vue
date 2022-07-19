@@ -44,7 +44,7 @@ export default {
     tags: {
       type: Object,
       default: () => ({}),
-      validator: function (tags) {
+      validator: function(tags) {
         let requiredProps = ['label'];
         for (let [key, tag] of Object.entries(tags)) {
           for (const requiredProp of requiredProps) {
@@ -69,7 +69,7 @@ export default {
     timelineEvents: {
       type: Object,
       /** Checks if the correct object property values are entered */
-      validator: function (timelineEvents) {
+      validator: function(timelineEvents) {
         let requiredProps = ['label', 'plot.from.value', 'plot.to.value'];
         for (let [key, timelineEvent] of Object.entries(timelineEvents)) {
           for (const requiredProp of requiredProps) {
@@ -198,21 +198,22 @@ export default {
         let timelineHasASelectedTag = (tagKeys.length > 0 && intersection(timelineEvent.tags, selectedTags).length !== 0);
 
         // Get the percentage of months this current timeline event was present
-        let timelineWidth = Math.floor((timelineEvent.totalAmountMonths / _this.totalAmountMonths) * 100);
+        let timelineWidth = (timelineEvent.totalAmountMonths / _this.totalAmountMonths) * 100;
+        let timelineWidthFloored = Math.floor(timelineWidth);
         /** timelineOffset generates the offset % based on the timelineEvent's from value and the minTimestamp entered */
         let timelineOffset = Math.floor((timelineEvent.monthsFromBase / _this.totalAmountMonths) * 100);
-        let thisTimelineTotalWidth = timelineWidth + timelineOffset;
+        let thisTimelineTotalWidth = timelineWidthFloored + timelineOffset;
 
         if (timelineOffset >= prevTimelineTotalWidth) {
           /**
            * If the total space taken of the previous timeline is less than the offset of this timeline,
            * Both timelines can exist on the same line. Therefore, this timeline's offset can be reduced
            */
-          // If the total space taken of previous timeline is
-          timelineOffset -= prevTimelineTotalWidth;
+          timelineOffset = timelineOffset - prevTimelineTotalWidth - 1;
+          timelineWidthFloored++;
         }
 
-        timelineEvent['style'] = {'width': `${timelineWidth}%`, 'margin-left': `${timelineOffset}%`};
+        timelineEvent['style'] = {'width': `${timelineWidthFloored}%`, 'margin-left': `${timelineOffset}%`};
         timelineEvent['class'] = {'tw-hidden': !timelineHasASelectedTag};
 
         if (timelineHasASelectedTag) {

@@ -126,6 +126,66 @@
                       <transition enter-active-class="animated fadeInDown"
                                   leave-active-class="animated fadeOutUp">
                         <q-card class="!tw-shadow-xl"
+                                v-show="intersection(timelineOptions.timelineEvents.wpe.tags, timelineOptions.selectedTags).length">
+                          <q-card-section horizontal
+                                          class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
+                            <q-card-section class="tw-text-lg tw-py-0">
+                              <q-item class="tw-p-0">
+                                <q-item-section>
+                                  <q-item-label>{{ timelineOptions.timelineEvents.wpe.label }}</q-item-label>
+                                  <q-item-label caption>
+                                    {{ timelineOptions.timelineEvents.wpe.tooltip.label }}
+                                  </q-item-label>
+                                </q-item-section>
+                              </q-item>
+                            </q-card-section>
+                            <q-card-section class="tw-py-0 tw-flex md:tw-items-center">
+                              <q-item class="tw-py-2 tw-px-0 tw-min-h-0">
+                                <q-item-section avatar class="tw-pr-3 tw-hidden md:tw-flex">
+                                  <q-icon name="schedule" class="tw-ml-auto" size="xs"/>
+                                </q-item-section>
+                                <q-item-section>
+                                  <q-item-label>
+                                    {{ timelineOptionDates.wpe.from }} to
+                                    {{ timelineOptionDates.wpe.to }}
+                                    <span class="md:tw-hidden tw-italic">
+                                      ({{ timelineOptionDates.wpe.duration }})
+                                    </span>
+                                  </q-item-label>
+                                  <q-item-label caption class="tw-hidden md:tw-block">
+                                    {{ timelineOptionDates.wpe.duration }}
+                                  </q-item-label>
+                                </q-item-section>
+                              </q-item>
+                            </q-card-section>
+                          </q-card-section>
+                          <q-list class="tw-px-3" dense bordered separator>
+                            <q-item>
+                              <q-item-section>
+                                Working with HTML, CSS, JavaScript/ECMAScript 6, React, Go, PHP, GraphQL, PostgreSQL.
+                              </q-item-section>
+                            </q-item>
+                            <q-item>
+                              <q-item-section>
+                                Working as part of WP Engine's eCommerce team to provide new payment integration functionality for customers.
+                              </q-item-section>
+                            </q-item>
+                          </q-list>
+                          <q-card-section class="tw-grid tw-grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] tw-py-2">
+                            <q-chip v-for="tag in timelineOptions.timelineEvents.wpe.tags" :key="tag"
+                                    :outline="!selectedChips.has(tag)" clickable v-ripple
+                                    square
+                                    :icon="timelineOptions.tags[tag].icon"
+                                    :color="selectedChips.has(tag) ? 'primary' : null"
+                                    :selected="selectedChips.has(tag)" class="tw-text-sm" @click="toggleChipTag(tag)">
+                              {{ timelineOptions.tags[tag].label }}
+                            </q-chip>
+                          </q-card-section>
+                        </q-card>
+                      </transition>
+                      <transition enter-active-class="animated fadeInDown"
+                                  leave-active-class="animated fadeOutUp">
+                        <q-card class="!tw-shadow-xl"
                                 v-show="intersection(timelineOptions.timelineEvents.mtx.tags, timelineOptions.selectedTags).length">
                           <q-card-section horizontal
                                           class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
@@ -791,6 +851,12 @@
                               :selected="selectedChips.has('vuejs')" @click="toggleChipTag('vuejs')">
                         {{ timelineOptions.tags.vuejs.label }}
                       </q-chip>
+                      <q-chip :outline="!selectedChips.has('react')" clickable v-ripple square
+                              :icon="timelineOptions.tags.react.icon"
+                              :color="selectedChips.has('react') ? 'primary' : null"
+                              :selected="selectedChips.has('react')" @click="toggleChipTag('react')">
+                        {{ timelineOptions.tags.react.label }}
+                      </q-chip>
                     </q-card-section>
                   </q-card>
 
@@ -1020,7 +1086,7 @@ export default {
     store.commit('index/updateState', {
       'auxionModal': {show: false},
       'discordCheckersModal': {show: false},
-      'claimLinkCheckersModal': {show: false}
+      'claimLinkCheckersModal': {show: false},
     });
   },
   /** START: Lifecycle Hooks */
@@ -1037,7 +1103,7 @@ export default {
     let commands = [
       'whoami',
       'htop',
-      'vmstat'
+      'vmstat',
     ];
     let executionOptions = {terminalOptionsKey: this, typingAnimation: true, typingSpeed: 150};
     for (let i = 0; i < commands.length; i++) {
@@ -1054,15 +1120,15 @@ export default {
           'whoami': () => <span>Enthusiastic web developer with a passion for software development and full-stack web development.</span>,
           'htop': () => <span>I have 3 years experience working with PHP (Laravel), MySQL, jQuery/JavaScript and CSS.
             I have also dabbled with Vue while experimenting with Node, GraphQL and Docker.</span>,
-          'vmstat': function () {
+          'vmstat': function() {
             return <span class="">Current portfolio includes:
                 <LsAnchor onClick={() => {
                   // Communicate to the Index State that the Auxion, ClaimLink Modal, etc. needs to show when the user clicks the link
                   _store.commit('index/updateState', {
                     auxionModal: {
                       ..._store.getters['index/getState'].auxionModal,
-                      show: true
-                    }
+                      show: true,
+                    },
                   });
                 }} className="tw-cursor-pointer tw-text-red-600 hover:!tw-text-red-700"
                           underlineGradient={['tw-from-gray-700', 'tw-to-red-900']}>
@@ -1077,8 +1143,8 @@ export default {
                   _store.commit('index/updateState', {
                     discordCheckersModal: {
                       ..._store.getters['index/getState'].discordCheckersModal,
-                      show: true
-                    }
+                      show: true,
+                    },
                   });
                 }} className="tw-cursor-pointer tw-text-yellow-500 hover:!tw-text-yellow-600"
                           underlineGradient={['tw-from-gray-700', 'tw-to-yellow-800']}>
@@ -1102,6 +1168,7 @@ export default {
           'javascript': {'label': 'JavaScript', 'icon': 'fab fa-js'},
           'jquery': {'label': 'jQuery', 'icon': 'fab fa-js-square'},
           'vuejs': {'label': 'Vue.js', 'icon': 'fab fa-vuejs'},
+          'react': {'label': 'React', 'icon': 'fab fa-react'},
           'nodeJS': {'label': 'NodeJS', 'icon': 'fab fa-node'},
           'php': {'label': 'PHP', 'icon': 'fab fa-php'},
           'laravel': {'label': 'Laravel', 'icon': 'fab fa-laravel'},
@@ -1138,15 +1205,26 @@ export default {
             'borderColour': 'tw-border-red-800',
             'plot': {
               'from': {'value': 2020, 'month': '3'},
-              'to': {'value': 'now'},
+              'to': {'value': 2022, 'month': '5'},
             },
             'tags': ['html', 'javascript', 'jquery', 'vuejs', 'css', 'php', 'laravel', 'mysql'],
+          },
+          'wpe': {
+            'label': 'Software Engineer II',
+            'tooltip': {'label': 'WP Engine'},
+            'borderColour': 'tw-border-blue-500',
+            'plot': {
+              // Todo: Fix the from/to with mtx and wpe not being calculating correctly
+              'from': {'value': 2022, 'month': '5'},
+              'to': {'value': 'now'},
+            },
+            'tags': ['html', 'javascript', 'css', 'react', 'php'],
           },
           'groupProject': {
             'label': 'Group Project',
             'tooltip': {
               'label': 'Group Project With My Course',
-              'github': 'https://github.com/LiamSarsfield/Web-Project'
+              'github': 'https://github.com/LiamSarsfield/Web-Project',
             },
             'borderColour': 'tw-border-gray-600',
             'plot': {
@@ -1222,8 +1300,8 @@ export default {
         this.$store.commit('index/updateState', {
           discordCheckersModal: {
             ...this.indexLiaison.discordCheckersModal,
-            show: newValue
-          }
+            show: newValue,
+          },
         });
       },
     },
@@ -1235,8 +1313,8 @@ export default {
         this.$store.commit('index/updateState', {
           claimLinkCheckersModal: {
             ...this.indexLiaison.claimLinkCheckersModal,
-            show: newValue
-          }
+            show: newValue,
+          },
         });
       },
     },
@@ -1277,7 +1355,7 @@ export default {
           toDate = new Date();
           timelineOptionDate.to = `Currently (${toDate.toLocaleDateString('en-US', {
             year: 'numeric',
-            month: 'short'
+            month: 'short',
           })})`;
         } else {
           toDate = new Date(timelineEvent.plot.to.value, timelineEvent.plot.to.month && Number(timelineEvent.plot.to.month) - 1);
