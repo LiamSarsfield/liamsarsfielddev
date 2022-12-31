@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^3.0.0",
-    "@quasar/extras": "^1.10.10",
+    "@quasar/extras": "^1.15.9",
     "@vue/babel-plugin-jsx": "^1.1.1",
     "autoprefixer": "^9.8.6",
     "axios": "^0.21.1",
@@ -21,7 +21,7 @@
     "core-js": "^3.6.5",
     "patch-package": "^6.4.7",
     "postinstall-postinstall": "^2.1.0",
-    "quasar": "^2.0.0",
+    "quasar": "^2.11.3",
     "tailwindcss": "^3.0.15",
     "vue": "^3.0.0",
     "vue-command": "^23.0.1",

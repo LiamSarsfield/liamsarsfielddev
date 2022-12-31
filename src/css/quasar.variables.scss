@@ -12,21 +12,24 @@
 // to match your app's branding.
 // Tip: Use the "Theme Builder" on Quasar's documentation website.
 
-$primary      : #001427;
-$secondary    : #708D81;
-$accent       : #BF0603;
+$primary : #001427;
+$secondary : #708D81;
+$accent : #BF0603;
 // https://forum.quasar-framework.org/topic/4667/custom-variables-added-to-quasar-variables-sass-seem-to-be-ignored/10
 // Custom variables in quasar.variables appear to be ignored, loop through each one declared here in app.scss
-$custom-variables: ("tertiary": #F4D58D, "quaternary": #8D0801);
+$custom-variables: (
+    "tertiary": #F4D58D,
+    "quaternary": #8D0801
+);
 
-$dark      : #1d1d1d;
+$dark : #1d1d1d;
 
-$positive  : #95de5d;
-$negative  : #C10015;
-$info      : #f3722c;
-$warning   : #F2C037;
+$positive : #95de5d;
+$negative : #C10015;
+$info : #f3722c;
+$warning : #F2C037;
 
-$white     : #fff;
-$black     : #000000;
+$white : #fff;
+$black : #000000;
 
 $tooltip-padding: 0px;

@@ -1,9 +1,11 @@
 // app global css in SCSS form
 // from quasar.variables.scss
-@each $name, $variable in $custom-variables {
+@each $name,
+$variable in $custom-variables {
   .text-#{$name} {
     color: $variable
   }
+
   .bg-#{$name} {
     background-color: $variable
   }
@@ -59,4 +61,9 @@
   font-family: 'Roboto Mono';
   src: url(./fonts/RobotoMono-VariableFont.ttf), local('Monaco');
   font-display: swap;
+}
+
+.q-card--dark,
+.q-menu--dark {
+  box-shadow: $shadow-2;
 }

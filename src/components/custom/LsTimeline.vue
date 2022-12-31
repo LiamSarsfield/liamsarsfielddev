@@ -207,10 +207,10 @@ export default {
         // The timeline must have at least one selected tag in order to appear on the timeline
         let timelineHasASelectedTag = (tagKeys.length > 0 && intersection(timelineEvent.tags, selectedTags).length !== 0);
 
-        let timelineWidth = (timelineEvent.totalDuration / _this.totalDuration) * 100;
+        let timelineWidth = round((timelineEvent.totalDuration / _this.totalDuration) * 100, 2);
 
         /** timelineOffset generates the offset % based on the timelineEvent's from value and the minTimestamp entered */
-        let timelineOffset = ((timelineEvent.durationFromBase) / _this.totalDuration) * 100;
+        let timelineOffset = round(((timelineEvent.durationFromBase) / _this.totalDuration) * 100, 2);
 
         let thisTimelineTotalWidth = timelineWidth + timelineOffset;
 
@@ -219,7 +219,7 @@ export default {
            * If the total space taken of the previous timeline is less than the offset of this timeline,
            * Both timelines can exist on the same line. Therefore, this timeline's offset can be reduced
            */
-          timelineOffset = Math.floor(timelineOffset - prevTimelineTotalWidth);
+          timelineOffset = timelineOffset - prevTimelineTotalWidth;
         }
 
         timelineEvent['style'] = { 'width': `${timelineWidth}%`, 'margin-left': `${timelineOffset}%` };

@@ -140,12 +140,12 @@
                           <q-list class="tw-px-3" dense bordered separator>
                             <q-item>
                               <q-item-section>
-                                Working with HTML, CSS, JavaScript/ECMAScript 6, React, Go, PHP, GraphQL, PostgreSQL.
+                                Working with HTML, CSS, JavaScript/ECMAScript 6, React, Go, PHP, PostgreSQL.
                               </q-item-section>
                             </q-item>
                             <q-item>
                               <q-item-section>
-                                Working as part of WP Engine's eCommerce team to provide new payment integration
+                                Working as part of WP Engine's eCommerce product line to provide new payment integration
                                 functionality for customers.
                               </q-item-section>
                             </q-item>
@@ -844,6 +844,11 @@
                         :selected="selectedChips.has('java')" @click="toggleChipTag('java')">
                         {{ timelineOptions.tags.java.label }}
                       </q-chip>
+                      <q-chip :outline="!selectedChips.has('golang')" clickable v-ripple square
+                        :icon="timelineOptions.tags.golang.icon" :color="selectedChips.has('golang') ? 'primary' : null"
+                        :selected="selectedChips.has('golang')" @click="toggleChipTag('golang')">
+                        {{ timelineOptions.tags.golang.label }}
+                      </q-chip>
                     </q-card-section>
                   </q-card>
 
@@ -1120,6 +1125,7 @@ export default {
           'codeigniter': { 'label': 'CodeIgniter', 'icon': 'code' },
           'mysql': { 'label': 'MySQL', 'icon': 'fas fa-database' },
           'java': { 'label': 'Java', 'icon': 'fab fa-java' },
+          'golang': { 'label': 'Go', 'icon': 'fa-brands fa-golang' },
         },
         'selectedTags': [],
         'timestamps': [],
@@ -1162,7 +1168,7 @@ export default {
               'from': { 'value': 2022, 'month': '5' },
               'to': { 'value': 'now' },
             },
-            'tags': ['html', 'javascript', 'css', 'react', 'php'],
+            'tags': ['html', 'javascript', 'css', 'react', 'golang', 'php'],
           },
           'groupProject': {
             'label': 'Group Project',
