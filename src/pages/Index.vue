@@ -2,39 +2,25 @@
   <q-page class="row justify-center">
     <q-card class="col-12 col-md-8 tw-bg-primary">
       <q-card-section>
-        <q-expansion-item
-          expand-separator
-          default-opened
-          header-class="!tw-bg-black"
-        >
+        <q-expansion-item expand-separator default-opened header-class="!tw-bg-black">
           <template v-slot:header>
             <q-item-section avatar class="tw-pr-2 !tw-min-w-0 ">
-              <q-icon name="code"/>
+              <q-icon name="code" />
             </q-item-section>
             <q-item-section class="tw-text-xl">
               About Me
             </q-item-section>
           </template>
-          <vue-terminal :on-mount="terminalOptions.onMount"
-                        :commands="terminalOptions.commands"
-
-                        :built-in="terminalOptions.builtIn"
-                        :title="terminalOptions.title"
-                        :prompt="terminalOptions.prompt"
-                        v-model:stdin="terminalOptions.stdin"
-                        v-model:history="terminalOptions.history"
-                        ref="vueTerminal"
-          />
+          <vue-terminal :on-mount="terminalOptions.onMount" :commands="terminalOptions.commands"
+            :built-in="terminalOptions.builtIn" :title="terminalOptions.title" :prompt="terminalOptions.prompt"
+            v-model:stdin="terminalOptions.stdin" v-model:history="terminalOptions.history" ref="vueTerminal" />
         </q-expansion-item>
       </q-card-section>
       <q-card-section>
-        <q-expansion-item
-          expand-separator
-          default-opened
-          header-class="!tw-bg-black">
+        <q-expansion-item expand-separator default-opened header-class="!tw-bg-black">
           <template v-slot:header>
             <q-item-section avatar class="tw-pr-2 !tw-min-w-0 ">
-              <q-icon name="timeline"/>
+              <q-icon name="timeline" />
             </q-item-section>
             <q-item-section class="tw-text-xl">
               Timeline
@@ -44,7 +30,7 @@
             <q-card>
               <q-card-section>
                 <ls-timeline v-bind="timelineOptions">
-                  <template v-slot:timelineEventTooltipContent="{tooltipContent}">
+                  <template v-slot:timelineEventTooltipContent="{ tooltipContent }">
                     <q-list dark separator dense class="tw--mx-[15px]">
                       <q-item class="tw-mb-2">
                         <q-item-section>
@@ -52,17 +38,16 @@
                             {{ timelineOptions.timelineEvents[tooltipContent.identifier].tooltip.label }}
                           </q-item-label>
                           <q-item-label caption class="tw-pl-1 tw-flex tw-items-center">
-                            <q-icon name="schedule" class="tw-pr-1"/>
+                            <q-icon name="schedule" class="tw-pr-1" />
                             {{ timelineOptionDates[tooltipContent.identifier].from }} to
                             {{ timelineOptionDates[tooltipContent.identifier].to }}
                           </q-item-label>
                         </q-item-section>
                       </q-item>
                       <q-item dense clickable v-ripple bordered
-                              v-for="(tag) in timelineOptions.timelineEvents[tooltipContent.identifier].tags"
-                              :key="tag">
+                        v-for="(tag) in timelineOptions.timelineEvents[tooltipContent.identifier].tags" :key="tag">
                         <q-item-section v-if="timelineOptions.tags[tag].icon" avatar>
-                          <q-icon :name="timelineOptions.tags[tag].icon"/>
+                          <q-icon :name="timelineOptions.tags[tag].icon" />
                         </q-item-section>
                         <q-item-section>
                           {{ timelineOptions.tags[tag].label }}
@@ -72,18 +57,16 @@
                         v-if="timelineOptions.timelineEvents[tooltipContent.identifier].tooltip.github || timelineOptions.timelineEvents[tooltipContent.identifier].tooltip.link"
                         class="tw-justify-end !tw-py-1">
                         <q-item-section v-if="timelineOptions.timelineEvents[tooltipContent.identifier].tooltip.github"
-                                        thumbnail class="!tw-pr-2">
-                          <q-btn flat color="tertiary" round
-                                 icon="lab la-github" type="a"
-                                 :href="timelineOptions.timelineEvents[tooltipContent.identifier].tooltip.github"
-                                 target="_blank" size="md"/>
+                          thumbnail class="!tw-pr-2">
+                          <q-btn flat color="tertiary" round icon="lab la-github" type="a"
+                            :href="timelineOptions.timelineEvents[tooltipContent.identifier].tooltip.github"
+                            target="_blank" size="md" />
                         </q-item-section>
                         <q-item-section v-if="timelineOptions.timelineEvents[tooltipContent.identifier].tooltip.link"
-                                        thumbnail class="!tw-pr-2">
-                          <q-btn flat color="tertiary" round
-                                 icon="launch" type="a"
-                                 :href="timelineOptions.timelineEvents[tooltipContent.identifier].tooltip.link"
-                                 target="_blank"/>
+                          thumbnail class="!tw-pr-2">
+                          <q-btn flat color="tertiary" round icon="launch" type="a"
+                            :href="timelineOptions.timelineEvents[tooltipContent.identifier].tooltip.link"
+                            target="_blank" />
                         </q-item-section>
                       </q-item>
                     </q-list>
@@ -95,14 +78,10 @@
         </q-expansion-item>
       </q-card-section>
       <q-card-section>
-        <q-expansion-item
-          expand-separator
-          default-opened
-          header-class="!tw-bg-black"
-        >
+        <q-expansion-item expand-separator default-opened header-class="!tw-bg-black">
           <template v-slot:header>
             <q-item-section avatar class="tw-pr-2 !tw-min-w-0 ">
-              <q-icon name="las la-stream"/>
+              <q-icon name="las la-stream" />
             </q-item-section>
             <q-item-section class="tw-text-xl">
               Experience
@@ -115,20 +94,19 @@
                   <q-expansion-item default-opened header-class="!tw-bg-black tw-text-lg">
                     <template v-slot:header>
                       <q-item-section avatar class="tw-pr-2 !tw-min-w-0 ">
-                        <q-icon name="work_outline"/>
+                        <q-icon name="work_outline" />
                       </q-item-section>
                       <q-item-section>
                         Work Experience
                       </q-item-section>
                     </template>
-                    <q-separator/>
+                    <q-separator />
                     <div class="tw-flex tw-flex-col tw-gap-3">
-                      <transition enter-active-class="animated fadeInDown"
-                                  leave-active-class="animated fadeOutUp">
+                      <transition enter-active-class="animated fadeInDown" leave-active-class="animated fadeOutUp">
                         <q-card class="!tw-shadow-xl"
-                                v-show="intersection(timelineOptions.timelineEvents.wpe.tags, timelineOptions.selectedTags).length">
+                          v-show="intersection(timelineOptions.timelineEvents.wpe.tags, timelineOptions.selectedTags).length">
                           <q-card-section horizontal
-                                          class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
+                            class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
                             <q-card-section class="tw-text-lg tw-py-0">
                               <q-item class="tw-p-0">
                                 <q-item-section>
@@ -142,7 +120,7 @@
                             <q-card-section class="tw-py-0 tw-flex md:tw-items-center">
                               <q-item class="tw-py-2 tw-px-0 tw-min-h-0">
                                 <q-item-section avatar class="tw-pr-3 tw-hidden md:tw-flex">
-                                  <q-icon name="schedule" class="tw-ml-auto" size="xs"/>
+                                  <q-icon name="schedule" class="tw-ml-auto" size="xs" />
                                 </q-item-section>
                                 <q-item-section>
                                   <q-item-label>
@@ -167,28 +145,26 @@
                             </q-item>
                             <q-item>
                               <q-item-section>
-                                Working as part of WP Engine's eCommerce team to provide new payment integration functionality for customers.
+                                Working as part of WP Engine's eCommerce team to provide new payment integration
+                                functionality for customers.
                               </q-item-section>
                             </q-item>
                           </q-list>
                           <q-card-section class="tw-grid tw-grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] tw-py-2">
                             <q-chip v-for="tag in timelineOptions.timelineEvents.wpe.tags" :key="tag"
-                                    :outline="!selectedChips.has(tag)" clickable v-ripple
-                                    square
-                                    :icon="timelineOptions.tags[tag].icon"
-                                    :color="selectedChips.has(tag) ? 'primary' : null"
-                                    :selected="selectedChips.has(tag)" class="tw-text-sm" @click="toggleChipTag(tag)">
+                              :outline="!selectedChips.has(tag)" clickable v-ripple square
+                              :icon="timelineOptions.tags[tag].icon" :color="selectedChips.has(tag) ? 'primary' : null"
+                              :selected="selectedChips.has(tag)" class="tw-text-sm" @click="toggleChipTag(tag)">
                               {{ timelineOptions.tags[tag].label }}
                             </q-chip>
                           </q-card-section>
                         </q-card>
                       </transition>
-                      <transition enter-active-class="animated fadeInDown"
-                                  leave-active-class="animated fadeOutUp">
+                      <transition enter-active-class="animated fadeInDown" leave-active-class="animated fadeOutUp">
                         <q-card class="!tw-shadow-xl"
-                                v-show="intersection(timelineOptions.timelineEvents.mtx.tags, timelineOptions.selectedTags).length">
+                          v-show="intersection(timelineOptions.timelineEvents.mtx.tags, timelineOptions.selectedTags).length">
                           <q-card-section horizontal
-                                          class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
+                            class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
                             <q-card-section class="tw-text-lg tw-py-0">
                               <q-item class="tw-p-0">
                                 <q-item-section>
@@ -202,7 +178,7 @@
                             <q-card-section class="tw-py-0 tw-flex md:tw-items-center">
                               <q-item class="tw-py-2 tw-px-0 tw-min-h-0">
                                 <q-item-section avatar class="tw-pr-3 tw-hidden md:tw-flex">
-                                  <q-icon name="schedule" class="tw-ml-auto" size="xs"/>
+                                  <q-icon name="schedule" class="tw-ml-auto" size="xs" />
                                 </q-item-section>
                                 <q-item-section>
                                   <q-item-label>
@@ -253,22 +229,19 @@
                           </q-list>
                           <q-card-section class="tw-grid tw-grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] tw-py-2">
                             <q-chip v-for="tag in timelineOptions.timelineEvents.mtx.tags" :key="tag"
-                                    :outline="!selectedChips.has(tag)" clickable v-ripple
-                                    square
-                                    :icon="timelineOptions.tags[tag].icon"
-                                    :color="selectedChips.has(tag) ? 'primary' : null"
-                                    :selected="selectedChips.has(tag)" class="tw-text-sm" @click="toggleChipTag(tag)">
+                              :outline="!selectedChips.has(tag)" clickable v-ripple square
+                              :icon="timelineOptions.tags[tag].icon" :color="selectedChips.has(tag) ? 'primary' : null"
+                              :selected="selectedChips.has(tag)" class="tw-text-sm" @click="toggleChipTag(tag)">
                               {{ timelineOptions.tags[tag].label }}
                             </q-chip>
                           </q-card-section>
                         </q-card>
                       </transition>
-                      <transition enter-active-class="animated fadeInDown"
-                                  leave-active-class="animated fadeOutUp">
+                      <transition enter-active-class="animated fadeInDown" leave-active-class="animated fadeOutUp">
                         <q-card class="!tw-shadow-xl"
-                                v-show="intersection(timelineOptions.timelineEvents.courseco.tags, timelineOptions.selectedTags).length">
+                          v-show="intersection(timelineOptions.timelineEvents.courseco.tags, timelineOptions.selectedTags).length">
                           <q-card-section horizontal
-                                          class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
+                            class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
                             <q-card-section class="tw-text-lg tw-py-0">
                               <q-item class="tw-p-0">
                                 <q-item-section>
@@ -282,7 +255,7 @@
                             <q-card-section class="tw-py-0 tw-flex md:tw-items-center">
                               <q-item class="tw-py-2 tw-px-0 tw-min-h-0">
                                 <q-item-section avatar class="tw-pr-3 tw-hidden md:tw-flex">
-                                  <q-icon name="schedule" class="tw-ml-auto" size="xs"/>
+                                  <q-icon name="schedule" class="tw-ml-auto" size="xs" />
                                 </q-item-section>
                                 <q-item-section>
                                   <q-item-label>
@@ -329,10 +302,9 @@
                           </q-list>
                           <q-card-section class="tw-grid tw-grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] tw-py-2">
                             <q-chip v-for="tag in timelineOptions.timelineEvents.courseco.tags" :key="tag"
-                                    :outline="!selectedChips.has(tag)"
-                                    clickable v-ripple square :icon="timelineOptions.tags[tag].icon"
-                                    :color="selectedChips.has(tag) ? 'primary' : null"
-                                    :selected="selectedChips.has(tag)" class="tw-text-sm" @click="toggleChipTag(tag)">
+                              :outline="!selectedChips.has(tag)" clickable v-ripple square
+                              :icon="timelineOptions.tags[tag].icon" :color="selectedChips.has(tag) ? 'primary' : null"
+                              :selected="selectedChips.has(tag)" class="tw-text-sm" @click="toggleChipTag(tag)">
                               {{ timelineOptions.tags[tag].label }}
                             </q-chip>
                           </q-card-section>
@@ -343,26 +315,25 @@
                   <q-expansion-item default-opened header-class="!tw-bg-black tw-text-lg">
                     <template v-slot:header>
                       <q-item-section avatar class="tw-pr-2 !tw-min-w-0 ">
-                        <q-icon name="school"/>
+                        <q-icon name="school" />
                       </q-item-section>
                       <q-item-section>
                         Education
                       </q-item-section>
                     </template>
-                    <q-separator/>
+                    <q-separator />
                     <div class="tw-flex tw-flex-col tw-gap-3">
-                      <transition enter-active-class="animated fadeInDown"
-                                  leave-active-class="animated fadeOutUp">
+                      <transition enter-active-class="animated fadeInDown" leave-active-class="animated fadeOutUp">
                         <q-card class="!tw-shadow-xl"
-                                v-show="intersection(timelineOptions.timelineEvents.internetSystemsDevelopment.tags, timelineOptions.selectedTags).length">
+                          v-show="intersection(timelineOptions.timelineEvents.internetSystemsDevelopment.tags, timelineOptions.selectedTags).length">
                           <q-card-section horizontal
-                                          class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
+                            class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
                             <q-card-section class="tw-text-lg tw-py-0">
                               <q-item class="tw-p-0">
                                 <q-item-section>
                                   <q-item-label>{{
                                       timelineOptions.timelineEvents.internetSystemsDevelopment.label
-                                    }}
+                                  }}
                                   </q-item-label>
                                   <q-item-label caption>
                                     {{ timelineOptions.timelineEvents.internetSystemsDevelopment.tooltip.label }}
@@ -373,7 +344,7 @@
                             <q-card-section class="tw-py-0 tw-flex md:tw-items-center">
                               <q-item class="tw-py-2 tw-px-0 tw-min-h-0">
                                 <q-item-section avatar class="tw-pr-3 tw-hidden md:tw-flex">
-                                  <q-icon name="schedule" class="tw-ml-auto" size="xs"/>
+                                  <q-icon name="schedule" class="tw-ml-auto" size="xs" />
                                 </q-item-section>
                                 <q-item-section>
                                   <q-item-label>
@@ -399,11 +370,9 @@
                           </q-list>
                           <q-card-section class="tw-grid tw-grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] tw-py-2">
                             <q-chip v-for="tag in timelineOptions.timelineEvents.internetSystemsDevelopment.tags"
-                                    :key="tag" :outline="!selectedChips.has(tag)"
-                                    clickable v-ripple square
-                                    :icon="timelineOptions.tags[tag].icon"
-                                    :color="selectedChips.has(tag) ? 'primary' : null"
-                                    :selected="selectedChips.has(tag)" class="tw-text-sm" @click="toggleChipTag(tag)">
+                              :key="tag" :outline="!selectedChips.has(tag)" clickable v-ripple square
+                              :icon="timelineOptions.tags[tag].icon" :color="selectedChips.has(tag) ? 'primary' : null"
+                              :selected="selectedChips.has(tag)" class="tw-text-sm" @click="toggleChipTag(tag)">
                               {{ timelineOptions.tags[tag].label }}
                             </q-chip>
                           </q-card-section>
@@ -414,20 +383,19 @@
                   <q-expansion-item default-opened header-class="!tw-bg-black tw-text-lg">
                     <template v-slot:header>
                       <q-item-section avatar class="tw-pr-2 !tw-min-w-0 ">
-                        <q-icon name="integration_instructions"/>
+                        <q-icon name="integration_instructions" />
                       </q-item-section>
                       <q-item-section class="tw-text-lg">
                         Side Projects
                       </q-item-section>
                     </template>
-                    <q-separator/>
+                    <q-separator />
                     <div class="tw-flex tw-flex-col tw-gap-3">
-                      <transition enter-active-class="animated fadeInDown"
-                                  leave-active-class="animated fadeOutUp">
+                      <transition enter-active-class="animated fadeInDown" leave-active-class="animated fadeOutUp">
                         <q-card class="!tw-shadow-xl"
-                                v-show="intersection(timelineOptions.timelineEvents.liamsarsfield.tags, timelineOptions.selectedTags).length">
+                          v-show="intersection(timelineOptions.timelineEvents.liamsarsfield.tags, timelineOptions.selectedTags).length">
                           <q-card-section horizontal
-                                          class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
+                            class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
                             <q-card-section class="tw-text-lg tw-py-0">
                               <q-item class="tw-p-0">
                                 <q-item-section>
@@ -441,7 +409,7 @@
                             <q-card-section class="tw-py-0 tw-flex md:tw-items-center">
                               <q-item class="tw-py-2 tw-px-0 tw-min-h-0">
                                 <q-item-section avatar class="tw-pr-3 tw-hidden md:tw-flex">
-                                  <q-icon name="schedule" class="tw-ml-auto" size="xs"/>
+                                  <q-icon name="schedule" class="tw-ml-auto" size="xs" />
                                 </q-item-section>
                                 <q-item-section>
                                   <q-item-label>
@@ -477,26 +445,24 @@
                           </q-list>
                           <q-card-section class="tw-grid tw-grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] tw-py-2">
                             <q-chip v-for="tag in timelineOptions.timelineEvents.liamsarsfield.tags" :key="tag"
-                                    :outline="!selectedChips.has(tag)"
-                                    clickable v-ripple square :icon="timelineOptions.tags[tag].icon"
-                                    :color="selectedChips.has(tag) ? 'primary' : null"
-                                    :selected="selectedChips.has(tag)" class="tw-text-sm" @click="toggleChipTag(tag)">
+                              :outline="!selectedChips.has(tag)" clickable v-ripple square
+                              :icon="timelineOptions.tags[tag].icon" :color="selectedChips.has(tag) ? 'primary' : null"
+                              :selected="selectedChips.has(tag)" class="tw-text-sm" @click="toggleChipTag(tag)">
                               {{ timelineOptions.tags[tag].label }}
                             </q-chip>
                           </q-card-section>
-                          <q-separator/>
+                          <q-separator />
                           <q-card-actions>
                             <q-btn flat round icon="lab la-github" type="a"
-                                   href="https://github.com/LiamSarsfield/liamsarsfielddev" target="_blank"/>
+                              href="https://github.com/LiamSarsfield/liamsarsfielddev" target="_blank" />
                           </q-card-actions>
                         </q-card>
                       </transition>
-                      <transition enter-active-class="animated fadeInDown"
-                                  leave-active-class="animated fadeOutUp">
+                      <transition enter-active-class="animated fadeInDown" leave-active-class="animated fadeOutUp">
                         <q-card class="!tw-shadow-xl"
-                                v-show="intersection(timelineOptions.timelineEvents.claimlink.tags, timelineOptions.selectedTags).length">
+                          v-show="intersection(timelineOptions.timelineEvents.claimlink.tags, timelineOptions.selectedTags).length">
                           <q-card-section horizontal
-                                          class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
+                            class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
                             <q-card-section class="tw-text-lg tw-py-0">
                               <q-item class="tw-p-0">
                                 <q-item-section>
@@ -510,7 +476,7 @@
                             <q-card-section class="tw-py-0 tw-flex md:tw-items-center">
                               <q-item class="tw-py-2 tw-px-0 tw-min-h-0">
                                 <q-item-section avatar class="tw-pr-3 tw-hidden md:tw-flex">
-                                  <q-icon name="schedule" class="tw-ml-auto" size="xs"/>
+                                  <q-icon name="schedule" class="tw-ml-auto" size="xs" />
                                 </q-item-section>
                                 <q-item-section>
                                   <q-item-label>
@@ -542,25 +508,23 @@
                           </q-list>
                           <q-card-section class="tw-grid tw-grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] tw-py-2">
                             <q-chip v-for="tag in timelineOptions.timelineEvents.claimlink.tags" :key="tag"
-                                    :outline="!selectedChips.has(tag)"
-                                    clickable v-ripple square :icon="timelineOptions.tags[tag].icon"
-                                    :color="selectedChips.has(tag) ? 'primary' : null"
-                                    :selected="selectedChips.has(tag)" class="tw-text-sm" @click="toggleChipTag(tag)">
+                              :outline="!selectedChips.has(tag)" clickable v-ripple square
+                              :icon="timelineOptions.tags[tag].icon" :color="selectedChips.has(tag) ? 'primary' : null"
+                              :selected="selectedChips.has(tag)" class="tw-text-sm" @click="toggleChipTag(tag)">
                               {{ timelineOptions.tags[tag].label }}
                             </q-chip>
                           </q-card-section>
-                          <q-separator/>
+                          <q-separator />
                           <q-card-actions>
-                            <q-btn flat round icon="launch" type="a" href="https://www.claimlink.net" target="_blank"/>
+                            <q-btn flat round icon="launch" type="a" href="https://www.claimlink.net" target="_blank" />
                           </q-card-actions>
                         </q-card>
                       </transition>
-                      <transition enter-active-class="animated fadeInDown"
-                                  leave-active-class="animated fadeOutUp">
+                      <transition enter-active-class="animated fadeInDown" leave-active-class="animated fadeOutUp">
                         <q-card class="!tw-shadow-xl"
-                                v-show="intersection(timelineOptions.timelineEvents.auxion.tags, timelineOptions.selectedTags).length">
+                          v-show="intersection(timelineOptions.timelineEvents.auxion.tags, timelineOptions.selectedTags).length">
                           <q-card-section horizontal
-                                          class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
+                            class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
                             <q-card-section class="tw-text-lg tw-py-0">
                               <q-item class="tw-p-0">
                                 <q-item-section>
@@ -574,7 +538,7 @@
                             <q-card-section class="tw-py-0 tw-flex md:tw-items-center">
                               <q-item class="tw-py-2 tw-px-0 tw-min-h-0">
                                 <q-item-section avatar class="tw-pr-3 tw-hidden md:tw-flex">
-                                  <q-icon name="schedule" class="tw-ml-auto" size="xs"/>
+                                  <q-icon name="schedule" class="tw-ml-auto" size="xs" />
                                 </q-item-section>
                                 <q-item-section>
                                   <q-item-label>
@@ -610,25 +574,23 @@
                           </q-list>
                           <q-card-section class="tw-grid tw-grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] tw-py-2">
                             <q-chip v-for="tag in timelineOptions.timelineEvents.auxion.tags" :key="tag"
-                                    :outline="!selectedChips.has(tag)"
-                                    clickable v-ripple square :icon="timelineOptions.tags[tag].icon"
-                                    :color="selectedChips.has(tag) ? 'primary' : null"
-                                    :selected="selectedChips.has(tag)" class="tw-text-sm" @click="toggleChipTag(tag)">
+                              :outline="!selectedChips.has(tag)" clickable v-ripple square
+                              :icon="timelineOptions.tags[tag].icon" :color="selectedChips.has(tag) ? 'primary' : null"
+                              :selected="selectedChips.has(tag)" class="tw-text-sm" @click="toggleChipTag(tag)">
                               {{ timelineOptions.tags[tag].label }}
                             </q-chip>
                           </q-card-section>
-                          <q-separator/>
+                          <q-separator />
                           <q-card-actions>
-                            <q-btn flat round icon="launch" type="a" href="https://auxion.net" target="_blank"/>
+                            <q-btn flat round icon="launch" type="a" href="https://auxion.net" target="_blank" />
                           </q-card-actions>
                         </q-card>
                       </transition>
-                      <transition enter-active-class="animated fadeInDown"
-                                  leave-active-class="animated fadeOutUp">
+                      <transition enter-active-class="animated fadeInDown" leave-active-class="animated fadeOutUp">
                         <q-card class="!tw-shadow-xl"
-                                v-show="intersection(timelineOptions.timelineEvents.checkersBot.tags, timelineOptions.selectedTags).length">
+                          v-show="intersection(timelineOptions.timelineEvents.checkersBot.tags, timelineOptions.selectedTags).length">
                           <q-card-section horizontal
-                                          class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
+                            class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
                             <q-card-section class="tw-text-lg tw-py-0">
                               <q-item class="tw-p-0">
                                 <q-item-section>
@@ -642,7 +604,7 @@
                             <q-card-section class="tw-py-0 tw-flex md:tw-items-center">
                               <q-item class="tw-py-2 tw-px-0 tw-min-h-0">
                                 <q-item-section avatar class="tw-pr-3 tw-hidden md:tw-flex">
-                                  <q-icon name="schedule" class="tw-ml-auto" size="xs"/>
+                                  <q-icon name="schedule" class="tw-ml-auto" size="xs" />
                                 </q-item-section>
                                 <q-item-section>
                                   <q-item-label>
@@ -679,28 +641,26 @@
                           </q-list>
                           <q-card-section class="tw-grid tw-grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] tw-py-2">
                             <q-chip v-for="tag in timelineOptions.timelineEvents.checkersBot.tags" :key="tag"
-                                    :outline="!selectedChips.has(tag)"
-                                    clickable v-ripple square :icon="timelineOptions.tags[tag].icon"
-                                    :color="selectedChips.has(tag) ? 'primary' : null"
-                                    :selected="selectedChips.has(tag)" class="tw-text-sm" @click="toggleChipTag(tag)">
+                              :outline="!selectedChips.has(tag)" clickable v-ripple square
+                              :icon="timelineOptions.tags[tag].icon" :color="selectedChips.has(tag) ? 'primary' : null"
+                              :selected="selectedChips.has(tag)" class="tw-text-sm" @click="toggleChipTag(tag)">
                               {{ timelineOptions.tags[tag].label }}
                             </q-chip>
                           </q-card-section>
-                          <q-separator/>
+                          <q-separator />
                           <q-card-actions>
-                            <q-btn flat round icon="launch" type="a"
-                                   href="https://discord.gg/RnAv9ZwPMY" target="_blank"/>
+                            <q-btn flat round icon="launch" type="a" href="https://discord.gg/RnAv9ZwPMY"
+                              target="_blank" />
                             <q-btn flat round icon="lab la-github" type="a"
-                                   href="https://github.com/LiamSarsfield/checkers-bot" target="_blank"/>
+                              href="https://github.com/LiamSarsfield/checkers-bot" target="_blank" />
                           </q-card-actions>
                         </q-card>
                       </transition>
-                      <transition enter-active-class="animated fadeInDown"
-                                  leave-active-class="animated fadeOutUp">
+                      <transition enter-active-class="animated fadeInDown" leave-active-class="animated fadeOutUp">
                         <q-card class="!tw-shadow-xl"
-                                v-show="intersection(timelineOptions.timelineEvents.groupProject.tags, timelineOptions.selectedTags).length">
+                          v-show="intersection(timelineOptions.timelineEvents.groupProject.tags, timelineOptions.selectedTags).length">
                           <q-card-section horizontal
-                                          class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
+                            class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
                             <q-card-section class="tw-text-lg tw-py-0">
                               <q-item class="tw-p-0">
                                 <q-item-section>
@@ -714,7 +674,7 @@
                             <q-card-section class="tw-py-0 tw-flex md:tw-items-center">
                               <q-item class="tw-py-2 tw-px-0 tw-min-h-0">
                                 <q-item-section avatar class="tw-pr-3 tw-hidden md:tw-flex">
-                                  <q-icon name="schedule" class="tw-ml-auto" size="xs"/>
+                                  <q-icon name="schedule" class="tw-ml-auto" size="xs" />
                                 </q-item-section>
                                 <q-item-section>
                                   <q-item-label>
@@ -750,17 +710,16 @@
                           </q-list>
                           <q-card-section class="tw-grid tw-grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] tw-py-2">
                             <q-chip v-for="tag in timelineOptions.timelineEvents.groupProject.tags" :key="tag"
-                                    :outline="!selectedChips.has(tag)"
-                                    clickable v-ripple square :icon="timelineOptions.tags[tag].icon"
-                                    :color="selectedChips.has(tag) ? 'primary' : null"
-                                    :selected="selectedChips.has(tag)" class="tw-text-sm" @click="toggleChipTag(tag)">
+                              :outline="!selectedChips.has(tag)" clickable v-ripple square
+                              :icon="timelineOptions.tags[tag].icon" :color="selectedChips.has(tag) ? 'primary' : null"
+                              :selected="selectedChips.has(tag)" class="tw-text-sm" @click="toggleChipTag(tag)">
                               {{ timelineOptions.tags[tag].label }}
                             </q-chip>
                           </q-card-section>
-                          <q-separator/>
+                          <q-separator />
                           <q-card-actions>
                             <q-btn flat round icon="lab la-github" type="a"
-                                   href="https://github.com/LiamSarsfield/Web-Project" target="_blank"/>
+                              href="https://github.com/LiamSarsfield/Web-Project" target="_blank" />
                           </q-card-actions>
                         </q-card>
                       </transition>
@@ -768,34 +727,25 @@
                   </q-expansion-item>
                 </q-list>
               </q-card-section>
-              <q-separator class="tw-hidden md:tw-block" vertical inset/>
-              <q-card-section
-                class="col-12 col-md tw-order-first md:tw-order-last tw-pb-0">
+              <q-separator class="tw-hidden md:tw-block" vertical inset />
+              <q-card-section class="col-12 col-md tw-order-first md:tw-order-last tw-pb-0">
                 <div class="tw-flex tw-flex-col tw-gap-2 tw-sticky tw-top-[50px]">
-                  <q-select
-                    filled
-                    v-model="selectedTimelineOptions"
-                    multiple
-                    :options="allTimelineOptions"
-                    stack-label
-                    label-slot
-                    color="secondary"
-                    options-dense
-                    :display-value="(allTimelineOptionsSelected) ? 'All Selected' : (selectedTimelineOptions.length > 0) ? 'Some Selected' : 'None Selected'"
-                  >
+                  <q-select filled v-model="selectedTimelineOptions" multiple :options="allTimelineOptions" stack-label
+                    label-slot color="secondary" options-dense
+                    :display-value="(allTimelineOptionsSelected) ? 'All Selected' : (selectedTimelineOptions.length > 0) ? 'Some Selected' : 'None Selected'">
                     <template v-slot:label>
                       My Languages
                     </template>
                     <template v-slot:prepend>
-                      <q-icon name="fas fa-layer-group" size="md"/>
+                      <q-icon name="fas fa-layer-group" size="md" />
                     </template>
                     <template v-slot:append>
                       <q-icon name="close" clickable @click.stop="allTimelineOptionsSelected = false"
-                              class="cursor-pointer"/>
+                        class="cursor-pointer" />
                     </template>
                     <template v-slot:before-options>
-                      <q-item clickable :class="{'tw-text-secondary': allTimelineOptionsSelected}"
-                              @click="allTimelineOptionsSelected = !allTimelineOptionsSelected" dense>
+                      <q-item clickable :class="{ 'tw-text-secondary': allTimelineOptionsSelected }"
+                        @click="allTimelineOptionsSelected = !allTimelineOptionsSelected" dense>
                         <q-item-section>
                           <q-item-label>Select All</q-item-label>
                         </q-item-section>
@@ -807,7 +757,7 @@
                     <template v-slot:option="{ itemProps, opt }">
                       <q-item v-bind="itemProps">
                         <q-item-section avatar v-if="opt.icon">
-                          <q-icon :name="opt.icon"/>
+                          <q-icon :name="opt.icon" />
                         </q-item-section>
                         <q-item-section>
                           <q-item-label>{{ opt.label }}</q-item-label>
@@ -820,41 +770,37 @@
                     <q-card-section class="tw-py-2">
                       <div class="tw-text-lg">Frontend</div>
                     </q-card-section>
-                    <q-separator/>
+                    <q-separator />
                     <q-card-section class="tw-py-1 tw-grid tw-grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))]">
                       <q-chip :outline="!selectedChips.has('html')" clickable v-ripple square
-                              :icon="timelineOptions.tags.html.icon"
-                              :color="selectedChips.has('html') ? 'primary' : null"
-                              :selected="selectedChips.has('html')" @click="toggleChipTag('html')">
+                        :icon="timelineOptions.tags.html.icon" :color="selectedChips.has('html') ? 'primary' : null"
+                        :selected="selectedChips.has('html')" @click="toggleChipTag('html')">
                         {{ timelineOptions.tags.html.label }}
                       </q-chip>
                       <q-chip :outline="!selectedChips.has('css')" clickable v-ripple square
-                              :icon="timelineOptions.tags.css.icon" :color="selectedChips.has('css') ? 'primary' : null"
-                              :selected="selectedChips.has('css')" @click="toggleChipTag('css')">
+                        :icon="timelineOptions.tags.css.icon" :color="selectedChips.has('css') ? 'primary' : null"
+                        :selected="selectedChips.has('css')" @click="toggleChipTag('css')">
                         {{ timelineOptions.tags.css.label }}
                       </q-chip>
                       <q-chip :outline="!selectedChips.has('javascript')" clickable v-ripple square
-                              :icon="timelineOptions.tags.javascript.icon"
-                              :color="selectedChips.has('javascript') ? 'primary' : null"
-                              :selected="selectedChips.has('javascript')" @click="toggleChipTag('javascript')">
+                        :icon="timelineOptions.tags.javascript.icon"
+                        :color="selectedChips.has('javascript') ? 'primary' : null"
+                        :selected="selectedChips.has('javascript')" @click="toggleChipTag('javascript')">
                         {{ timelineOptions.tags.javascript.label }}
                       </q-chip>
                       <q-chip :outline="!selectedChips.has('jquery')" clickable v-ripple square
-                              :icon="timelineOptions.tags.jquery.icon"
-                              :color="selectedChips.has('jquery') ? 'primary' : null"
-                              :selected="selectedChips.has('jquery')" @click="toggleChipTag('jquery')">
+                        :icon="timelineOptions.tags.jquery.icon" :color="selectedChips.has('jquery') ? 'primary' : null"
+                        :selected="selectedChips.has('jquery')" @click="toggleChipTag('jquery')">
                         {{ timelineOptions.tags.jquery.label }}
                       </q-chip>
                       <q-chip :outline="!selectedChips.has('vuejs')" clickable v-ripple square
-                              :icon="timelineOptions.tags.vuejs.icon"
-                              :color="selectedChips.has('vuejs') ? 'primary' : null"
-                              :selected="selectedChips.has('vuejs')" @click="toggleChipTag('vuejs')">
+                        :icon="timelineOptions.tags.vuejs.icon" :color="selectedChips.has('vuejs') ? 'primary' : null"
+                        :selected="selectedChips.has('vuejs')" @click="toggleChipTag('vuejs')">
                         {{ timelineOptions.tags.vuejs.label }}
                       </q-chip>
                       <q-chip :outline="!selectedChips.has('react')" clickable v-ripple square
-                              :icon="timelineOptions.tags.react.icon"
-                              :color="selectedChips.has('react') ? 'primary' : null"
-                              :selected="selectedChips.has('react')" @click="toggleChipTag('react')">
+                        :icon="timelineOptions.tags.react.icon" :color="selectedChips.has('react') ? 'primary' : null"
+                        :selected="selectedChips.has('react')" @click="toggleChipTag('react')">
                         {{ timelineOptions.tags.react.label }}
                       </q-chip>
                     </q-card-section>
@@ -864,41 +810,38 @@
                     <q-card-section class="tw-py-2">
                       <div class="tw-text-lg">Backend</div>
                     </q-card-section>
-                    <q-separator/>
+                    <q-separator />
                     <q-card-section class="tw-py-1 tw-grid tw-grid-cols-[repeat(auto-fill,minmax(7rem,_1fr))]">
                       <q-chip :outline="!selectedChips.has('nodeJS')" clickable v-ripple square
-                              :icon="timelineOptions.tags.nodeJS.icon"
-                              :color="selectedChips.has('nodeJS') ? 'primary' : null"
-                              :selected="selectedChips.has('nodeJS')" @click="toggleChipTag('nodeJS')">
+                        :icon="timelineOptions.tags.nodeJS.icon" :color="selectedChips.has('nodeJS') ? 'primary' : null"
+                        :selected="selectedChips.has('nodeJS')" @click="toggleChipTag('nodeJS')">
                         {{ timelineOptions.tags.nodeJS.label }}
                       </q-chip>
                       <q-chip :outline="!selectedChips.has('php')" clickable v-ripple square
-                              :icon="timelineOptions.tags.php.icon" :color="selectedChips.has('php') ? 'primary' : null"
-                              :selected="selectedChips.has('php')" @click="toggleChipTag('php')">
+                        :icon="timelineOptions.tags.php.icon" :color="selectedChips.has('php') ? 'primary' : null"
+                        :selected="selectedChips.has('php')" @click="toggleChipTag('php')">
                         {{ timelineOptions.tags.php.label }}
                       </q-chip>
                       <q-chip :outline="!selectedChips.has('laravel')" clickable v-ripple square
-                              :icon="timelineOptions.tags.laravel.icon"
-                              :color="selectedChips.has('laravel') ? 'primary' : null"
-                              :selected="selectedChips.has('laravel')" @click="toggleChipTag('laravel')">
+                        :icon="timelineOptions.tags.laravel.icon"
+                        :color="selectedChips.has('laravel') ? 'primary' : null"
+                        :selected="selectedChips.has('laravel')" @click="toggleChipTag('laravel')">
                         {{ timelineOptions.tags.laravel.label }}
                       </q-chip>
                       <q-chip :outline="!selectedChips.has('codeigniter')" clickable v-ripple square
-                              :icon="timelineOptions.tags.codeigniter.icon"
-                              :color="selectedChips.has('codeigniter') ? 'primary' : null"
-                              :selected="selectedChips.has('codeigniter')" @click="toggleChipTag('codeigniter')">
+                        :icon="timelineOptions.tags.codeigniter.icon"
+                        :color="selectedChips.has('codeigniter') ? 'primary' : null"
+                        :selected="selectedChips.has('codeigniter')" @click="toggleChipTag('codeigniter')">
                         {{ timelineOptions.tags.codeigniter.label }}
                       </q-chip>
                       <q-chip :outline="!selectedChips.has('mysql')" clickable v-ripple square
-                              :icon="timelineOptions.tags.mysql.icon"
-                              :color="selectedChips.has('mysql') ? 'primary' : null"
-                              :selected="selectedChips.has('mysql')" @click="toggleChipTag('mysql')">
+                        :icon="timelineOptions.tags.mysql.icon" :color="selectedChips.has('mysql') ? 'primary' : null"
+                        :selected="selectedChips.has('mysql')" @click="toggleChipTag('mysql')">
                         {{ timelineOptions.tags.mysql.label }}
                       </q-chip>
                       <q-chip :outline="!selectedChips.has('java')" clickable v-ripple square
-                              :icon="timelineOptions.tags.java.icon"
-                              :color="selectedChips.has('java') ? 'primary' : null"
-                              :selected="selectedChips.has('java')" @click="toggleChipTag('java')">
+                        :icon="timelineOptions.tags.java.icon" :color="selectedChips.has('java') ? 'primary' : null"
+                        :selected="selectedChips.has('java')" @click="toggleChipTag('java')">
                         {{ timelineOptions.tags.java.label }}
                       </q-chip>
                     </q-card-section>
@@ -923,7 +866,7 @@
                 class="tw-absolute tw-w-full tw-h-full group-hover:tw-bg-red-900 group-hover:tw-bg-none group-hover:tw-opacity-90 tw-bg-gradient-to-r tw-from-black tw-to-red-900 tw-opacity-70">
               </div>
               <ls-anchor href="https://auxion.net"
-                         className="tw-relative tw-flex tw-justify-center tw-align-center tw-py-2 tw-text-white">
+                className="tw-relative tw-flex tw-justify-center tw-align-center tw-py-2 tw-text-white">
                 auxion.net
                 <q-icon name="launch" class="tw-ml-1 tw-my-auto"></q-icon>
               </ls-anchor>
@@ -966,9 +909,9 @@
             </q-item>
           </q-list>
         </q-card-section>
-        <q-separator/>
+        <q-separator />
         <q-card-actions>
-          <q-btn flat round icon="launch" type="a" href="https://auxion.net" target="_blank"/>
+          <q-btn flat round icon="launch" type="a" href="https://auxion.net" target="_blank" />
         </q-card-actions>
       </q-card>
     </ls-dialog>
@@ -984,7 +927,7 @@
                 class="tw-absolute tw-w-full tw-h-full group-hover:tw-bg-orange-800 group-hover:tw-bg-none group-hover:tw-opacity-90 tw-bg-gradient-to-r tw-from-black tw-to-orange-700 tw-opacity-70">
               </div>
               <ls-anchor href="https://www.claimlink.net/"
-                         className="tw-relative tw-flex tw-justify-center tw-align-center tw-py-2 tw-text-white">
+                className="tw-relative tw-flex tw-justify-center tw-align-center tw-py-2 tw-text-white">
                 www.claimlink.net
                 <q-icon name="launch" class="tw-ml-1 tw-my-auto"></q-icon>
               </ls-anchor>
@@ -1009,9 +952,9 @@
             </q-item>
           </q-list>
         </q-card-section>
-        <q-separator/>
+        <q-separator />
         <q-card-actions>
-          <q-btn flat round icon="launch" type="a" href="https://www.claimlink.net/" target="_blank"/>
+          <q-btn flat round icon="launch" type="a" href="https://www.claimlink.net/" target="_blank" />
         </q-card-actions>
       </q-card>
     </ls-dialog>
@@ -1019,7 +962,7 @@
       <q-card class="!tw-w-[1120px] !tw-max-w-[80vw] text-caption">
         <div class="tw-h-[300px] tw-w-full tw-absolute tw-overflow-hidden tw-flex tw-justify-center">
           <img src="/img/modal-showcase/discord-checkers-bot/discord-checkers.png"
-               class="tw-absolute tw-w-[calc(100%-15px)]">
+            class="tw-absolute tw-w-[calc(100%-15px)]">
         </div>
         <q-card-section class="tw-p-0 scroll parallax-about-scroll parallax-scroll-target tw-max-h-[50vh]">
           <div class="tw-h-[150px] md:tw-h-[300px] tw-flex tw-flex-col">
@@ -1028,7 +971,7 @@
                 class="tw-absolute tw-w-full tw-h-full group-hover:tw-bg-yellow-700 group-hover:tw-bg-none group-hover:tw-opacity-90 tw-bg-gradient-to-r tw-from-black tw-to-yellow-700 tw-opacity-70">
               </div>
               <ls-anchor href="https://github.com/LiamSarsfield/checkers-bot"
-                         className="tw-relative tw-flex tw-justify-center tw-align-center tw-py-2 tw-text-white">
+                className="tw-relative tw-flex tw-justify-center tw-align-center tw-py-2 tw-text-white">
                 Discord Checkers Bot
                 <q-icon name="launch" class="tw-ml-1 tw-my-auto"></q-icon>
               </ls-anchor>
@@ -1052,12 +995,11 @@
             </q-item>
           </q-list>
         </q-card-section>
-        <q-separator/>
+        <q-separator />
         <q-card-actions>
-          <q-btn flat round icon="launch" type="a"
-                 href="https://discord.gg/RnAv9ZwPMY" target="_blank"/>
-          <q-btn flat round icon="lab la-github" type="a"
-                 href="https://github.com/LiamSarsfield/checkers-bot" target="_blank"/>
+          <q-btn flat round icon="launch" type="a" href="https://discord.gg/RnAv9ZwPMY" target="_blank" />
+          <q-btn flat round icon="lab la-github" type="a" href="https://github.com/LiamSarsfield/checkers-bot"
+            target="_blank" />
         </q-card-actions>
       </q-card>
     </ls-dialog>
@@ -1071,22 +1013,22 @@ import LsParallax from 'components/custom/LsParallax';
 import LsDialog from 'components/custom/LsDialog';
 import LsAnchor from 'components/custom/LsAnchor';
 import LsTimeline from 'components/custom/LsTimeline';
-import {isEqual, clone, intersection} from 'lodash';
-import {date} from 'quasar';
+import { isEqual, clone, intersection, range } from 'lodash';
+import { date } from 'quasar';
 
 // Needed so JSX event handlers can point to the store (which is updated in this event handler's hook)
 let _store = null;
 export default {
   name: 'PageIndex',
-  components: {LsTimeline, LsAnchor, LsDialog, VueTerminal, LsParallax},
+  components: { LsTimeline, LsAnchor, LsDialog, VueTerminal, LsParallax },
   /** https://quasar.dev/quasar-cli/prefetch-feature
    * "The preFetch hook runs only once, when the app boots up, so you can use this opportunity to initialize the Vuex Store here." */
-  preFetch({store}) {
+  preFetch({ store }) {
     store.registerModule('index', componentLiaison);
     store.commit('index/updateState', {
-      'auxionModal': {show: false},
-      'discordCheckersModal': {show: false},
-      'claimLinkCheckersModal': {show: false},
+      'auxionModal': { show: false },
+      'discordCheckersModal': { show: false },
+      'claimLinkCheckersModal': { show: false },
     });
   },
   /** START: Lifecycle Hooks */
@@ -1094,6 +1036,9 @@ export default {
     _store = this.$store;
     // Select all timeline options by default
     this.selectedTimelineOptions = this.allTimelineOptions;
+
+    // Map current min year (2016 with current year)
+    this.timelineOptions.timestamps = range((new Date()).getFullYear() - 2016 + 1).map(value => 2016 + value);
   },
   async mounted() {
     let _this = this;
@@ -1105,7 +1050,7 @@ export default {
       'htop',
       'vmstat',
     ];
-    let executionOptions = {terminalOptionsKey: this, typingAnimation: true, typingSpeed: 150};
+    let executionOptions = { terminalOptionsKey: this, typingAnimation: true, typingSpeed: 150 };
     for (let i = 0; i < commands.length; i++) {
       await vueCommandRef.executeTermCommand(commands[i], executionOptions);
       await _this.sleep(500);
@@ -1120,35 +1065,35 @@ export default {
           'whoami': () => <span>Enthusiastic web developer with a passion for software development and full-stack web development.</span>,
           'htop': () => <span>I have 3 years experience working with PHP (Laravel), MySQL, jQuery/JavaScript and CSS.
             I have also dabbled with Vue while experimenting with Node, GraphQL and Docker.</span>,
-          'vmstat': function() {
+          'vmstat': function () {
             return <span class="">Current portfolio includes:
-                <LsAnchor onClick={() => {
-                  // Communicate to the Index State that the Auxion, ClaimLink Modal, etc. needs to show when the user clicks the link
-                  _store.commit('index/updateState', {
-                    auxionModal: {
-                      ..._store.getters['index/getState'].auxionModal,
-                      show: true,
-                    },
-                  });
-                }} className="tw-cursor-pointer tw-text-red-600 hover:!tw-text-red-700"
-                          underlineGradient={['tw-from-gray-700', 'tw-to-red-900']}>
-                  auxion.net (Laravel/MySQL/jQuery/SCSS)</LsAnchor>,
-                <LsAnchor onClick={() => {
-                  _store.commit('index/updateState',
-                    {claimLinkCheckersModal: {..._store.getters['index/getState'].claimLinkCheckersModal, show: true}});
-                }} className="tw-cursor-pointer tw-text-orange-500 hover:!tw-text-orange-600"
-                          underlineGradient={['tw-from-gray-700', 'tw-to-orange-500']}>
-                  claimlink.net (Laravel/MySQL/jQuery/SCSS)</LsAnchor>,
-                <LsAnchor onClick={() => {
-                  _store.commit('index/updateState', {
-                    discordCheckersModal: {
-                      ..._store.getters['index/getState'].discordCheckersModal,
-                      show: true,
-                    },
-                  });
-                }} className="tw-cursor-pointer tw-text-yellow-500 hover:!tw-text-yellow-600"
-                          underlineGradient={['tw-from-gray-700', 'tw-to-yellow-800']}>
-                  Discord Checkers bot (Node.js/Discord.js)</LsAnchor>, and this website(Vue/Quasar Framework/Docker).</span>;
+              <LsAnchor onClick={() => {
+                // Communicate to the Index State that the Auxion, ClaimLink Modal, etc. needs to show when the user clicks the link
+                _store.commit('index/updateState', {
+                  auxionModal: {
+                    ..._store.getters['index/getState'].auxionModal,
+                    show: true,
+                  },
+                });
+              }} className="tw-cursor-pointer tw-text-red-600 hover:!tw-text-red-700"
+                underlineGradient={['tw-from-gray-700', 'tw-to-red-900']}>
+                auxion.net (Laravel/MySQL/jQuery/SCSS)</LsAnchor>,
+              <LsAnchor onClick={() => {
+                _store.commit('index/updateState',
+                  { claimLinkCheckersModal: { ..._store.getters['index/getState'].claimLinkCheckersModal, show: true } });
+              }} className="tw-cursor-pointer tw-text-orange-500 hover:!tw-text-orange-600"
+                underlineGradient={['tw-from-gray-700', 'tw-to-orange-500']}>
+                claimlink.net (Laravel/MySQL/jQuery/SCSS)</LsAnchor>,
+              <LsAnchor onClick={() => {
+                _store.commit('index/updateState', {
+                  discordCheckersModal: {
+                    ..._store.getters['index/getState'].discordCheckersModal,
+                    show: true,
+                  },
+                });
+              }} className="tw-cursor-pointer tw-text-yellow-500 hover:!tw-text-yellow-600"
+                underlineGradient={['tw-from-gray-700', 'tw-to-yellow-800']}>
+                Discord Checkers bot (Node.js/Discord.js)</LsAnchor>, and this website(Vue/Quasar Framework/Docker).</span>;
           },
         },
         styles: {
@@ -1163,60 +1108,59 @@ export default {
       },
       timelineOptions: {
         'tags': {
-          'html': {'label': 'HTML', 'icon': 'fab fa-html5'},
-          'css': {'label': 'CSS', 'icon': 'fab fa-css3-alt'},
-          'javascript': {'label': 'JavaScript', 'icon': 'fab fa-js'},
-          'jquery': {'label': 'jQuery', 'icon': 'fab fa-js-square'},
-          'vuejs': {'label': 'Vue.js', 'icon': 'fab fa-vuejs'},
-          'react': {'label': 'React', 'icon': 'fab fa-react'},
-          'nodeJS': {'label': 'NodeJS', 'icon': 'fab fa-node'},
-          'php': {'label': 'PHP', 'icon': 'fab fa-php'},
-          'laravel': {'label': 'Laravel', 'icon': 'fab fa-laravel'},
-          'codeigniter': {'label': 'CodeIgniter', 'icon': 'code'},
-          'mysql': {'label': 'MySQL', 'icon': 'fas fa-database'},
-          'java': {'label': 'Java', 'icon': 'fab fa-java'},
+          'html': { 'label': 'HTML', 'icon': 'fab fa-html5' },
+          'css': { 'label': 'CSS', 'icon': 'fab fa-css3-alt' },
+          'javascript': { 'label': 'JavaScript', 'icon': 'fab fa-js' },
+          'jquery': { 'label': 'jQuery', 'icon': 'fab fa-js-square' },
+          'vuejs': { 'label': 'Vue.js', 'icon': 'fab fa-vuejs' },
+          'react': { 'label': 'React', 'icon': 'fab fa-react' },
+          'nodeJS': { 'label': 'NodeJS', 'icon': 'fab fa-node' },
+          'php': { 'label': 'PHP', 'icon': 'fab fa-php' },
+          'laravel': { 'label': 'Laravel', 'icon': 'fab fa-laravel' },
+          'codeigniter': { 'label': 'CodeIgniter', 'icon': 'code' },
+          'mysql': { 'label': 'MySQL', 'icon': 'fas fa-database' },
+          'java': { 'label': 'Java', 'icon': 'fab fa-java' },
         },
         'selectedTags': [],
-        'timestamps': ['2016', '2017', '2018', '2019', '2020', '2021', '2022'],
+        'timestamps': [],
         'timelineEvents': {
           'internetSystemsDevelopment': {
             'label': 'B.S. in Internet Systems Development',
-            'tooltip': {'label': 'Limerick Institute Of Technology'},
+            'tooltip': { 'label': 'Limerick Institute Of Technology' },
             'borderColour': 'tw-border-yellow-300',
             'plot': {
-              'from': {'value': 2016, 'month': '4'},
-              'to': {'value': 2019, 'month': '8'},
+              'from': { 'value': 2016, 'month': '4' },
+              'to': { 'value': 2019, 'month': '8' },
             },
             'tags': ['html', 'javascript', 'jquery', 'css', 'php', 'codeigniter', 'java', 'mysql'],
           },
           'courseco': {
             'label': 'Full Stack Web Developer',
-            'tooltip': {'label': 'CourseCo - IdeaBubble'},
+            'tooltip': { 'label': 'CourseCo - IdeaBubble' },
             'borderColour': 'tw-border-green-400',
             'plot': {
-              'from': {'value': 2019, 'month': '3'},
-              'to': {'value': 2020, 'month': '3'},
+              'from': { 'value': 2019, 'month': '3' },
+              'to': { 'value': 2020, 'month': '3' },
             },
             'tags': ['html', 'javascript', 'jquery', 'css', 'php', 'mysql'],
           },
           'mtx': {
             'label': 'Software Developer',
-            'tooltip': {'label': 'Mackessy Technology'},
+            'tooltip': { 'label': 'Mackessy Technology' },
             'borderColour': 'tw-border-red-800',
             'plot': {
-              'from': {'value': 2020, 'month': '3'},
-              'to': {'value': 2022, 'month': '5'},
+              'from': { 'value': 2020, 'month': '4' },
+              'to': { 'value': 2022, 'month': '4' },
             },
             'tags': ['html', 'javascript', 'jquery', 'vuejs', 'css', 'php', 'laravel', 'mysql'],
           },
           'wpe': {
             'label': 'Software Engineer II',
-            'tooltip': {'label': 'WP Engine'},
+            'tooltip': { 'label': 'WP Engine' },
             'borderColour': 'tw-border-blue-500',
             'plot': {
-              // Todo: Fix the from/to with mtx and wpe not being calculating correctly
-              'from': {'value': 2022, 'month': '5'},
-              'to': {'value': 'now'},
+              'from': { 'value': 2022, 'month': '5' },
+              'to': { 'value': 'now' },
             },
             'tags': ['html', 'javascript', 'css', 'react', 'php'],
           },
@@ -1228,48 +1172,48 @@ export default {
             },
             'borderColour': 'tw-border-gray-600',
             'plot': {
-              'from': {'value': 2018, 'month': '10'},
-              'to': {'value': 2019, 'month': '5'},
+              'from': { 'value': 2018, 'month': '10' },
+              'to': { 'value': 2019, 'month': '5' },
             },
             'tags': ['html', 'javascript', 'jquery', 'css', 'php', 'codeigniter', 'mysql'],
           },
           'checkersBot': {
             'label': 'Checkers Bot',
-            'tooltip': {'label': 'Discord Checkers Bot', 'github': 'https://github.com/LiamSarsfield/checkers-bot'},
+            'tooltip': { 'label': 'Discord Checkers Bot', 'github': 'https://github.com/LiamSarsfield/checkers-bot' },
             'borderColour': 'tw-border-yellow-500',
             'plot': {
-              'from': {'value': 2019, 'month': '8'},
-              'to': {'value': 2020, 'month': '3'},
+              'from': { 'value': 2019, 'month': '8' },
+              'to': { 'value': 2020, 'month': '3' },
             },
             'tags': ['javascript', 'nodeJS'],
           },
           'auxion': {
             'label': 'auxion.net',
-            'tooltip': {'label': 'Brochure Website', 'link': 'https://auxion.net/'},
+            'tooltip': { 'label': 'Brochure Website', 'link': 'https://auxion.net/' },
             'borderColour': 'tw-border-red-600',
             'plot': {
-              'from': {'value': 2020, 'month': '9'},
-              'to': {'value': 2021, 'month': '3'},
+              'from': { 'value': 2020, 'month': '9' },
+              'to': { 'value': 2021, 'month': '3' },
             },
             'tags': ['html', 'javascript', 'jquery', 'css', 'php', 'laravel', 'mysql'],
           },
           'claimlink': {
             'label': 'claimlink.net',
-            'tooltip': {'label': 'Brochure Website', 'link': 'https://www.claimlink.net/'},
+            'tooltip': { 'label': 'Brochure Website', 'link': 'https://www.claimlink.net/' },
             'borderColour': 'tw-border-orange-500',
             'plot': {
-              'from': {'value': 2021, 'month': '3'},
-              'to': {'value': 2021, 'month': '9'},
+              'from': { 'value': 2021, 'month': '4' },
+              'to': { 'value': 2021, 'month': '9' },
             },
             'tags': ['html', 'javascript', 'jquery', 'css', 'php', 'laravel', 'mysql'],
           },
           'liamsarsfield': {
             'label': 'liamsarsfield.dev',
-            'tooltip': {'label': 'This Website :)', 'github': 'https://github.com/LiamSarsfield/liamsarsfielddev'},
+            'tooltip': { 'label': 'This Website :)', 'github': 'https://github.com/LiamSarsfield/liamsarsfielddev' },
             'borderColour': 'tw-border-blue-600',
             'plot': {
-              'from': {'value': 2021, 'month': '9'},
-              'to': {'value': 2022, 'month': '3'},
+              'from': { 'value': 2021, 'month': '10' },
+              'to': { 'value': 2022, 'month': '3' },
             },
             'tags': ['html', 'javascript', 'vuejs', 'css'],
           },
@@ -1289,7 +1233,7 @@ export default {
         return this.indexLiaison.auxionModal.show;
       },
       set(newValue) {
-        this.$store.commit('index/updateState', {auxionModal: {...this.indexLiaison.auxionModal, show: newValue}});
+        this.$store.commit('index/updateState', { auxionModal: { ...this.indexLiaison.auxionModal, show: newValue } });
       },
     },
     showDiscordCheckersModal: {
@@ -1323,7 +1267,7 @@ export default {
       return Object.keys(this.timelineOptions.tags);
     },
     allTimelineOptions() {
-      return this.allTimelineOptionsKeys.map((key) => ({value: key, ...this.timelineOptions.tags[key]}));
+      return this.allTimelineOptionsKeys.map((key) => ({ value: key, ...this.timelineOptions.tags[key] }));
     },
     allTimelineOptionsSelected: {
       get() {
@@ -1348,7 +1292,7 @@ export default {
 
         let timelineOptionDate = {};
         let fromDate = new Date(timelineEvent.plot.from.value, timelineEvent.plot.from.month && Number(timelineEvent.plot.from.month) - 1);
-        timelineOptionDate.from = fromDate.toLocaleDateString('en-US', {year: 'numeric', month: 'short'});
+        timelineOptionDate.from = fromDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
 
         let toDate;
         if (timelineEvent.plot.to.value === 'now') {
@@ -1359,7 +1303,7 @@ export default {
           })})`;
         } else {
           toDate = new Date(timelineEvent.plot.to.value, timelineEvent.plot.to.month && Number(timelineEvent.plot.to.month) - 1);
-          timelineOptionDate.to = `${toDate.toLocaleDateString('en-US', {year: 'numeric', month: 'short'})}`;
+          timelineOptionDate.to = `${toDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}`;
         }
 
         let durationMonths = Number(date.getDateDiff(toDate, fromDate, 'months'));
@@ -1388,7 +1332,7 @@ export default {
         let _this = this;
         if (newVal.size) {
           let timelineOptions = [];
-          _this.selectedChips.forEach((key) => timelineOptions.push({value: key, ...this.timelineOptions.tags[key]}));
+          _this.selectedChips.forEach((key) => timelineOptions.push({ value: key, ...this.timelineOptions.tags[key] }));
 
           _this.selectedTimelineOptions = timelineOptions;
         } else {
@@ -1408,4 +1352,5 @@ export default {
 </script>
 
 <style lang="scss">
+
 </style>
