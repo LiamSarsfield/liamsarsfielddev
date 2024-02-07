@@ -140,13 +140,19 @@
                           <q-list class="tw-px-3" dense bordered separator>
                             <q-item>
                               <q-item-section>
-                                Working with HTML, CSS, JavaScript/ECMAScript 6, React, Go, PHP, PostgreSQL.
+                                Working with HTML, CSS, TypeScript/JavaScript/ECMAScript 6, React, Go, PHP, PostgreSQL.
+                              </q-item-section>
+                            </q-item>
+                            <q-item>
+                              <q-item-section>
+                                Experience with integrating Google Cloud Platform's suite of infrastructure tools such as
+                                PubSub and Google Cloud Tracing using Terraform.
                               </q-item-section>
                             </q-item>
                             <q-item>
                               <q-item-section>
                                 Working as part of WP Engine's eCommerce product line to provide new payment integration
-                                functionality for customers.
+                                for customers.
                               </q-item-section>
                             </q-item>
                           </q-list>
@@ -332,7 +338,7 @@
                               <q-item class="tw-p-0">
                                 <q-item-section>
                                   <q-item-label>{{
-                                      timelineOptions.timelineEvents.internetSystemsDevelopment.label
+                                    timelineOptions.timelineEvents.internetSystemsDevelopment.label
                                   }}
                                   </q-item-label>
                                   <q-item-label caption>
@@ -823,8 +829,7 @@
                         {{ timelineOptions.tags.php.label }}
                       </q-chip>
                       <q-chip :outline="!selectedChips.has('laravel')" clickable v-ripple square
-                        :icon="timelineOptions.tags.laravel.icon"
-                        :color="selectedChips.has('laravel') ? 'primary' : null"
+                        :icon="timelineOptions.tags.laravel.icon" :color="selectedChips.has('laravel') ? 'primary' : null"
                         :selected="selectedChips.has('laravel')" @click="toggleChipTag('laravel')">
                         {{ timelineOptions.tags.laravel.label }}
                       </q-chip>
@@ -1067,9 +1072,9 @@ export default {
       terminalOptions: {
         commands: {
           // _this in the below objects refers to the VueTerminal Vue Instance
-          'whoami': () => <span>Enthusiastic web developer with a passion for software development and full-stack web development.</span>,
-          'htop': () => <span>I have 3 years experience working with PHP (Laravel), MySQL, jQuery/JavaScript and CSS.
-            I have also dabbled with Vue while experimenting with Node, GraphQL and Docker.</span>,
+          'whoami': () => <span>Enthusiastic software engineer with experience building secure and scalable software along with full-stack web development.</span>,
+          'htop': () => <span>I am currently working with GoLang and React/TypeScript along with 3 years experience working with PHP (Laravel), MySQL, jQuery/JavaScript and CSS.
+            I have also dabbled with Vue while experimenting with Node and GraphQL.</span>,
           'vmstat': function () {
             return <span class="">Current portfolio includes:
               <LsAnchor onClick={() => {
@@ -1357,6 +1362,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

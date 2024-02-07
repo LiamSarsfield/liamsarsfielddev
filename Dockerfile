@@ -1,7 +1,8 @@
-FROM node:15.9.0-alpine3.10
+FROM node:16.14.0-alpine
 WORKDIR /app
+COPY . /app
 COPY package*.json ./
-RUN yarn
-RUN yarn global add @quasar/cli
-COPY . .
+RUN yarn global add @quasar/cli && yarn install
+EXPOSE 80
+ENV CHOKIDAR_USEPOLLING 1
 CMD ["quasar", "dev"]

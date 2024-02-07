@@ -119,7 +119,7 @@ module.exports = function (/* ctx */) {
             workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
             workboxOptions: {}, // only for GenerateSW
             manifest: {
-                name: `Liam Sarsfield - Software Developer`,
+                name: `Liam Sarsfield - Software Engineer`,
                 short_name: `liamsarsfield.dev`,
                 description: `Liam Sarsfield's Website`,
                 display: 'standalone',
