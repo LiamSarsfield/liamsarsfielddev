@@ -9,12 +9,12 @@
               {{ label }}
             </span>
 
-            <q-btn flat icon="close" @click="menuExpanded = false"/>
+            <q-btn flat icon="close" @click="menuExpanded = false" />
           </q-bar>
         </slot>
         <q-item class="tw-pb-0">
           <q-item-section>
-            <slot name="tooltipContent" :menuExpanded="menuExpanded" :identifier="identifier"/>
+            <slot name="tooltipContent" :menuExpanded="menuExpanded" :identifier="identifier" />
           </q-item-section>
         </q-item>
       </q-menu>
@@ -61,11 +61,11 @@ export default {
       menuExpanded: false,
     };
   },
-  mounted() {},
+  mounted() { },
   computed: {
     classesParsed() {
       let _this = this;
-      let classes = {...this.classDefaults, ..._this.classes};
+      let classes = { ...this.classDefaults, ..._this.classes };
 
       if (_this.borderColour) {
         let borderClasses = {
@@ -87,5 +87,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

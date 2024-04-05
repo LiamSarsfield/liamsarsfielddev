@@ -175,15 +175,13 @@ export default {
       const _this = this;
       let timelineEventsParsed = [];
 
-      /**
-       * Compares the previous offset to the current iteration's offset in the below loop. If the timelineOffsetFloored is less than the prevTimelineTotalWidth, we assume
-       * we can put the current iteration on the same line as the previous
-       */
-      let prevTimelineTotalWidth = 100;
+      /** Compares the previous offset to the current iteration's offset in the below loop. */
 
       let tags = _this.tags;
       let tagKeys = Object.keys(tags);
       let selectedTags = _this.selectedTags;
+
+      let prevTimeline = null;
 
       for (let [key, timelineEvent] of Object.entries(_this.timelineEventsCloned)) {
         // Used for the v-for :key
@@ -207,30 +205,34 @@ export default {
         // The timeline must have at least one selected tag in order to appear on the timeline
         let timelineHasASelectedTag = (tagKeys.length > 0 && intersection(timelineEvent.tags, selectedTags).length !== 0);
 
-        let timelineWidth = round((timelineEvent.totalDuration / _this.totalDuration) * 100, 2);
+        timelineEvent.width = round((timelineEvent.totalDuration / _this.totalDuration) * 100, 1);
 
-        /** timelineOffset generates the offset % based on the timelineEvent's from value and the minTimestamp entered */
-        let timelineOffset = round(((timelineEvent.durationFromBase) / _this.totalDuration) * 100, 2);
+        /** timelineOffset generates the offset % based on the timelineEvent's "from" value and the minTimestamp entered */
+        timelineEvent.offset = round(((timelineEvent.durationFromBase) / _this.totalDuration) * 100, 2);
+        timelineEvent.totalOffset = timelineEvent.width + timelineEvent.offset;
 
-        let thisTimelineTotalWidth = timelineWidth + timelineOffset;
+        /** If the previous timeline intersects with this one's, ensure that this one's starts on a new line by making sure the previous timeline takes up the rest of the line's space */
+        if (prevTimeline?.plot?.to?.unix > timelineEvent?.plot?.from?.unix) {
+          prevTimeline.style['margin-right'] = `${round(100 - prevTimeline.totalOffset, 1)}%`;
+          prevTimeline.totalOffset = 100;
+        }
 
-        if (timelineOffset >= prevTimelineTotalWidth) {
+        if (!isNaN(prevTimeline?.totalOffset) && timelineEvent.offset >= prevTimeline.totalOffset) {
           /**
            * If the total space taken of the previous timeline is less than the offset of this timeline,
            * Both timelines can exist on the same line. Therefore, this timeline's offset can be reduced
            */
-          timelineOffset = timelineOffset - prevTimelineTotalWidth;
+          timelineEvent.offset = timelineEvent.offset - prevTimeline.totalOffset;
         }
 
-        timelineEvent['style'] = { 'width': `${timelineWidth}%`, 'margin-left': `${timelineOffset}%` };
+        timelineEvent['style'] = { 'width': `${timelineEvent.width}%`, 'margin-left': `${Math.floor(timelineEvent.offset)}%` };
         timelineEvent['class'] = { 'tw-hidden': !timelineHasASelectedTag };
 
         if (timelineHasASelectedTag) {
           // The total amount of space this timelineEvent takes up is assigned the prevTimelineTotalWidth
-          prevTimelineTotalWidth = thisTimelineTotalWidth;
+          prevTimeline = timelineEvent;
         }
 
-        // Remove the below properties from the object so the v-binding doesn't show them in the HTML
         timelineEventsParsed.push(timelineEvent);
       }
 
@@ -241,6 +243,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

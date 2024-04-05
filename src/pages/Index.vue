@@ -104,6 +104,78 @@
                     <div class="tw-flex tw-flex-col tw-gap-3">
                       <transition enter-active-class="animated fadeInDown" leave-active-class="animated fadeOutUp">
                         <q-card class="!tw-shadow-xl"
+                          v-show="intersection(timelineOptions.timelineEvents.wpeSenior.tags, timelineOptions.selectedTags).length">
+                          <q-card-section horizontal
+                            class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
+                            <q-card-section class="tw-text-lg tw-py-0">
+                              <q-item class="tw-p-0">
+                                <q-item-section>
+                                  <q-item-label>{{ timelineOptions.timelineEvents.wpeSenior.label }}</q-item-label>
+                                  <q-item-label caption>
+                                    {{ timelineOptions.timelineEvents.wpeSenior.tooltip.label }}
+                                  </q-item-label>
+                                </q-item-section>
+                              </q-item>
+                            </q-card-section>
+                            <q-card-section class="tw-py-0 tw-flex md:tw-items-center">
+                              <q-item class="tw-py-2 tw-px-0 tw-min-h-0">
+                                <q-item-section avatar class="tw-pr-3 tw-hidden md:tw-flex">
+                                  <q-icon name="schedule" class="tw-ml-auto" size="xs" />
+                                </q-item-section>
+                                <q-item-section>
+                                  <q-item-label>
+                                    {{ timelineOptionDates.wpeSenior.from }} to
+                                    {{ timelineOptionDates.wpeSenior.to }}
+                                    <span class="md:tw-hidden tw-italic">
+                                      ({{ timelineOptionDates.wpeSenior.duration }})
+                                    </span>
+                                  </q-item-label>
+                                  <q-item-label caption class="tw-hidden md:tw-block">
+                                    {{ timelineOptionDates.wpeSenior.duration }}
+                                  </q-item-label>
+                                </q-item-section>
+                              </q-item>
+                            </q-card-section>
+                          </q-card-section>
+                          <q-list class="tw-px-3" dense bordered separator>
+                            <q-item>
+                              <q-item-section>
+                                Working with HTML, CSS, TypeScript/JavaScript, React, Go, PHP, PostgreSQL.
+                              </q-item-section>
+                            </q-item>
+                            <q-item>
+                              <q-item-section>
+                                Experience with integrating Google Cloud Platform's suite of infrastructure tools within
+                                microservices such as Pub/Sub, Google Kubernetes Engine(GKE), Google BigQuery,
+                                and Google Cloud Tracing using Terraform.
+                              </q-item-section>
+                            </q-item>
+                            <q-item>
+                              <q-item-section>
+                                Lead Product initiatives from conception to implementation, entailing deep integration
+                                with Stripe's payment platform and WooCommerce Payment Gateway development.
+                              </q-item-section>
+                            </q-item>
+                            <q-item>
+                              <q-item-section>
+                                Took on the role of Agile Advocate for a newly formed team where I earned my Certified
+                                ScrumMaster certificate. I was responsible for guiding the team to ensure we adhered
+                                to Agile best practices, and helped guide the team to transition from Scrum to Kanban.
+                              </q-item-section>
+                            </q-item>
+                          </q-list>
+                          <q-card-section class="tw-grid tw-grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] tw-py-2">
+                            <q-chip v-for="tag in timelineOptions.timelineEvents.wpe.tags" :key="tag"
+                              :outline="!selectedChips.has(tag)" clickable v-ripple square
+                              :icon="timelineOptions.tags[tag].icon" :color="selectedChips.has(tag) ? 'primary' : null"
+                              :selected="selectedChips.has(tag)" class="tw-text-sm" @click="toggleChipTag(tag)">
+                              {{ timelineOptions.tags[tag].label }}
+                            </q-chip>
+                          </q-card-section>
+                        </q-card>
+                      </transition>
+                      <transition enter-active-class="animated fadeInDown" leave-active-class="animated fadeOutUp">
+                        <q-card class="!tw-shadow-xl"
                           v-show="intersection(timelineOptions.timelineEvents.wpe.tags, timelineOptions.selectedTags).length">
                           <q-card-section horizontal
                             class="tw-items-center tw-justify-between !tw-flex-wrap tw-px-3 tw-pt-2 md:tw-pb-2">
@@ -140,19 +212,7 @@
                           <q-list class="tw-px-3" dense bordered separator>
                             <q-item>
                               <q-item-section>
-                                Working with HTML, CSS, TypeScript/JavaScript/ECMAScript 6, React, Go, PHP, PostgreSQL.
-                              </q-item-section>
-                            </q-item>
-                            <q-item>
-                              <q-item-section>
-                                Experience with integrating Google Cloud Platform's suite of infrastructure tools such as
-                                PubSub and Google Cloud Tracing using Terraform.
-                              </q-item-section>
-                            </q-item>
-                            <q-item>
-                              <q-item-section>
-                                Working as part of WP Engine's eCommerce product line to provide new payment integration
-                                for customers.
+                                Promoted to Senior Software Engineer in October 2023.
                               </q-item-section>
                             </q-item>
                           </q-list>
@@ -338,8 +398,8 @@
                               <q-item class="tw-p-0">
                                 <q-item-section>
                                   <q-item-label>{{
-                                    timelineOptions.timelineEvents.internetSystemsDevelopment.label
-                                  }}
+            timelineOptions.timelineEvents.internetSystemsDevelopment.label
+          }}
                                   </q-item-label>
                                   <q-item-label caption>
                                     {{ timelineOptions.timelineEvents.internetSystemsDevelopment.tooltip.label }}
@@ -445,7 +505,7 @@
                             </q-item>
                             <q-item>
                               <q-item-section>
-                                Hosted using Docker via AWS Elastic Beanstalk.
+                                Hosted using in Google Cloud using Google Kubernetes Engine.
                               </q-item-section>
                             </q-item>
                           </q-list>
@@ -737,7 +797,7 @@
               <q-card-section class="col-12 col-md tw-order-first md:tw-order-last tw-pb-0">
                 <div class="tw-flex tw-flex-col tw-gap-2 tw-sticky tw-top-[50px]">
                   <q-select filled v-model="selectedTimelineOptions" multiple :options="allTimelineOptions" stack-label
-                    label-slot color="secondary" options-dense
+                    label-slot color="teal-5" options-dense
                     :display-value="(allTimelineOptionsSelected) ? 'All Selected' : (selectedTimelineOptions.length > 0) ? 'Some Selected' : 'None Selected'">
                     <template v-slot:label>
                       My Languages
@@ -750,7 +810,7 @@
                         class="cursor-pointer" />
                     </template>
                     <template v-slot:before-options>
-                      <q-item clickable :class="{ 'tw-text-secondary': allTimelineOptionsSelected }"
+                      <q-item clickable :class="{ 'tw-text-teal-500': allTimelineOptionsSelected }"
                         @click="allTimelineOptionsSelected = !allTimelineOptionsSelected" dense>
                         <q-item-section>
                           <q-item-label>Select All</q-item-label>
@@ -829,7 +889,8 @@
                         {{ timelineOptions.tags.php.label }}
                       </q-chip>
                       <q-chip :outline="!selectedChips.has('laravel')" clickable v-ripple square
-                        :icon="timelineOptions.tags.laravel.icon" :color="selectedChips.has('laravel') ? 'primary' : null"
+                        :icon="timelineOptions.tags.laravel.icon"
+                        :color="selectedChips.has('laravel') ? 'primary' : null"
                         :selected="selectedChips.has('laravel')" @click="toggleChipTag('laravel')">
                         {{ timelineOptions.tags.laravel.label }}
                       </q-chip>
@@ -1073,10 +1134,10 @@ export default {
         commands: {
           // _this in the below objects refers to the VueTerminal Vue Instance
           'whoami': () => <span>Enthusiastic software engineer with experience building secure and scalable software along with full-stack web development.</span>,
-          'htop': () => <span>I am currently working with GoLang and React/TypeScript along with 3 years experience working with PHP (Laravel), MySQL, jQuery/JavaScript and CSS.
+          'htop': () => <span>I am currently working with GoLang, React/TypeScript and WordPress/WooCommerce integrations. Along with multiple years working with PHP (Laravel), MySQL, jQuery/JavaScript and CSS.
             I have also dabbled with Vue while experimenting with Node and GraphQL.</span>,
-          'vmstat': function () {
-            return <span class="">Current portfolio includes:
+          'vmstat': () =>
+            <span class="">Public portfolio includes:
               <LsAnchor onClick={() => {
                 // Communicate to the Index State that the Auxion, ClaimLink Modal, etc. needs to show when the user clicks the link
                 _store.commit('index/updateState', {
@@ -1103,8 +1164,7 @@ export default {
                 });
               }} className="tw-cursor-pointer tw-text-yellow-500 hover:!tw-text-yellow-600"
                 underlineGradient={['tw-from-gray-700', 'tw-to-yellow-800']}>
-                Discord Checkers bot (Node.js/Discord.js)</LsAnchor>, and this website(Vue/Quasar Framework/Docker).</span>;
-          },
+                Discord Checkers bot (Node.js/Discord.js)</LsAnchor>, and this website(Vue/Quasar Framework).</span>
         },
         styles: {
           backgroundColor: 'red',
@@ -1171,6 +1231,16 @@ export default {
             'borderColour': 'tw-border-blue-500',
             'plot': {
               'from': { 'value': 2022, 'month': '5' },
+              'to': { 'value': 2023, 'month': '9' },
+            },
+            'tags': ['html', 'javascript', 'css', 'react', 'golang', 'php'],
+          },
+          'wpeSenior': {
+            'label': 'Senior Software Engineer',
+            'tooltip': { 'label': 'WP Engine' },
+            'borderColour': 'tw-border-blue-500',
+            'plot': {
+              'from': { 'value': 2023, 'month': '10' },
               'to': { 'value': 'now' },
             },
             'tags': ['html', 'javascript', 'css', 'react', 'golang', 'php'],
