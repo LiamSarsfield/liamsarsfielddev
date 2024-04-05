@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frontend-ingress
+  namespace: liamsarsfielddev
+  annotations:
+    # This tells Google Cloud to create an External Load Balancer to realize this Ingress
+    spec.ingressClassName: gce
+    # This enables HTTP connections from Internet clients
+    kubernetes.io/ingress.allow-http: "true"
+    # This tells Google Cloud to associate the External Load Balancer with the static IP which we created earlier
+    kubernetes.io/ingress.global-static-ip-name: web-ip
+    cert-manager.io/issuer: letsencrypt-production
+spec:
+  tls:
+    - secretName: web-ssl
+      hosts:
+        - liamsarsfield.dev
+  defaultBackend:
+    service:
+      name: ingress-relay
+      port:
+        number: 80

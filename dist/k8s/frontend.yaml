@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: liamsarsfielddev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: liamsarsfielddev
+  template:
+    metadata:
+      labels:
+        app: liamsarsfielddev
+    spec:
+      containers:
+        - name: liamsarsfielddev1
+          image: europe-west1-docker.pkg.dev/liam-land/liamsarsfielddev/liamsarsfielddev:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80

@@ -1,10 +1,10 @@
 version: "3.7"
 services:
-  liamsarsfielddev:
+  liamsarsfielddev-1:
     image: node:16.14.0-alpine
     command: sh -c "yarn global add @quasar/cli && yarn install && quasar dev"
     ports:
-      - 80:80
+      - 8080:80
     working_dir: /app
     volumes:
       - ./:/app
