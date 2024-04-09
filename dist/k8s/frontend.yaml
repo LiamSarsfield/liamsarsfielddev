@@ -19,3 +19,8 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 80
+      tolerations:
+        - key: "dedicated"
+          operator: "Equal"
+          value: "main"
+          effect: "NoExecute"

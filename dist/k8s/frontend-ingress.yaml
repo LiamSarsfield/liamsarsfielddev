@@ -15,6 +15,7 @@ spec:
   tls:
     - secretName: web-ssl
       hosts:
+        - www.liamsarsfield.dev
         - liamsarsfield.dev
   defaultBackend:
     service:

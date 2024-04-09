@@ -1,4 +1,4 @@
-# issuer-lets-encrypt-staging.yaml
+# issuer-lets-encrypt-production.yaml
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
