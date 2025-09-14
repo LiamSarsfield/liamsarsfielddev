@@ -29,40 +29,28 @@
             <q-item-section class="text-h6">Experience</q-item-section>
           </template>
           <div class="q-pa-md">
-            <q-card flat bordered class="q-mb-md">
-              <q-card-section class="row items-center">
-                <q-icon name="work_outline" class="q-mr-sm" />
-                <div class="text-subtitle1">Selected Roles</div>
-                <q-space />
-                <div class="text-caption">
-                  <q-icon name="schedule" class="q-mr-xs" size="xs" />
-                  Timeline overview
-                </div>
-              </q-card-section>
-              <q-separator />
-              <q-list dense>
-                <q-item>
-                  <q-item-section>
-                    Working with HTML, CSS, TypeScript/JavaScript, React, Go, PHP, PostgreSQL.
-                  </q-item-section>
-                </q-item>
-                <q-item>
-                  <q-item-section>
-                    Experience integrating Google Cloud Platform tools (Pub/Sub, GKE, BigQuery,
-                    Cloud Tracing) with Terraform.
-                  </q-item-section>
-                </q-item>
-                <q-item>
-                  <q-item-section>
-                    Led product initiatives including Stripe integrations and WooCommerce gateway
-                    development.
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </q-card>
-            <div class="text-caption text-grey-7">
-              More detailed timeline will be migrated in a later step.
-            </div>
+            <LsTimeline
+              :tags="timeline.tags"
+              :selected-tags="timeline.selectedTags"
+              :timestamps="timeline.timestamps"
+              :timeline-events="timeline.timelineEvents"
+            >
+              <template #timelineEventTooltipContent="{ identifier }">
+                <q-list dense separator>
+                  <q-item>
+                    <q-item-section>
+                      <q-item-label class="text-weight-medium">
+                        {{ timeline.timelineEvents[identifier].tooltip.label }}
+                      </q-item-label>
+                      <q-item-label caption>
+                        {{ timelineDates[identifier].from }} to {{ timelineDates[identifier].to }}
+                        <span class="text-italic"> ({{ timelineDates[identifier].duration }})</span>
+                      </q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </template>
+            </LsTimeline>
           </div>
         </q-expansion-item>
       </q-card-section>
@@ -105,8 +93,72 @@
   </q-page>
 </template>
 
-<script setup lang="ts">
+<script setup>
 // No Tailwind; using Quasar grid/utilities and components
+import LsTimeline from 'components/custom/LsTimeline.vue';
+import { computed } from 'vue';
+import { date } from 'quasar';
+
+const timeline = {
+  tags: {
+    work: { label: 'Work', icon: 'work_outline' },
+    cloud: { label: 'Cloud', icon: 'cloud' },
+    product: { label: 'Product', icon: 'settings' },
+  },
+  selectedTags: ['work', 'cloud', 'product'],
+  timestamps: [2018, 2019, 2020, 2021, 2022, 2023, new Date().getFullYear()],
+  timelineEvents: {
+    wpeSenior: {
+      label: 'Senior Software Engineer · WPEngine',
+      tags: ['work', 'cloud', 'product'],
+      plot: {
+        from: { value: 2021, month: 1 },
+        to: { value: 'now' },
+      },
+      tooltip: {
+        label: 'Senior Software Engineer at WPEngine',
+      },
+      borderColour: 'white',
+    },
+    wpe: {
+      label: 'Software Engineer · WPEngine',
+      tags: ['work'],
+      plot: {
+        from: { value: 2018, month: 6 },
+        to: { value: 2021, month: 1 },
+      },
+      tooltip: {
+        label: 'Software Engineer at WPEngine',
+      },
+      borderColour: 'white',
+    },
+  },
+};
+
+const timelineDates = computed(() => {
+  const res = {};
+  for (const key of Object.keys(timeline.timelineEvents)) {
+    const ev = timeline.timelineEvents[key];
+    const from = new Date(ev.plot.from.value, (ev.plot.from.month || 1) - 1);
+    const to =
+      ev.plot.to.value === 'now'
+        ? new Date()
+        : new Date(
+            ev.plot.to.value,
+            ev.plot.to && ev.plot.to.month ? ev.plot.to.month - 1 : 11,
+            31,
+          );
+    const months = date.getDateDiff(to, from, 'months') + 1;
+    const years = Math.floor(months / 12);
+    const remMonths = months % 12;
+    res[key] = {
+      from: date.formatDate(from, 'MMM YYYY'),
+      to: ev.plot.to.value === 'now' ? 'Present' : date.formatDate(to, 'MMM YYYY'),
+      duration: `${years ? years + 'y ' : ''}${remMonths ? remMonths + 'm' : ''}`.trim(),
+    };
+  }
+  return res;
+});
 </script>
 
 <style scoped></style>

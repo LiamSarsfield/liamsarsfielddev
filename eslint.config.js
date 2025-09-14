@@ -2,8 +2,11 @@ import js from '@eslint/js';
 import globals from 'globals';
 import pluginVue from 'eslint-plugin-vue';
 import pluginQuasar from '@quasar/app-vite/eslint';
-import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript';
+import { defineConfigWithVueTs, vueTsConfigs, configureVueProject } from '@vue/eslint-config-typescript';
 import prettierSkipFormatting from '@vue/eslint-config-prettier/skip-formatting';
+
+// Allow both TS and JS in <script> blocks for Vue SFCs during migration
+configureVueProject({ scriptLangs: ['ts', 'js'] });
 
 export default defineConfigWithVueTs(
   {
@@ -67,6 +70,19 @@ export default defineConfigWithVueTs(
 
       // allow debugger during development only
       'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    },
+  },
+
+  // Allow JS in Vue SFC scripts during migration (override block-lang)
+  {
+    files: ['**/*.vue'],
+    rules: {
+      'vue/block-lang': [
+        'error',
+        {
+          script: { lang: ['ts', 'js'], allowNoLang: true },
+        },
+      ],
     },
   },
 
