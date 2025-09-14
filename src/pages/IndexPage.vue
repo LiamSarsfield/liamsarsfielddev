@@ -133,83 +133,80 @@
                     <div class="col q-gutter-sm">
                       <q-separator />
                       <!-- WPE Senior -->
-                      <q-card
+                      <InfoCard
                         v-show="hasAnyTag(timeline.timelineEvents.wpeSenior.tags)"
-                        flat
-                        class="q-pa-none q-mt-none"
-                      >
-                        <q-card-section
-                          horizontal
-                          header
-                          class="q-px-md q-py-sm items-center justify-between"
-                        >
-                          <q-card-section class="q-py-none">
-                            <div class="text-h6">Senior Software Engineer</div>
-                            <div class="text-caption">WP Engine</div>
-                          </q-card-section>
-                          <q-card-section horizontal>
-                            <q-icon class="q-mr-md q-my-auto" name="schedule" size="xs" />
-                            <div>
-                              <div class="row items-center">
-                                {{ timelineDates.wpeSenior.from }} to
-                                {{ timelineDates.wpeSenior.to }}
-                              </div>
-                              <span class="row text-caption">
-                                ({{ timelineDates.wpeSenior.duration }})
-                              </span>
-                            </div>
-                          </q-card-section>
-                        </q-card-section>
-                        <q-list dense bordered separator class="q-px-md">
-                          <q-item>
-                            <q-item-section>
-                              Working with HTML, CSS, TypeScript/JavaScript, React, Go, PHP,
-                              PostgreSQL.
-                            </q-item-section>
-                          </q-item>
-                          <q-item>
-                            <q-item-section>
-                              Experience with integrating Google Cloud Platform's suite of
-                              infrastructure tools within microservices such as Pub/Sub, Google
-                              Kubernetes Engine(GKE), Google BigQuery, and Google Cloud Tracing
-                              using Terraform.
-                            </q-item-section>
-                          </q-item>
-                          <q-item>
-                            <q-item-section>
-                              Lead Product initiatives from conception to implementation, entailing
-                              deep integration with Stripe's payment platform and WooCommerce
-                              Payment Gateway development.
-                            </q-item-section>
-                          </q-item>
-                          <q-item>
-                            <q-item-section>
-                              Took on the role of Agile Advocate for a newly formed team where I
-                              earned my Certified ScrumMaster certificate. I was responsible for
-                              guiding the team to ensure we adhered to Agile best practices, and
-                              helped guide the team to transition from Scrum to Kanban.
-                            </q-item-section>
-                          </q-item>
-                        </q-list>
-                        <q-card-section class="q-py-sm">
-                          <q-chip
-                            v-for="tag in timeline.timelineEvents.wpe.tags"
-                            :key="tag"
-                            :outline="!hasTag(tag)"
-                            :color="hasTag(tag) ? 'primary' : void 0"
-                            clickable
-                            square
-                            @click="toggleChip(tag)"
-                          >
-                            <q-icon
-                              v-if="timeline.tags[tag].icon"
-                              :name="timeline.tags[tag].icon"
-                              class="q-mr-md"
-                            />
-                            {{ timeline.tags[tag].label }}
-                          </q-chip>
-                        </q-card-section>
-                      </q-card>
+                        title="Senior Software Engineer"
+                        subtitle="WP Engine"
+                        :from="timelineDates.wpeSenior.from"
+                        :to="timelineDates.wpeSenior.to"
+                        :duration="timelineDates.wpeSenior.duration"
+                        :bullets="[
+                          'Working with HTML, CSS, TypeScript/JavaScript, React, Go, PHP, PostgreSQL.',
+                          'Experience with integrating Google Cloud Platform\'s suite of infrastructure tools within microservices such as Pub/Sub, Google Kubernetes Engine(GKE), Google BigQuery, and Google Cloud Tracing using Terraform.',
+                          'Lead Product initiatives from conception to implementation, entailing deep integration with Stripe\'s payment platform and WooCommerce Payment Gateway development.',
+                          'Took on the role of Agile Advocate for a newly formed team where I earned my Certified ScrumMaster certificate. I was responsible for guiding the team to ensure we adhered to Agile best practices, and helped guide the team to transition from Scrum to Kanban.',
+                        ]"
+                        :tags="timeline.timelineEvents.wpe.tags"
+                        :tagMeta="timeline.tags"
+                        :selectedKeys="selectedTags"
+                        @toggle="toggleChip"
+                      />
+                      <!-- WPE -->
+                      <InfoCard
+                        v-show="hasAnyTag(timeline.timelineEvents.wpe.tags)"
+                        title="Software Engineer"
+                        subtitle="WP Engine"
+                        :from="timelineDates.wpe.from"
+                        :to="timelineDates.wpe.to"
+                        :duration="timelineDates.wpe.duration"
+                        :bullets="['Promoted to Senior Software Engineer in October 2023.']"
+                        :tags="timeline.timelineEvents.wpe.tags"
+                        :tagMeta="timeline.tags"
+                        :selectedKeys="selectedTags"
+                        @toggle="toggleChip"
+                      />
+
+                      <!-- Mackessy Technology -->
+                      <InfoCard
+                        v-show="hasAnyTag(timeline.timelineEvents.mtx.tags)"
+                        title="Software Engineer"
+                        subtitle="Mackessy Technology"
+                        :from="timelineDates.mtx.from"
+                        :to="timelineDates.mtx.to"
+                        :duration="timelineDates.mtx.duration"
+                        :bullets="[
+                          'Working with HTML, CSS, JavaScript/ECMAScript 6, jQuery, Vue.js/Vue 3, PHP/Laravel, GraphQL, MySQL.',
+                          'Took lead and integrated a third-party Vehicle AI Damage Analysis API into one of Mackessy Technology\'s products.',
+                          'Developed a feature that informs users on when an auction was viewed or when a bid was placed in near real-time with minimal system performance impact.',
+                          'Worked as part of a team to develop an algorithm that determines whether a vehicle involved in an accident would be determined as repairable or written-off.',
+                          'Implemented a weather API that displays hourly weather information based on GPS coordinates and a date.',
+                        ]"
+                        :tags="timeline.timelineEvents.mtx.tags"
+                        :tagMeta="timeline.tags"
+                        :selectedKeys="selectedTags"
+                        @toggle="toggleChip"
+                      />
+
+                      <!-- CourseCo -->
+                      <InfoCard
+                        v-show="hasAnyTag(timeline.timelineEvents.courseco.tags)"
+                        title="Full Stack Web Developer"
+                        subtitle="CourseCo - IdeaBubble"
+                        :from="timelineDates.courseco.from"
+                        :to="timelineDates.courseco.to"
+                        :duration="timelineDates.courseco.duration"
+                        :bullets="[
+                          'Working with HTML, CSS, jQuery, PHP/Kohana, MySQL.',
+                          'Using disciplined Git Workflow integrated with Jira.',
+                          'Adopting Agile development to provide Minimal Viable Products to customers.',
+                          'Expanded upon the product\'s messaging functionality by allowing users to bulk message contacts in the system.',
+                          'Experience in accurately planning and estimating tickets.',
+                        ]"
+                        :tags="timeline.timelineEvents.courseco.tags"
+                        :tagMeta="timeline.tags"
+                        :selectedKeys="selectedTags"
+                        @toggle="toggleChip"
+                      />
                     </div>
                   </q-expansion-item>
 
@@ -222,57 +219,19 @@
                   >
                     <div class="col q-gutter-sm">
                       <q-separator />
-                      <q-card
+                      <InfoCard
                         v-show="hasAnyTag(timeline.timelineEvents.internetSystemsDevelopment.tags)"
-                        flat
-                        class="q-pa-none q-mt-none"
-                      >
-                        <q-card-section
-                          horizontal
-                          header
-                          class="q-px-md q-py-sm items-center justify-between"
-                        >
-                          <q-card-section class="q-py-none">
-                            <div class="text-h6">Internet Systems Development</div>
-                            <div class="text-caption">Limerick Institute Of Technology</div>
-                          </q-card-section>
-                          <q-card-section horizontal>
-                            <q-icon class="q-mr-md q-my-auto" name="schedule" size="xs" />
-                            <div>
-                              <div class="row items-center">
-                                {{ timelineDates.internetSystemsDevelopment.from }} to
-                                {{ timelineDates.internetSystemsDevelopment.to }}
-                              </div>
-                              <span class="row text-caption">
-                                ({{ timelineDates.internetSystemsDevelopment.duration }})
-                              </span>
-                            </div>
-                          </q-card-section>
-                        </q-card-section>
-                        <q-list dense bordered separator class="q-px-md">
-                          <q-item>
-                            <q-item-section> Passed with Distinction (70% GPA). </q-item-section>
-                          </q-item>
-                        </q-list>
-                        <q-card-section class="q-py-sm">
-                          <q-chip
-                            v-for="tag in timeline.timelineEvents.internetSystemsDevelopment.tags"
-                            :key="tag"
-                            :outline="!hasTag(tag)"
-                            :color="hasTag(tag) ? 'primary' : void 0"
-                            clickable
-                            square
-                            @click="toggleChip(tag)"
-                          >
-                            <q-icon
-                              v-if="timeline.tags[tag].icon"
-                              :name="timeline.tags[tag].icon"
-                              class="q-mr-md"
-                            />
-                            {{ timeline.tags[tag].label }}
-                          </q-chip>
-                        </q-card-section>
-                      </q-card>
+                        title="B.S. in Internet Systems Development"
+                        subtitle="Limerick Institute Of Technology"
+                        :from="timelineDates.internetSystemsDevelopment.from"
+                        :to="timelineDates.internetSystemsDevelopment.to"
+                        :duration="timelineDates.internetSystemsDevelopment.duration"
+                        :bullets="['Passed with Distinction (70% GPA).']"
+                        :tags="timeline.timelineEvents.internetSystemsDevelopment.tags"
+                        :tagMeta="timeline.tags"
+                        :selectedKeys="selectedTags"
+                        @toggle="toggleChip"
+                      />
                     </div>
                   </q-expansion-item>
 
@@ -285,68 +244,157 @@
                   >
                     <div class="col q-gutter-sm">
                       <q-separator />
-                      <q-card
+                      <InfoCard
                         v-show="hasAnyTag(timeline.timelineEvents.liamsarsfield.tags)"
-                        flat
-                        class="q-pa-none q-mt-none"
+                        title="liamsarsfield.dev"
+                        subtitle="This Website :)"
+                        :from="timelineDates.liamsarsfield.from"
+                        :to="timelineDates.liamsarsfield.to"
+                        :duration="timelineDates.liamsarsfield.duration"
+                        :bullets="[
+                          'Personal website which was originally written in Vue 2 and then migrated to Vue 3.',
+                          'Uses Vue\'s Quasar Framework.',
+                          'Hosted using in Google Cloud using Google Kubernetes Engine.',
+                        ]"
+                        :tags="timeline.timelineEvents.liamsarsfield.tags"
+                        :tagMeta="timeline.tags"
+                        :selectedKeys="selectedTags"
+                        @toggle="toggleChip"
                       >
-                        <q-card-section
-                          horizontal
-                          header
-                          class="q-px-md q-py-sm items-center justify-between"
-                        >
-                          <q-card-section class="q-py-none">
-                            <div class="text-h6">liamsarsfield.dev</div>
-                            <div class="text-caption">This Website :)</div>
-                          </q-card-section>
-                          <q-card-section horizontal>
-                            <q-icon class="q-mr-md q-my-auto" name="schedule" size="xs" />
-                            <div>
-                              <div class="row items-center">
-                                {{ timelineDates.liamsarsfield.from }} to
-                                {{ timelineDates.liamsarsfield.to }}
-                              </div>
-                              <span class="row text-caption">
-                                ({{ timelineDates.liamsarsfield.duration }})
-                              </span>
-                            </div>
-                          </q-card-section>
-                        </q-card-section>
-                        <q-list dense bordered separator class="q-px-md">
-                          <q-item>
-                            <q-item-section>
-                              Personal website which was originally written in Vue 2 and then
-                              migrated to Vue 3.
-                            </q-item-section>
-                          </q-item>
-                          <q-item>
-                            <q-item-section> Uses Vue's Quasar Framework. </q-item-section>
-                          </q-item>
-                          <q-item>
-                            <q-item-section>
-                              Hosted using in Google Cloud using Google Kubernetes Engine.
-                            </q-item-section>
-                          </q-item>
-                        </q-list>
-                        <q-card-section class="q-py-sm">
-                          <q-chip
-                            v-for="tag in timeline.timelineEvents.internetSystemsDevelopment.tags"
-                            :key="tag"
-                            :outline="!hasTag(tag)"
-                            :color="hasTag(tag) ? 'primary' : void 0"
-                            clickable
-                            square
-                            @click="toggleChip(tag)"
-                          >
-                            <q-icon
-                              v-if="timeline.tags[tag].icon"
-                              :name="timeline.tags[tag].icon"
-                              class="q-mr-md"
-                            />
-                            {{ timeline.tags[tag].label }}
-                          </q-chip>
-                        </q-card-section>
-                      </q-card>
+                        <template #actions>
+                          <q-btn
+                            flat
+                            round
+                            icon="lab la-github"
+                            type="a"
+                            href="https://github.com/LiamSarsfield/liamsarsfielddev"
+                            target="_blank"
+                          />
+                        </template>
+                      </InfoCard>
+
+                      <InfoCard
+                        v-show="hasAnyTag(timeline.timelineEvents.claimlink.tags)"
+                        title="claimlink.net"
+                        subtitle="Brochure Website"
+                        :from="timelineDates.claimlink.from"
+                        :to="timelineDates.claimlink.to"
+                        :duration="timelineDates.claimlink.duration"
+                        :bullets="[
+                          'Brochure website developed for one of Mackessy Technology\'s products.',
+                          'Displays information regarding the product\'s functionality which sends a ClaimLink (mobile web application) to a claimant to help process their claim.',
+                        ]"
+                        :tags="timeline.timelineEvents.claimlink.tags"
+                        :tagMeta="timeline.tags"
+                        :selectedKeys="selectedTags"
+                        @toggle="toggleChip"
+                      >
+                        <template #actions>
+                          <q-btn
+                            flat
+                            round
+                            icon="launch"
+                            type="a"
+                            href="https://www.claimlink.net"
+                            target="_blank"
+                          />
+                        </template>
+                      </InfoCard>
+
+                      <InfoCard
+                        v-show="hasAnyTag(timeline.timelineEvents.auxion.tags)"
+                        title="auxion.net"
+                        subtitle="Brochure Website"
+                        :from="timelineDates.auxion.from"
+                        :to="timelineDates.auxion.to"
+                        :duration="timelineDates.auxion.duration"
+                        :bullets="[
+                          'Brochure website developed for one of Mackessy Technology\'s products.',
+                          'Displays a carousel of salvage vehicles currently in auction.',
+                          'Salvage Agents can register for the platform using an online registration form.',
+                        ]"
+                        :tags="timeline.timelineEvents.auxion.tags"
+                        :tagMeta="timeline.tags"
+                        :selectedKeys="selectedTags"
+                        @toggle="toggleChip"
+                      >
+                        <template #actions>
+                          <q-btn
+                            flat
+                            round
+                            icon="launch"
+                            type="a"
+                            href="https://auxion.net"
+                            target="_blank"
+                          />
+                        </template>
+                      </InfoCard>
+
+                      <InfoCard
+                        v-show="hasAnyTag(timeline.timelineEvents.checkersBot.tags)"
+                        title="Discord Checkers Bot"
+                        subtitle="Discord Checkers Bot"
+                        :from="timelineDates.checkersBot.from"
+                        :to="timelineDates.checkersBot.to"
+                        :duration="timelineDates.checkersBot.duration"
+                        :bullets="[
+                          'A node.js web application where users can play checkers with each other.',
+                          'Uses object-oriented programming and recursive functionality to enforce the rules of checkers.',
+                          'Hosted on an AWS EC2 Ubuntu server.',
+                        ]"
+                        :tags="timeline.timelineEvents.checkersBot.tags"
+                        :tagMeta="timeline.tags"
+                        :selectedKeys="selectedTags"
+                        @toggle="toggleChip"
+                      >
+                        <template #actions>
+                          <q-btn
+                            flat
+                            round
+                            icon="launch"
+                            type="a"
+                            href="https://discord.gg/RnAv9ZwPMY"
+                            target="_blank"
+                          />
+                          <q-btn
+                            flat
+                            round
+                            icon="lab la-github"
+                            type="a"
+                            href="https://github.com/LiamSarsfield/checkers-bot"
+                            target="_blank"
+                          />
+                        </template>
+                      </InfoCard>
+
+                      <InfoCard
+                        v-show="hasAnyTag(timeline.timelineEvents.groupProject.tags)"
+                        title="Group Project"
+                        subtitle="Group Project With My Course"
+                        :from="timelineDates.groupProject.from"
+                        :to="timelineDates.groupProject.to"
+                        :duration="timelineDates.groupProject.duration"
+                        :bullets="[
+                          '4-person group project where I took team lead.',
+                          'Users can create customer accounts and purchase products on a store.',
+                          'Staff members can update stock, view orders and progress customer orders statuses.',
+                        ]"
+                        :tags="timeline.timelineEvents.groupProject.tags"
+                        :tagMeta="timeline.tags"
+                        :selectedKeys="selectedTags"
+                        @toggle="toggleChip"
+                      >
+                        <template #actions>
+                          <q-btn
+                            flat
+                            round
+                            icon="lab la-github"
+                            type="a"
+                            href="https://github.com/LiamSarsfield/Web-Project"
+                            target="_blank"
+                          />
+                        </template>
+                      </InfoCard>
                     </div>
                   </q-expansion-item>
                 </q-list>
@@ -474,6 +522,7 @@
 <script setup>
 // No Tailwind; using Quasar grid/utilities and components
 import LsTimeline from 'components/custom/LsTimeline.vue';
+import InfoCard from 'components/InfoCard.vue';
 import { computed, ref } from 'vue';
 import { date } from 'quasar';
 
@@ -637,9 +686,6 @@ const selectedTags = computed(() => selectedTimelineOptions.value.map(({ value }
 
 function hasAnyTag(tags) {
   return tags.some((t) => selectedTags.value.includes(t));
-}
-function hasTag(tag) {
-  return selectedTags.value.includes(tag);
 }
 function toggleChip(chip) {
   if (selectedTags.value.includes(chip)) {
