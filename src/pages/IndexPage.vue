@@ -118,7 +118,7 @@
           header-class="bg-black text-white text-h6"
         >
           <!-- Left: Work Experience, Education, Side Projects -->
-          <q-card>
+          <q-card class="bg-dark-80">
             <q-card-section horizontal>
               <q-card-section class="col-12 col-md-8">
                 <q-list class="col q-gutter-md">
@@ -130,9 +130,9 @@
                     header-class="bg-black text-white"
                     class="q-gap-sm"
                   >
-                    <div class="col q-gutter-sm">
-                      <q-separator />
-                      <!-- WPE Senior -->
+                    <q-separator />
+
+                    <div class="column gap-md">
                       <InfoCard
                         v-show="hasAnyTag(timeline.timelineEvents.wpeSenior.tags)"
                         title="Senior Software Engineer"
@@ -151,7 +151,7 @@
                         :selectedKeys="selectedTags"
                         @toggle="toggleChip"
                       />
-                      <!-- WPE -->
+
                       <InfoCard
                         v-show="hasAnyTag(timeline.timelineEvents.wpe.tags)"
                         title="Software Engineer"
@@ -166,7 +166,6 @@
                         @toggle="toggleChip"
                       />
 
-                      <!-- Mackessy Technology -->
                       <InfoCard
                         v-show="hasAnyTag(timeline.timelineEvents.mtx.tags)"
                         title="Software Engineer"
@@ -187,7 +186,6 @@
                         @toggle="toggleChip"
                       />
 
-                      <!-- CourseCo -->
                       <InfoCard
                         v-show="hasAnyTag(timeline.timelineEvents.courseco.tags)"
                         title="Full Stack Web Developer"
@@ -402,114 +400,116 @@
               <q-separator vertical inset class="q-display-none q-display-md-block q-my-md" />
               <!-- Right: Filters panel -->
               <q-card-section>
-                <q-select
-                  filled
-                  v-model="selectedTimelineOptions"
-                  multiple
-                  :options="allTimelineOptions"
-                  stack-label
-                  label-slot
-                  color="teal-5"
-                  options-dense
-                  :display-value="
-                    allTimelineOptionsSelected
-                      ? 'All Selected'
-                      : selectedTimelineOptions.length > 0
-                        ? 'Some Selected'
-                        : 'None Selected'
-                  "
-                >
-                  <template #label> My Languages </template>
-                  <template #prepend>
-                    <q-icon name="fas fa-layer-group" size="md" />
-                  </template>
-                  <template #append>
-                    <q-icon
-                      name="close"
-                      clickable
-                      @click.stop="allTimelineOptionsSelected = false"
-                      class="cursor-pointer"
-                    />
-                  </template>
-                  <template #before-options>
-                    <q-item
-                      clickable
-                      @click="allTimelineOptionsSelected = !allTimelineOptionsSelected"
-                      dense
-                    >
-                      <q-item-section>
-                        <q-item-label>Select All</q-item-label>
-                      </q-item-section>
-                      <q-item-section side>
-                        <q-checkbox v-model="allTimelineOptionsSelected" />
-                      </q-item-section>
-                    </q-item>
-                  </template>
-                  <template #option="{ itemProps, opt }">
-                    <q-item v-bind="itemProps">
-                      <q-item-section avatar v-if="opt.icon">
-                        <q-icon :name="opt.icon" />
-                      </q-item-section>
-                      <q-item-section>
-                        <q-item-label>{{ opt.label }}</q-item-label>
-                      </q-item-section>
-                    </q-item>
-                  </template>
-                </q-select>
-
-                <q-card flat bordered>
-                  <q-card-section class="q-py-sm">
-                    <div class="text-caption text-uppercase">Frontend</div>
-                  </q-card-section>
-                  <q-separator />
-                  <q-card-section class="q-pt-sm">
-                    <div class="row q-col-gutter-sm">
-                      <q-chip
-                        v-for="key in frontendKeys"
-                        :key="key"
-                        :outline="!selectedTags.includes(key)"
-                        :color="selectedTags.includes(key) ? 'primary' : void 0"
+                <div class="column gap-sm position-sticky">
+                  <q-select
+                    filled
+                    v-model="selectedTimelineOptions"
+                    multiple
+                    :options="allTimelineOptions"
+                    stack-label
+                    label-slot
+                    color="teal-5"
+                    options-dense
+                    :display-value="
+                      allTimelineOptionsSelected
+                        ? 'All Selected'
+                        : selectedTimelineOptions.length > 0
+                          ? 'Some Selected'
+                          : 'None Selected'
+                    "
+                  >
+                    <template #label> My Languages </template>
+                    <template #prepend>
+                      <q-icon name="fas fa-layer-group" size="md" />
+                    </template>
+                    <template #append>
+                      <q-icon
+                        name="close"
                         clickable
-                        square
-                        @click="toggleChip(key)"
-                      >
-                        <q-icon
-                          v-if="timeline.tags[key].icon"
-                          :name="timeline.tags[key].icon"
-                          class="q-mr-md"
-                        />
-                        {{ timeline.tags[key].label }}
-                      </q-chip>
-                    </div>
-                  </q-card-section>
-                </q-card>
-
-                <q-card flat bordered>
-                  <q-card-section class="q-py-sm">
-                    <div class="text-caption text-uppercase">Backend</div>
-                  </q-card-section>
-                  <q-separator />
-                  <q-card-section class="q-pt-sm">
-                    <div class="row q-col-gutter-sm">
-                      <q-chip
-                        v-for="key in backendKeys"
-                        :key="key"
-                        :outline="!selectedTags.includes(key)"
-                        :color="selectedTags.includes(key) ? 'primary' : void 0"
+                        @click.stop="allTimelineOptionsSelected = false"
+                        class="cursor-pointer"
+                      />
+                    </template>
+                    <template #before-options>
+                      <q-item
                         clickable
-                        square
-                        @click="toggleChip(key)"
+                        @click="allTimelineOptionsSelected = !allTimelineOptionsSelected"
+                        dense
                       >
-                        <q-icon
-                          v-if="timeline.tags[key].icon"
-                          :name="timeline.tags[key].icon"
-                          class="q-mr-sm"
-                        />
-                        {{ timeline.tags[key].label }}
-                      </q-chip>
-                    </div>
-                  </q-card-section>
-                </q-card>
+                        <q-item-section>
+                          <q-item-label>Select All</q-item-label>
+                        </q-item-section>
+                        <q-item-section side>
+                          <q-checkbox v-model="allTimelineOptionsSelected" />
+                        </q-item-section>
+                      </q-item>
+                    </template>
+                    <template #option="{ itemProps, opt }">
+                      <q-item v-bind="itemProps">
+                        <q-item-section avatar v-if="opt.icon">
+                          <q-icon :name="opt.icon" />
+                        </q-item-section>
+                        <q-item-section>
+                          <q-item-label>{{ opt.label }}</q-item-label>
+                        </q-item-section>
+                      </q-item>
+                    </template>
+                  </q-select>
+
+                  <q-card flat>
+                    <q-card-section class="q-py-sm">
+                      <div class="text-h6">Frontend</div>
+                    </q-card-section>
+                    <q-separator />
+                    <q-card-section class="q-pt-md q-pb-sm">
+                      <div class="row q-col-gutter-sm">
+                        <q-chip
+                          v-for="key in frontendKeys"
+                          :key="key"
+                          :outline="!selectedTags.includes(key)"
+                          :color="selectedTags.includes(key) ? 'primary' : void 0"
+                          clickable
+                          square
+                          @click="toggleChip(key)"
+                        >
+                          <q-icon
+                            v-if="timeline.tags[key].icon"
+                            :name="timeline.tags[key].icon"
+                            class="q-mr-md"
+                          />
+                          {{ timeline.tags[key].label }}
+                        </q-chip>
+                      </div>
+                    </q-card-section>
+                  </q-card>
+
+                  <q-card flat>
+                    <q-card-section class="q-py-sm">
+                      <div class="text-h6">Backend</div>
+                    </q-card-section>
+                    <q-separator />
+                    <q-card-section class="q-pt-md q-pb-sm">
+                      <div class="row q-col-gutter-sm">
+                        <q-chip
+                          v-for="key in backendKeys"
+                          :key="key"
+                          :outline="!selectedTags.includes(key)"
+                          :color="selectedTags.includes(key) ? 'primary' : void 0"
+                          clickable
+                          square
+                          @click="toggleChip(key)"
+                        >
+                          <q-icon
+                            v-if="timeline.tags[key].icon"
+                            :name="timeline.tags[key].icon"
+                            class="q-mr-sm"
+                          />
+                          {{ timeline.tags[key].label }}
+                        </q-chip>
+                      </div>
+                    </q-card-section>
+                  </q-card>
+                </div>
               </q-card-section>
             </q-card-section>
           </q-card>

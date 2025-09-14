@@ -27,7 +27,7 @@
     </q-list>
     <slot v-else />
 
-    <q-card-section v-if="tags && tags.length" class="q-py-sm">
+    <q-card-section v-if="tags && tags.length" class="q-py-xs">
       <q-chip
         v-for="key in tags"
         :key="key"

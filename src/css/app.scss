@@ -76,3 +76,73 @@ body.desktop.body--dark {
     color: $grey-5;
   }
 }
+
+.bg-dark-80 {
+  background-color: rgba($dark, 0.8);
+}
+
+.position-sticky {
+  position: sticky;
+  top: 50px;
+}
+// --------------------------------------------------
+// Gap utilities (true CSS gap, not gutters)
+// Usage examples:
+//  - Base:           class="gap-md" or "gap-x-sm gap-y-lg"
+//  - Responsive:     class="sm:gap-sm md:gap-md xl:gap-lg"
+// Notes:
+//  - Works with both flex and grid layouts
+//  - Do not mix with Quasar q-gutter-* on the same container
+// --------------------------------------------------
+$gap-sizes: (
+  '0': 0,
+  'xs': 4px,
+  'sm': 8px,
+  'md': 16px,
+  'lg': 24px,
+  'xl': 32px,
+);
+
+@mixin gen-gap-classes($prefix: null) {
+  @each $name, $val in $gap-sizes {
+    $class-prefix: '';
+    @if $prefix != null {
+      // Escape the colon for CSS selectors (e.g., .sm\:gap-md)
+      $class-prefix: '.' + $prefix + '\\:';
+    }
+
+    // Overall gap
+    #{$class-prefix}.gap-#{$name} {
+      gap: $val !important;
+    }
+    // Horizontal gap
+    #{$class-prefix}.gap-x-#{$name} {
+      column-gap: $val !important;
+    }
+    // Vertical gap
+    #{$class-prefix}.gap-y-#{$name} {
+      row-gap: $val !important;
+    }
+  }
+}
+
+// Base (no breakpoint) utilities
+@include gen-gap-classes();
+
+// Responsive variants aligned to custom breakpoints from quasar.variables.scss
+// xs: 0..1023
+@media (max-width: $breakpoint-xs-max) {
+  @include gen-gap-classes('xs');
+}
+// sm: 1024..1439
+@media (min-width: $breakpoint-sm-min) and (max-width: $breakpoint-sm-max) {
+  @include gen-gap-classes('sm');
+}
+// md: 1440..1919
+@media (min-width: $breakpoint-md-min) and (max-width: $breakpoint-md-max) {
+  @include gen-gap-classes('md');
+}
+// xl: 1920+
+@media (min-width: $breakpoint-xl-min) {
+  @include gen-gap-classes('xl');
+}
