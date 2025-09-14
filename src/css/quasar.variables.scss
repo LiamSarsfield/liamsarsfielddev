@@ -30,24 +30,25 @@ $breakpoint-xl-min: 1920px;
 
 // Theme colors (migrated from old project)
 $primary: #001427;
-$secondary: #708d81;
+$secondary: #34405d;
 $accent: #bf0603;
 
 $dark: #1d1d1d;
 $dark-page: #121212;
 
-$positive: #21ba45;
+$positive: #95de5d;
 $negative: #c10015;
-$info: #31ccec;
+$info: #f3722c;
 $warning: #f2c037;
 
-// Custom additional brand colors used in legacy app
 $custom-variables: (
   'tertiary': #f4d58d,
   'quaternary': #8d0801,
 );
 
-$generic-border-radius: 0px;
+$tooltip-padding: 0px;
+$generic-border-radius: 4px;
+
 $h6: (
   size: 1.125rem,
   line-height: 2rem,

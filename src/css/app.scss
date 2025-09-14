@@ -58,14 +58,21 @@
   }
 }
 
-.q-item--dark .q-item__label.q-item__label--header {
-  color: white;
-  font-size: map.get($h6, 'size');
-  line-height: map.get($h6, 'line-height');
-  letter-spacing: map.get($h6, 'letter-spacing');
-  font-weight: map.get($h6, 'weight');
-}
+body.desktop.body--dark {
+  .q-card,
+  .q-menu {
+    &--dark {
+      box-shadow: $shadow-2;
+    }
+  }
 
-.text-caption {
-  color: $grey-5;
+  .q-chip {
+    &--clickable:focus {
+      box-shadow: none;
+    }
+  }
+
+  .text-caption {
+    color: $grey-5;
+  }
 }

@@ -44,7 +44,7 @@
                         timeline.timelineEvents[identifier].tooltip.label
                       }}</q-item-label>
                       <q-item-label caption class="row items-center">
-                        <q-icon name="schedule" class="q-mr-xs" />
+                        <q-icon name="schedule" class="q-mr-md" />
                         {{ timelineDates[identifier].from }} to {{ timelineDates[identifier].to }}
                       </q-item-label>
                     </q-item-section>
@@ -195,15 +195,16 @@
                           <q-chip
                             v-for="tag in timeline.timelineEvents.wpe.tags"
                             :key="tag"
-                            :outline="!selectedTagsSet.has(tag)"
-                            :color="selectedTagsSet.has(tag) ? 'primary' : void 0"
+                            :outline="!hasTag(tag)"
+                            :color="hasTag(tag) ? 'primary' : void 0"
                             clickable
-                            @click="toggleTag(tag)"
+                            square
+                            @click="toggleChip(tag)"
                           >
                             <q-icon
                               v-if="timeline.tags[tag].icon"
                               :name="timeline.tags[tag].icon"
-                              class="q-mr-xs"
+                              class="q-mr-md"
                             />
                             {{ timeline.tags[tag].label }}
                           </q-chip>
@@ -257,15 +258,16 @@
                           <q-chip
                             v-for="tag in timeline.timelineEvents.internetSystemsDevelopment.tags"
                             :key="tag"
-                            :outline="!selectedTagsSet.has(tag)"
-                            :color="selectedTagsSet.has(tag) ? 'primary' : void 0"
+                            :outline="!hasTag(tag)"
+                            :color="hasTag(tag) ? 'primary' : void 0"
                             clickable
-                            @click="toggleTag(tag)"
+                            square
+                            @click="toggleChip(tag)"
                           >
                             <q-icon
                               v-if="timeline.tags[tag].icon"
                               :name="timeline.tags[tag].icon"
-                              class="q-mr-xs"
+                              class="q-mr-md"
                             />
                             {{ timeline.tags[tag].label }}
                           </q-chip>
@@ -330,15 +332,16 @@
                           <q-chip
                             v-for="tag in timeline.timelineEvents.internetSystemsDevelopment.tags"
                             :key="tag"
-                            :outline="!selectedTagsSet.has(tag)"
-                            :color="selectedTagsSet.has(tag) ? 'primary' : void 0"
+                            :outline="!hasTag(tag)"
+                            :color="hasTag(tag) ? 'primary' : void 0"
                             clickable
-                            @click="toggleTag(tag)"
+                            square
+                            @click="toggleChip(tag)"
                           >
                             <q-icon
                               v-if="timeline.tags[tag].icon"
                               :name="timeline.tags[tag].icon"
-                              class="q-mr-xs"
+                              class="q-mr-md"
                             />
                             {{ timeline.tags[tag].label }}
                           </q-chip>
@@ -416,15 +419,16 @@
                       <q-chip
                         v-for="key in frontendKeys"
                         :key="key"
+                        :outline="!selectedTags.includes(key)"
+                        :color="selectedTags.includes(key) ? 'primary' : void 0"
                         clickable
-                        :outline="!selectedTagsSet.has(key)"
-                        :color="selectedTagsSet.has(key) ? 'primary' : void 0"
-                        @click="toggleTag(key)"
+                        square
+                        @click="toggleChip(key)"
                       >
                         <q-icon
                           v-if="timeline.tags[key].icon"
                           :name="timeline.tags[key].icon"
-                          class="q-mr-xs"
+                          class="q-mr-md"
                         />
                         {{ timeline.tags[key].label }}
                       </q-chip>
@@ -442,15 +446,16 @@
                       <q-chip
                         v-for="key in backendKeys"
                         :key="key"
+                        :outline="!selectedTags.includes(key)"
+                        :color="selectedTags.includes(key) ? 'primary' : void 0"
                         clickable
-                        :outline="!selectedTagsSet.has(key)"
-                        :color="selectedTagsSet.has(key) ? 'primary' : void 0"
-                        @click="toggleTag(key)"
+                        square
+                        @click="toggleChip(key)"
                       >
                         <q-icon
                           v-if="timeline.tags[key].icon"
                           :name="timeline.tags[key].icon"
-                          class="q-mr-xs"
+                          class="q-mr-sm"
                         />
                         {{ timeline.tags[key].label }}
                       </q-chip>
@@ -474,9 +479,6 @@ import { date } from 'quasar';
 
 const timeline = {
   tags: {
-    work: { label: 'Work', icon: 'work_outline' },
-    cloud: { label: 'Cloud', icon: 'cloud' },
-    product: { label: 'Product', icon: 'settings' },
     html: { label: 'HTML', icon: 'fab fa-html5' },
     css: { label: 'CSS', icon: 'fab fa-css3-alt' },
     javascript: { label: 'JavaScript', icon: 'fab fa-js' },
@@ -489,33 +491,33 @@ const timeline = {
     codeigniter: { label: 'CodeIgniter', icon: 'code' },
     mysql: { label: 'MySQL', icon: 'fas fa-database' },
     java: { label: 'Java', icon: 'fab fa-java' },
-    golang: { label: 'Go', icon: 'code' },
+    golang: { label: 'Go', icon: 'fab fa-golang' },
   },
   timelineEvents: {
     wpeSenior: {
       label: 'Senior Software Engineer · WPEngine',
-      tags: ['work', 'cloud', 'product', 'react', 'golang', 'php', 'html', 'css', 'javascript'],
+      tags: ['react', 'golang', 'php', 'html', 'css', 'javascript'],
       plot: { from: { value: 2021, month: 1 }, to: { value: 'now' } },
       tooltip: { label: 'Senior Software Engineer at WPEngine' },
       borderColour: 'info',
     },
     wpe: {
       label: 'Software Engineer · WPEngine',
-      tags: ['work', 'react', 'golang', 'php', 'html', 'css', 'javascript'],
+      tags: ['react', 'golang', 'php', 'html', 'css', 'javascript'],
       plot: { from: { value: 2018, month: 6 }, to: { value: 2021, month: 1 } },
       tooltip: { label: 'Software Engineer at WPEngine' },
       borderColour: 'info',
     },
     mtx: {
       label: 'Software Engineer · Mackessy Technology',
-      tags: ['work', 'html', 'javascript', 'jquery', 'vuejs', 'css', 'php', 'laravel', 'mysql'],
+      tags: ['html', 'javascript', 'jquery', 'vuejs', 'css', 'php', 'laravel', 'mysql'],
       plot: { from: { value: 2020, month: 4 }, to: { value: 2022, month: 4 } },
       tooltip: { label: 'Mackessy Technology' },
       borderColour: 'accent',
     },
     courseco: {
       label: 'Full Stack Web Developer · CourseCo',
-      tags: ['work', 'html', 'javascript', 'jquery', 'css', 'php', 'mysql'],
+      tags: ['html', 'javascript', 'jquery', 'css', 'php', 'mysql'],
       plot: { from: { value: 2019, month: 3 }, to: { value: 2020, month: 3 } },
       tooltip: { label: 'CourseCo - IdeaBubble' },
       borderColour: 'positive',
@@ -565,23 +567,8 @@ const timeline = {
   },
 };
 
-// Selected tags (default to all)
-const selectedTags = ref(Object.keys(timeline.tags));
-const selectedTagsSet = computed(() => new Set(selectedTags.value));
-// const allSelected = computed(() => selectedTags.value.length === Object.keys(timeline.tags).length)
-
 const frontendKeys = ['html', 'css', 'javascript', 'jquery', 'vuejs', 'react'];
 const backendKeys = ['nodeJS', 'php', 'laravel', 'codeigniter', 'mysql', 'java', 'golang'];
-
-function toggleTag(key) {
-  const idx = selectedTags.value.indexOf(key);
-  if (idx >= 0) selectedTags.value = selectedTags.value.filter((k) => k !== key);
-  else selectedTags.value = [...selectedTags.value, key];
-}
-
-// function toggleSelectAll() {
-//   selectedTags.value = allSelected.value ? [] : Object.keys(timeline.tags)
-// }
 
 // Derive timestamps from min/max of events
 const timestamps = computed(() => {
@@ -617,7 +604,12 @@ const timelineDates = computed(() => {
     res[key] = {
       from: date.formatDate(from, 'MMM YYYY'),
       to: ev.plot.to.value === 'now' ? 'Present' : date.formatDate(to, 'MMM YYYY'),
-      duration: `${years ? years + 'y ' : ''}${remMonths ? remMonths + 'm' : ''}`.trim(),
+      duration: [
+        years ? `${years} ${years === 1 ? 'Year' : 'Years'}` : null,
+        remMonths ? `${remMonths} ${remMonths === 1 ? 'Month' : 'Months'}` : null,
+      ]
+        .filter(Boolean)
+        .join(', '),
     };
   }
   return res;
@@ -628,30 +620,47 @@ const allTimelineOptionsKeys = computed(() => Object.keys(timeline.tags));
 const allTimelineOptions = computed(() =>
   allTimelineOptionsKeys.value.map((key) => ({ value: key, ...timeline.tags[key] })),
 );
-const selectedTimelineOptions = computed({
-  get() {
-    if (selectedTags.value.length === 0) return [];
-    return selectedTags.value.map((tag) => ({ value: tag, ...timeline.tags[tag] }));
-  },
-  set(newOptions) {
-    selectedTags.value = newOptions.map((opt) => opt.value);
-  },
-});
+const selectedTimelineOptions = ref(allTimelineOptions.value);
 const allTimelineOptionsSelected = computed({
   get() {
+    const selectedOptions = selectedTimelineOptions.value.map((option) => option.value);
     return (
-      selectedTags.value.length === allTimelineOptionsKeys.value.length &&
-      allTimelineOptionsKeys.value.every((k) => selectedTags.value.includes(k))
+      selectedOptions.length === allTimelineOptionsKeys.value.length &&
+      allTimelineOptionsKeys.value.every((k) => selectedOptions.includes(k))
     );
   },
   set(allSelected) {
-    selectedTags.value = allSelected ? [...allTimelineOptionsKeys.value] : [];
+    selectedTimelineOptions.value = allSelected ? allTimelineOptions.value : [];
   },
 });
+const selectedTags = computed(() => selectedTimelineOptions.value.map(({ value }) => value));
 
 function hasAnyTag(tags) {
-  return tags.some((t) => selectedTagsSet.value.has(t));
+  return tags.some((t) => selectedTags.value.includes(t));
+}
+function hasTag(tag) {
+  return selectedTags.value.includes(tag);
+}
+function toggleChip(chip) {
+  if (selectedTags.value.includes(chip)) {
+    selectedTimelineOptions.value = selectedTimelineOptions.value.filter(
+      ({ value }) => value !== chip,
+    );
+  } else {
+    selectedTimelineOptions.value = [
+      ...selectedTimelineOptions.value,
+      allTimelineOptions.value.find(({ value }) => value === chip),
+    ];
+  }
 }
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.q-card {
+  &__section {
+    .q-chip {
+      min-width: 7.5rem;
+    }
+  }
+}
+</style>
