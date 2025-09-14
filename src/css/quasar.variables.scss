@@ -40,3 +40,9 @@ $positive: #21ba45;
 $negative: #c10015;
 $info: #31ccec;
 $warning: #f2c037;
+
+// Custom additional brand colors used in legacy app
+$custom-variables: (
+  'tertiary': #f4d58d,
+  'quaternary': #8d0801,
+);
