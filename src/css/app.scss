@@ -1,4 +1,5 @@
 // app global css in SCSS form
+@use 'sass:map';
 
 // Generate utility classes for custom colors defined in
 // src/css/quasar.variables.scss > $custom-variables
@@ -55,4 +56,16 @@
     position: fixed;
     z-index: -5;
   }
+}
+
+.q-item--dark .q-item__label.q-item__label--header {
+  color: white;
+  font-size: map.get($h6, 'size');
+  line-height: map.get($h6, 'line-height');
+  letter-spacing: map.get($h6, 'letter-spacing');
+  font-weight: map.get($h6, 'weight');
+}
+
+.text-caption {
+  color: $grey-5;
 }
