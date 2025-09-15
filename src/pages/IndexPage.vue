@@ -240,8 +240,8 @@
                     header-class="bg-black text-white"
                     class="q-gap-sm"
                   >
-                    <div class="col q-gutter-sm">
-                      <q-separator />
+                    <q-separator />
+                    <div class="column gap-md">
                       <InfoCard
                         v-show="hasAnyTag(timeline.timelineEvents.liamsarsfield.tags)"
                         title="liamsarsfield.dev"
