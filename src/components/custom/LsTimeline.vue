@@ -12,22 +12,18 @@
           :border-colour="timelineEvent.borderColour"
         >
           <template #tooltipHeader="tooltipHeaderObj">
-            <slot name="timelineEventTooltipHeader" :tooltipHeaderObj="tooltipHeaderObj" />
+            <slot name="timelineEventTooltipHeader" v-bind="tooltipHeaderObj" />
           </template>
           <template #tooltipContent="tooltipContent">
-            <slot name="timelineEventTooltipContent" :tooltipContent="tooltipContent" />
+            <slot name="timelineEventTooltipContent" v-bind="tooltipContent" />
           </template>
         </LsTimelineEvent>
       </q-list>
-
-      <div class="timeline-ticks">
+      <div class="row no-wrap">
         <div
           v-for="(timestamp, index) in timestampPlots"
           :key="index"
-          class="tick-segment"
-          :style="{
-            width: `${(Math.floor((timestamp.numMonths / totalAmountMonths) * 100, 2) * 100).toFixed(2)}%`,
-          }"
+          :style="{ width: computeTimestampWidth(timestamp.numMonths) }"
         >
           <div class="tick-line" :class="{ 'justify-end': timestamp.isPresent }">
             <span :class="{ invisible: !timestamp.isPublicTimestamp }">{{ timestamp.value }}</span>
@@ -38,170 +34,234 @@
   </div>
 </template>
 
-<script>
-import LsTimelineEvent from 'components/custom/LsTimelineEvent.vue'
-import { cloneDeep, has, intersection, max, min, range, last, round } from 'lodash'
-import { date } from 'quasar'
+<script setup>
+import { computed } from 'vue';
+import { date } from 'quasar';
+import { cloneDeep, has, intersection, last, max, min, range, round } from 'lodash';
 
-export default {
+import LsTimelineEvent from './LsTimelineEvent.vue';
+
+defineOptions({
   name: 'LsTimeline',
-  components: { LsTimelineEvent },
-  props: {
-    tags: {
-      type: Object,
-      default: () => ({}),
-      validator: function (tags) {
-        const requiredProps = ['label']
-        for (const [, tag] of Object.entries(tags)) {
-          for (const requiredProp of requiredProps) {
-            if (has(tag, requiredProp) === false) return false
+});
+
+const props = defineProps({
+  tags: {
+    type: Object,
+    default: () => ({}),
+    validator(tags) {
+      const requiredProps = ['label'];
+      for (const tag of Object.values(tags)) {
+        for (const requiredProp of requiredProps) {
+          if (has(tag, requiredProp) === false) {
+            return false;
           }
         }
-        return true
-      },
-    },
-    selectedTags: {
-      type: Array,
-      default: () => null,
-    },
-    timestamps: {
-      type: Array,
-      default: () => [],
-      validator: (timestamps) => !timestamps.some(isNaN),
-    },
-    timelineEvents: {
-      type: Object,
-      validator: function (timelineEvents) {
-        const requiredProps = ['label', 'plot.from.value', 'plot.to.value']
-        for (const [, timelineEvent] of Object.entries(timelineEvents)) {
-          for (const requiredProp of requiredProps) {
-            if (has(timelineEvent, requiredProp) === false) return false
-          }
-        }
-        return true
-      },
-    },
-    tooltip: {
-      type: Boolean,
-      default: () => true,
+      }
+      return true;
     },
   },
-  data() {
-    return {
-      timelineEventsCloned: {},
-      tagsCloned: {},
+  selectedTags: {
+    type: Array,
+    default: () => null,
+  },
+  timestamps: {
+    type: Array,
+    default: () => [],
+    validator: (timestamps) => !timestamps.some(isNaN),
+  },
+  timelineEvents: {
+    type: Object,
+    validator(timelineEvents) {
+      const requiredProps = ['label', 'plot.from.value', 'plot.to.value'];
+      for (const timelineEvent of Object.values(timelineEvents)) {
+        for (const requiredProp of requiredProps) {
+          if (has(timelineEvent, requiredProp) === false) {
+            return false;
+          }
+        }
+      }
+      return true;
+    },
+  },
+  tooltip: {
+    type: Boolean,
+    default: () => true,
+  },
+});
+
+const selectedTagsList = computed(() =>
+  Array.isArray(props.selectedTags) ? props.selectedTags : [],
+);
+const tagsMap = computed(() => props.tags ?? {});
+
+const timestampPlots = computed(() => {
+  if (!Array.isArray(props.timestamps) || props.timestamps.length === 0) {
+    return [];
+  }
+
+  const now = new Date();
+  const minTimestampPlot = parseInt(min(props.timestamps));
+  const maxTimestampPlot = parseInt(max(props.timestamps)) + 1;
+
+  return range(minTimestampPlot, maxTimestampPlot).map((rangedTimestamp) => {
+    const startDate = new Date(rangedTimestamp, 0);
+    const timestampPlot = {
+      value: rangedTimestamp,
+      isPublicTimestamp: props.timestamps.some((timestamp) => timestamp == rangedTimestamp),
+      isPresent: false,
+      startDate,
+    };
+
+    if (now.getFullYear() === rangedTimestamp) {
+      timestampPlot.endDate = now;
+      timestampPlot.numMonths = now.getMonth() + 1;
+    } else {
+      timestampPlot.endDate = new Date(rangedTimestamp, 12, 0);
+      timestampPlot.numMonths = 12;
     }
-  },
-  watch: {
-    timelineEvents: {
-      immediate: true,
-      deep: true,
-      handler(newVal) {
-        this.timelineEventsCloned = cloneDeep(newVal)
-      },
-    },
-    tags: {
-      immediate: true,
-      deep: true,
-      handler(newVal) {
-        this.tagsCloned = cloneDeep(newVal)
-      },
-    },
-  },
-  computed: {
-    minTimestamp() {
-      return this.timestampPlots && this.timestampPlots[0]
-    },
-    maxTimestamp() {
-      return last(this.timestampPlots)
-    },
-    totalAmountMonths() {
-      return (
-        date.getDateDiff(this.maxTimestamp?.endDate, this.minTimestamp?.startDate, 'months') + 1
-      )
-    },
-    totalDuration() {
-      return this.maxTimestamp?.endDate.valueOf() - this.minTimestamp?.startDate.valueOf()
-    },
-    timestampPlots() {
-      if (this.timestamps.length === 0) return []
 
-      const now = new Date()
-      const minTimestampPlot = parseInt(min(this.timestamps))
-      const maxTimestampPlot = parseInt(max(this.timestamps)) + 1
-      return range(minTimestampPlot, maxTimestampPlot).map((rangedTimestamp) => {
-        const startDate = new Date(rangedTimestamp, 0)
-        const timestampPlot = {
-          value: rangedTimestamp,
-          isPublicTimestamp: this.timestamps.some((t) => t == rangedTimestamp),
-          isPresent: false,
-          startDate,
-        }
+    return timestampPlot;
+  });
+});
 
-        if (now.getFullYear() === rangedTimestamp) {
-          timestampPlot.endDate = now
-          timestampPlot.numMonths = now.getMonth() + 1
-        } else {
-          timestampPlot.endDate = new Date(rangedTimestamp, 12, 0)
-          timestampPlot.numMonths = 12
-        }
+const minTimestamp = computed(() => timestampPlots.value && timestampPlots.value[0]);
+const maxTimestamp = computed(() => last(timestampPlots.value));
 
-        return timestampPlot
-      })
-    },
-    timelineEventsParsed() {
-      const timelineEventsParsed = []
+const totalAmountMonths = computed(() => {
+  const end = maxTimestamp.value?.endDate;
+  const start = minTimestamp.value?.startDate;
 
-      const tags = this.tags
-      const tagKeys = Object.keys(tags)
-      const selectedTags = this.selectedTags
+  if (!end || !start) {
+    return 0;
+  }
 
-      let prevEvent = null
+  return date.getDateDiff(end, start, 'months') + 1;
+});
 
-      for (const [key, timelineEvent] of Object.entries(this.timelineEventsCloned)) {
-        const event = { ...timelineEvent }
-        event.key = key
+const totalDuration = computed(() => {
+  const endValue = maxTimestamp.value?.endDate?.valueOf();
+  const startValue = minTimestamp.value?.startDate?.valueOf();
 
-        event.plot.to.date =
-          event.plot.to.value == 'now'
-            ? new Date()
-            : new Date(event.plot.to.value, event.plot.to.month ?? 12, 0)
-        event.plot.to.unix = event.plot.to.date.valueOf()
+  if (!Number.isFinite(endValue) || !Number.isFinite(startValue)) {
+    return 0;
+  }
 
-        event.plot.from.date = new Date(event.plot.from.value, event.plot.from.month - 1)
-        event.plot.from.unix = event.plot.from.date.valueOf()
+  return endValue - startValue;
+});
 
-        event.totalDuration = event.plot.to.unix - event.plot.from.unix
-        event.durationFromBase = event.plot.from.unix - this.minTimestamp?.startDate.valueOf()
-        if (event.totalDuration < 1) continue
+const computeTimestampWidth = (numMonths) => {
+  const monthsValue = Number(numMonths);
+  const totalMonths = totalAmountMonths.value;
 
-        const timelineHasASelectedTag =
-          tagKeys.length > 0 && intersection(event.tags, selectedTags).length !== 0
+  if (!Number.isFinite(monthsValue) || monthsValue <= 0) {
+    return '0%';
+  }
 
-        event.width = round((event.totalDuration / this.totalDuration) * 100, 1)
-        event.offset = round((event.durationFromBase / this.totalDuration) * 100, 1)
-        event.totalOffset = event.width + event.offset
+  if (!Number.isFinite(totalMonths) || totalMonths <= 0) {
+    return '0%';
+  }
 
-        if (prevEvent?.plot?.to?.unix > event?.plot?.from?.unix) {
-          prevEvent.style['margin-right'] = `${round(100 - prevEvent.totalOffset, 1)}%`
-          prevEvent.totalOffset = 100
-        }
+  const width = (monthsValue / totalMonths) * 100;
+  return `${width.toFixed(2)}%`;
+};
 
-        if (!isNaN(prevEvent?.totalOffset) && event.offset >= prevEvent.totalOffset) {
-          event.offset = event.offset - prevEvent.totalOffset
-        }
+const timelineEventsParsed = computed(() => {
+  const events = [];
+  const tags = tagsMap.value;
+  const tagKeys = Object.keys(tags);
+  const selectedTags = selectedTagsList.value;
+  const totalDurationValue = totalDuration.value;
+  const baseStartDate = minTimestamp.value?.startDate?.valueOf();
 
-        event.style = { width: `${event.width}%`, 'margin-left': `${Math.floor(event.offset)}%` }
-        event.class = { hidden: !timelineHasASelectedTag }
+  let prevTimeline = null;
 
-        if (timelineHasASelectedTag) prevEvent = event
-        timelineEventsParsed.push(event)
+  for (const [key, timelineEvent] of Object.entries(props.timelineEvents ?? {})) {
+    const parsedEvent = cloneDeep(timelineEvent);
+    parsedEvent.key = key;
+
+    const toMonth = parsedEvent.plot.to.month ?? 12;
+    parsedEvent.plot.to.date =
+      parsedEvent.plot.to.value == 'now'
+        ? new Date()
+        : new Date(parsedEvent.plot.to.value, toMonth, 0);
+    parsedEvent.plot.to.unix = parsedEvent.plot.to.date.valueOf();
+
+    parsedEvent.plot.from.date = new Date(
+      parsedEvent.plot.from.value,
+      parsedEvent.plot.from.month - 1,
+    );
+    parsedEvent.plot.from.unix = parsedEvent.plot.from.date.valueOf();
+
+    parsedEvent.totalDuration = parsedEvent.plot.to.unix - parsedEvent.plot.from.unix;
+
+    parsedEvent.durationFromBase = Number.isFinite(baseStartDate)
+      ? parsedEvent.plot.from.unix - baseStartDate
+      : 0;
+
+    if (parsedEvent.totalDuration < 1) {
+      continue;
+    }
+
+    const timelineHasASelectedTag =
+      tagKeys.length > 0 && intersection(parsedEvent.tags, selectedTags).length !== 0;
+
+    if (!Number.isFinite(totalDurationValue) || totalDurationValue <= 0) {
+      parsedEvent.width = 0;
+      parsedEvent.offset = 0;
+      parsedEvent.totalOffset = 0;
+      parsedEvent.style = { width: '0%', 'margin-left': '0%' };
+      parsedEvent.class = { hidden: !timelineHasASelectedTag };
+
+      if (timelineHasASelectedTag) {
+        prevTimeline = parsedEvent;
       }
 
-      return timelineEventsParsed
-    },
-  },
-}
+      events.push(parsedEvent);
+      continue;
+    }
+
+    parsedEvent.width = round((parsedEvent.totalDuration / totalDurationValue) * 100, 1);
+
+    parsedEvent.offset = round((parsedEvent.durationFromBase / totalDurationValue) * 100, 2);
+    parsedEvent.totalOffset = parsedEvent.width + parsedEvent.offset;
+
+    if (prevTimeline?.plot?.to?.unix > parsedEvent.plot.from.unix) {
+      prevTimeline.style['margin-right'] = `${round(100 - prevTimeline.totalOffset, 1)}%`;
+      prevTimeline.totalOffset = 100;
+    }
+
+    const previousTotalOffset = prevTimeline?.totalOffset;
+    const prevEndDate = prevTimeline?.plot?.to?.date;
+    const monthsBetween = prevEndDate
+      ? Math.abs(date.getDateDiff(parsedEvent.plot.from.date, prevEndDate, 'months'))
+      : Infinity;
+
+    if (prevEndDate && monthsBetween <= 1.5 && Number.isFinite(previousTotalOffset)) {
+      parsedEvent.offset = Math.max(parsedEvent.offset - previousTotalOffset, 0);
+    } else if (
+      previousTotalOffset !== undefined &&
+      Number.isFinite(previousTotalOffset) &&
+      parsedEvent.offset >= previousTotalOffset
+    ) {
+      parsedEvent.offset = parsedEvent.offset - previousTotalOffset;
+    }
+
+    parsedEvent.style = {
+      width: `${parsedEvent.width}%`,
+      'margin-left': `${Math.floor(parsedEvent.offset)}%`,
+    };
+    parsedEvent.class = { hidden: !timelineHasASelectedTag };
+
+    if (timelineHasASelectedTag) {
+      prevTimeline = parsedEvent;
+    }
+
+    events.push(parsedEvent);
+  }
+
+  return events;
+});
 </script>
 
 <style scoped>
@@ -211,25 +271,9 @@ export default {
   row-gap: 8px;
   margin-bottom: 8px;
 }
-.timeline-ticks {
-  display: flex;
-}
-.tick-segment {
-  display: flex;
-  flex-direction: column;
-}
+
 .tick-line {
-  display: flex;
   border-top: 2px solid rgba(255, 255, 255, 1);
   margin-top: auto;
-}
-.justify-end {
-  justify-content: flex-end;
-}
-.invisible {
-  visibility: hidden;
-}
-.hidden {
-  display: none !important;
 }
 </style>
