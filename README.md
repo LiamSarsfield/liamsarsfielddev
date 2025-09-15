@@ -1,43 +1,7 @@
-# Quasar App (liamsarsfield-dev-new-quasar)
+# liamsarsfield.dev - My Personal Website
 
-A Quasar Project
+https://liamsarsfield.dev
 
-## Install the dependencies
+- Personal website which was originally written in Vue 2 and then migrated to Vue 3.
 
-```bash
-yarn
-# or
-npm install
-```
-
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
-
-```bash
-quasar dev
-```
-
-### Lint the files
-
-```bash
-yarn lint
-# or
-npm run lint
-```
-
-### Format the files
-
-```bash
-yarn format
-# or
-npm run format
-```
-
-### Build the app for production
-
-```bash
-quasar build
-```
-
-### Customize the configuration
-
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+- [Uses Vue's Quasar Framework](https://quasar.dev/).
