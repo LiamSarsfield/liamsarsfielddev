@@ -117,10 +117,10 @@
           default-opened
           header-class="bg-black text-white text-h6"
         >
-          <!-- Left: Work Experience, Education, Side Projects -->
           <q-card class="bg-dark-80">
-            <q-card-section horizontal>
-              <q-card-section class="col-12 col-md-8">
+            <q-card-section horizontal class="q-pa-md gap-md flex-column-reverse flex-row-lg">
+              <!-- Left: Work Experience, Education, Side Projects -->
+              <q-card-section class="q-pa-none">
                 <q-list class="col q-gutter-md">
                   <!-- Work Experience -->
                   <q-expansion-item
@@ -397,9 +397,9 @@
                   </q-expansion-item>
                 </q-list>
               </q-card-section>
-              <q-separator vertical inset class="q-display-none q-display-md-block q-my-md" />
+              <q-separator vertical inset class="block gt-md q-my-none" />
               <!-- Right: Filters panel -->
-              <q-card-section>
+              <q-card-section class="q-pa-none">
                 <div class="column gap-sm position-sticky">
                   <q-select
                     filled
@@ -464,6 +464,7 @@
                     <q-card-section class="q-pt-md q-pb-sm">
                       <div class="row q-col-gutter-sm">
                         <q-chip
+                          class="flex-1-0"
                           v-for="key in frontendKeys"
                           :key="key"
                           :outline="!selectedTags.includes(key)"
@@ -491,6 +492,7 @@
                     <q-card-section class="q-pt-md q-pb-sm">
                       <div class="row q-col-gutter-sm">
                         <q-chip
+                          class="flex-1-0"
                           v-for="key in backendKeys"
                           :key="key"
                           :outline="!selectedTags.includes(key)"
@@ -548,70 +550,70 @@ const timeline = {
       tags: ['html', 'javascript', 'jquery', 'css', 'php', 'codeigniter', 'java', 'mysql'],
       plot: { from: { value: 2016, month: 4 }, to: { value: 2019, month: 8 } },
       tooltip: { label: 'Limerick Institute Of Technology' },
-      borderColour: 'tertiary',
+      borderColour: 'yellow-5',
     },
     courseco: {
       label: 'Full Stack Web Developer',
       tags: ['html', 'javascript', 'jquery', 'css', 'php', 'mysql'],
       plot: { from: { value: 2019, month: 3 }, to: { value: 2020, month: 3 } },
       tooltip: { label: 'CourseCo - IdeaBubble' },
-      borderColour: 'positive',
+      borderColour: 'green-6',
     },
     mtx: {
       label: 'Software Engineer',
       tags: ['html', 'javascript', 'jquery', 'vuejs', 'css', 'php', 'laravel', 'mysql'],
       plot: { from: { value: 2020, month: 4 }, to: { value: 2022, month: 4 } },
       tooltip: { label: 'Mackessy Technology' },
-      borderColour: 'accent',
+      borderColour: 'red-8',
     },
     wpe: {
-      label: 'Software Engineer',
+      label: 'Software Engineer II',
       tags: ['react', 'golang', 'php', 'html', 'css', 'javascript'],
       plot: { from: { value: 2022, month: 5 }, to: { value: 2023, month: 9 } },
       tooltip: { label: 'Software Engineer at WPEngine' },
-      borderColour: 'info',
+      borderColour: 'blue-5',
     },
     wpeSenior: {
       label: 'Senior Software Engineer',
       tags: ['react', 'golang', 'php', 'html', 'css', 'javascript'],
       plot: { from: { value: 2023, month: 10 }, to: { value: 'now' } },
       tooltip: { label: 'Senior Software Engineer at WPEngine' },
-      borderColour: 'info',
+      borderColour: 'blue-6',
     },
     groupProject: {
       label: 'Group Project',
       tags: ['html', 'javascript', 'jquery', 'css', 'php', 'codeigniter', 'mysql'],
       plot: { from: { value: 2018, month: 10 }, to: { value: 2019, month: 5 } },
       tooltip: { label: 'Group Project With My Course' },
-      borderColour: 'secondary',
+      borderColour: 'grey-7',
     },
     checkersBot: {
       label: 'Discord Checkers Bot',
       tags: ['javascript', 'nodeJS'],
       plot: { from: { value: 2019, month: 8 }, to: { value: 2020, month: 3 } },
       tooltip: { label: 'Discord Checkers Bot' },
-      borderColour: 'warning',
+      borderColour: 'yellow-5',
     },
     auxion: {
       label: 'auxion.net',
       tags: ['html', 'javascript', 'jquery', 'css', 'php', 'laravel', 'mysql'],
       plot: { from: { value: 2020, month: 9 }, to: { value: 2021, month: 3 } },
       tooltip: { label: 'Brochure Website' },
-      borderColour: 'accent',
+      borderColour: 'red-6',
     },
     claimlink: {
       label: 'claimlink.net',
       tags: ['html', 'javascript', 'jquery', 'css', 'php', 'laravel', 'mysql'],
       plot: { from: { value: 2021, month: 4 }, to: { value: 2021, month: 9 } },
       tooltip: { label: 'Brochure Website' },
-      borderColour: 'warning',
+      borderColour: 'orange-5',
     },
     liamsarsfield: {
       label: 'liamsarsfield.dev',
       tags: ['html', 'javascript', 'vuejs', 'css'],
       plot: { from: { value: 2021, month: 10 }, to: { value: 2022, month: 3 } },
       tooltip: { label: 'This Website :)' },
-      borderColour: 'info',
+      borderColour: 'blue-7',
     },
   },
 };

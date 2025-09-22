@@ -251,7 +251,7 @@ const timelineEventsParsed = computed(() => {
       width: `${parsedEvent.width}%`,
       'margin-left': `${Math.floor(parsedEvent.offset)}%`,
     };
-    parsedEvent.class = { hidden: !timelineHasASelectedTag };
+    parsedEvent.class = { hidden: !timelineHasASelectedTag, ...(parsedEvent.class ?? {}) };
 
     if (timelineHasASelectedTag) {
       prevTimeline = parsedEvent;

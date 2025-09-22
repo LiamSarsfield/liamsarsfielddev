@@ -41,10 +41,41 @@ $negative: #c10015;
 $info: #f3722c;
 $warning: #f2c037;
 
+@use 'sass:map';
+@use 'sass:meta';
+@use 'quasar/src/css/variables' as q;
+
 $custom-variables: (
   'tertiary': #f4d58d,
   'quaternary': #8d0801,
 );
+
+$quasar-colors: (
+  'primary': $primary,
+  'secondary': $secondary,
+  'accent': $accent,
+  'dark': $dark,
+  'dark-page': $dark-page,
+  'positive': $positive,
+  'negative': $negative,
+  'info': $info,
+  'warning': $warning,
+);
+
+// Expose palette entries as CSS variables for component styling.
+$quasar-colors: map.merge($quasar-colors, $custom-variables);
+
+@each $name, $value in meta.module-variables(q) {
+  @if type-of($value) == 'color' {
+    $quasar-colors: map.merge($quasar-colors, ($name: $value));
+  }
+}
+
+:root {
+  @each $name, $value in $quasar-colors {
+    --q-color-#{$name}: #{$value};
+  }
+}
 
 $tooltip-padding: 0px;
 $generic-border-radius: 4px;

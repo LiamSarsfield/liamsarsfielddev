@@ -146,3 +146,17 @@ $gap-sizes: (
 @media (min-width: $breakpoint-xl-min) {
   @include gen-gap-classes('xl');
 }
+
+.flex-1-0 {
+  flex: 1 0 0;
+}
+
+.flex-column-reverse {
+  flex-direction: column-reverse;
+}
+
+@media (min-width: $breakpoint-lg-min) {
+  .flex-row-lg {
+    flex-direction: row;
+  }
+}
