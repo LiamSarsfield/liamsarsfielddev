@@ -68,13 +68,3 @@ defineProps({
 
 defineEmits(['toggle']);
 </script>
-
-<style scoped lang="scss">
-.q-card {
-  &__section {
-    .q-chip {
-      min-width: 7.5rem;
-    }
-  }
-}
-</style>

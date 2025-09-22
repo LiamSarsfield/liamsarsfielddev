@@ -84,6 +84,7 @@ body.desktop.body--dark {
 .position-sticky {
   position: sticky;
   top: 50px;
+  align-self: flex-start;
 }
 // --------------------------------------------------
 // Gap utilities (true CSS gap, not gutters)
@@ -149,6 +150,11 @@ $gap-sizes: (
 
 .flex-1-0 {
   flex: 1 0 0;
+}
+
+.chip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
 }
 
 .flex-column-reverse {

@@ -120,7 +120,7 @@
           <q-card class="bg-dark-80">
             <q-card-section horizontal class="q-pa-md gap-md flex-column-reverse flex-row-lg">
               <!-- Left: Work Experience, Education, Side Projects -->
-              <q-card-section class="q-pa-none">
+              <q-card-section class="q-pa-none col-12 col-xl-8">
                 <q-list class="col q-gutter-md">
                   <!-- Work Experience -->
                   <q-expansion-item
@@ -399,8 +399,8 @@
               </q-card-section>
               <q-separator vertical inset class="block gt-md q-my-none" />
               <!-- Right: Filters panel -->
-              <q-card-section class="q-pa-none">
-                <div class="column gap-sm position-sticky">
+              <q-card-section class="q-pa-none col">
+                <div class="column no-wrap gap-sm position-sticky">
                   <q-select
                     filled
                     v-model="selectedTimelineOptions"
@@ -461,26 +461,23 @@
                       <div class="text-h6">Frontend</div>
                     </q-card-section>
                     <q-separator />
-                    <q-card-section class="q-pt-md q-pb-sm">
-                      <div class="row q-col-gutter-sm">
-                        <q-chip
-                          class="flex-1-0"
-                          v-for="key in frontendKeys"
-                          :key="key"
-                          :outline="!selectedTags.includes(key)"
-                          :color="selectedTags.includes(key) ? 'primary' : void 0"
-                          clickable
-                          square
-                          @click="toggleChip(key)"
-                        >
-                          <q-icon
-                            v-if="timeline.tags[key].icon"
-                            :name="timeline.tags[key].icon"
-                            class="q-mr-md"
-                          />
-                          {{ timeline.tags[key].label }}
-                        </q-chip>
-                      </div>
+                    <q-card-section class="q-py-md chip-grid">
+                      <q-chip
+                        v-for="key in frontendKeys"
+                        :key="key"
+                        :outline="!selectedTags.includes(key)"
+                        :color="selectedTags.includes(key) ? 'primary' : void 0"
+                        clickable
+                        square
+                        @click="toggleChip(key)"
+                      >
+                        <q-icon
+                          v-if="timeline.tags[key].icon"
+                          :name="timeline.tags[key].icon"
+                          class="q-mr-md"
+                        />
+                        {{ timeline.tags[key].label }}
+                      </q-chip>
                     </q-card-section>
                   </q-card>
 
@@ -490,9 +487,8 @@
                     </q-card-section>
                     <q-separator />
                     <q-card-section class="q-pt-md q-pb-sm">
-                      <div class="row q-col-gutter-sm">
+                      <div class="chip-grid">
                         <q-chip
-                          class="flex-1-0"
                           v-for="key in backendKeys"
                           :key="key"
                           :outline="!selectedTags.includes(key)"
@@ -702,13 +698,3 @@ function toggleChip(chip) {
   }
 }
 </script>
-
-<style scoped lang="scss">
-.q-card {
-  &__section {
-    .q-chip {
-      min-width: 7.5rem;
-    }
-  }
-}
-</style>
