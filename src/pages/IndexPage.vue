@@ -10,12 +10,7 @@
             <q-item-section class="text-h6">About Me</q-item-section>
           </template>
           <div class="q-pa-md">
-            <p class="q-mb-sm text-body1">
-              Hi, I'm Liam — a software engineer with experience across frontend and backend.
-            </p>
-            <p class="text-body2 q-mb-none">
-              This section will be expanded with more details shortly.
-            </p>
+            <VueTerminal />
           </div>
         </q-expansion-item>
       </q-card-section>
@@ -461,7 +456,7 @@
                       <div class="text-h6">Frontend</div>
                     </q-card-section>
                     <q-separator />
-                    <q-card-section class="q-py-md chip-grid">
+                    <q-card-section class="chip-grid q-py-sm">
                       <q-chip
                         v-for="key in frontendKeys"
                         :key="key"
@@ -486,8 +481,7 @@
                       <div class="text-h6">Backend</div>
                     </q-card-section>
                     <q-separator />
-                    <q-card-section class="q-pt-md q-pb-sm">
-                      <div class="chip-grid">
+                    <q-card-section class="chip-grid q-py-sm">
                         <q-chip
                           v-for="key in backendKeys"
                           :key="key"
@@ -504,7 +498,6 @@
                           />
                           {{ timeline.tags[key].label }}
                         </q-chip>
-                      </div>
                     </q-card-section>
                   </q-card>
                 </div>
@@ -523,6 +516,9 @@ import LsTimeline from 'components/custom/LsTimeline.vue';
 import InfoCard from 'components/InfoCard.vue';
 import { computed, ref } from 'vue';
 import { date } from 'quasar';
+import VueTerminal from 'components/terminal/VueTerminal.vue';
+import LsDialog from 'components/custom/LsDialog.vue';
+import LsParallax from 'components/custom/LsParallax.vue';
 
 const timeline = {
   tags: {

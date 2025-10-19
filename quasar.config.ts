@@ -2,6 +2,7 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file
 
 import { defineConfig } from '#q-app/wrappers';
+import vueJsx from '@vitejs/plugin-vue-jsx';
 
 export default defineConfig((/* ctx */) => {
   return {
@@ -63,6 +64,7 @@ export default defineConfig((/* ctx */) => {
       // viteVuePluginOptions: {},
 
       vitePlugins: [
+        vueJsx(),
         [
           'vite-plugin-checker',
           {

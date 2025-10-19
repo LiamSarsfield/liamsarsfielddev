@@ -67,7 +67,12 @@ $quasar-colors: map.merge($quasar-colors, $custom-variables);
 
 @each $name, $value in meta.module-variables(q) {
   @if type-of($value) == 'color' {
-    $quasar-colors: map.merge($quasar-colors, ($name: $value));
+    $quasar-colors: map.merge(
+      $quasar-colors,
+      (
+        $name: $value,
+      )
+    );
   }
 }
 
@@ -77,6 +82,7 @@ $quasar-colors: map.merge($quasar-colors, $custom-variables);
   }
 }
 
+$body-font-size: 16px;
 $tooltip-padding: 0px;
 $generic-border-radius: 4px;
 
