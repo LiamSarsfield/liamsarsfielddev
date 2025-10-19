@@ -81,6 +81,12 @@ body.desktop.body--dark {
   background-color: rgba($dark, 0.8);
 }
 
+// This ensures that the sticky element does not jump if a closing animation is triggered
+[style*='overflow-y: hidden'] .position-sticky {
+  position: static;
+  top: auto;
+}
+
 .position-sticky {
   position: sticky;
   top: 50px;
