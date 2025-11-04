@@ -1,5 +1,5 @@
 <template>
-  <div class="vue-terminal-parent tw-text-base tw-font-light">
+  <div class="vue-terminal-parent terminal-text">
     <vue-command
       class="vue-terminal-command"
       ref="vueCommandRef"
@@ -13,11 +13,13 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, ref } from 'vue';
+import { markRaw, nextTick, onMounted, ref } from 'vue';
 import VueCommand, { createStdout, type VueCommandInstance } from 'vue-command';
 import 'vue-command/dist/vue-command.css';
+import VmStat from 'components/terminal/commands/VmStat.vue';
 
 const vueCommandRef = ref<VueCommandInstance | null>(null);
+const vmStatStdout = markRaw(VmStat);
 const commands = ref({
   whoami: () => {
     return createStdout(
@@ -28,6 +30,9 @@ const commands = ref({
     return createStdout(
       'I am currently working with GoLang, React/TypeScript and WordPress/WooCommerce integrations. Along with multiple years working with PHP (Laravel), MySQL, jQuery/JavaScript and CSS. I have also dabbled with Vue while experimenting with Node and GraphQL.',
     );
+  },
+  vmstat: () => {
+    return vmStatStdout;
   },
 });
 const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
@@ -79,10 +84,16 @@ const query = ref('');
 onMounted(async () => {
   await typeAndRun('whoami');
   await typeAndRun('htop');
+  await typeAndRun('vmstat');
 });
 </script>
 
 <style lang="scss">
+.terminal-text {
+  font-size: 1rem;
+  font-weight: 300;
+}
+
 .vue-terminal-parent > .vue-command {
   .vue-command__bar {
     background-color: $dark;

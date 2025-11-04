@@ -482,22 +482,22 @@
                     </q-card-section>
                     <q-separator />
                     <q-card-section class="chip-grid q-py-sm">
-                        <q-chip
-                          v-for="key in backendKeys"
-                          :key="key"
-                          :outline="!selectedTags.includes(key)"
-                          :color="selectedTags.includes(key) ? 'primary' : void 0"
-                          clickable
-                          square
-                          @click="toggleChip(key)"
-                        >
-                          <q-icon
-                            v-if="timeline.tags[key].icon"
-                            :name="timeline.tags[key].icon"
-                            class="q-mr-sm"
-                          />
-                          {{ timeline.tags[key].label }}
-                        </q-chip>
+                      <q-chip
+                        v-for="key in backendKeys"
+                        :key="key"
+                        :outline="!selectedTags.includes(key)"
+                        :color="selectedTags.includes(key) ? 'primary' : void 0"
+                        clickable
+                        square
+                        @click="toggleChip(key)"
+                      >
+                        <q-icon
+                          v-if="timeline.tags[key].icon"
+                          :name="timeline.tags[key].icon"
+                          class="q-mr-sm"
+                        />
+                        {{ timeline.tags[key].label }}
+                      </q-chip>
                     </q-card-section>
                   </q-card>
                 </div>
@@ -517,8 +517,6 @@ import InfoCard from 'components/InfoCard.vue';
 import { computed, ref } from 'vue';
 import { date } from 'quasar';
 import VueTerminal from 'components/terminal/VueTerminal.vue';
-import LsDialog from 'components/custom/LsDialog.vue';
-import LsParallax from 'components/custom/LsParallax.vue';
 
 const timeline = {
   tags: {
