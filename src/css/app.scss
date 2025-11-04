@@ -1,63 +1,6 @@
 // app global css in SCSS form
 @use 'sass:map';
 
-// Generate utility classes for custom colors defined in
-// src/css/quasar.variables.scss > $custom-variables
-@each $name, $variable in $custom-variables {
-  .text-#{$name} {
-    color: $variable;
-  }
-
-  .bg-#{$name} {
-    background-color: $variable;
-  }
-}
-
-// Minor helpers used in legacy UI
-.slide-in {
-  animation: slidein-top 1s forwards;
-}
-
-.slide-out {
-  animation: slideout-top 1s forwards;
-}
-
-@keyframes slidein-top {
-  from {
-    margin-top: -50px;
-    opacity: 0;
-    display: none;
-    position: fixed;
-    z-index: -5;
-  }
-
-  to {
-    margin-bottom: 0px;
-    opacity: 1;
-    display: block;
-    position: static;
-    z-index: 1;
-  }
-}
-
-@keyframes slideout-top {
-  from {
-    margin-bottom: 0px;
-    opacity: 1;
-    display: block;
-    position: static;
-    z-index: 1;
-  }
-
-  to {
-    margin-top: -50px;
-    opacity: 0;
-    display: none !important;
-    position: fixed;
-    z-index: -5;
-  }
-}
-
 body.desktop.body--dark {
   .q-card,
   .q-menu {
@@ -152,10 +95,6 @@ $gap-sizes: (
 // xl: 1920+
 @media (min-width: $breakpoint-xl-min) {
   @include gen-gap-classes('xl');
-}
-
-.flex-1-0 {
-  flex: 1 0 0;
 }
 
 .chip-grid {
