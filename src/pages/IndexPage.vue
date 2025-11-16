@@ -512,12 +512,19 @@
 
 <script setup>
 // No Tailwind; using Quasar grid/utilities and components
+// TODO(refactor): This page mixes multiple large sections (terminal, timeline,
+//   filters, experience) plus all supporting data/computed helpers. Consider
+//   extracting each major section into its own component to keep this file
+//   scannable and easier to maintain.
 import LsTimeline from 'components/custom/LsTimeline.vue';
 import InfoCard from 'components/InfoCard.vue';
 import { computed, ref } from 'vue';
 import { date } from 'quasar';
 import VueTerminal from 'components/terminal/VueTerminal.vue';
 
+// TODO(refactor): Move the raw timeline data into a typed module/composable so
+//   the render logic can focus purely on UI state instead of carrying the full
+//   dataset inline.
 const timeline = {
   tags: {
     html: { label: 'HTML', icon: 'fab fa-html5' },

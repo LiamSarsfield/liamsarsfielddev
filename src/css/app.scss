@@ -1,6 +1,18 @@
 // app global css in SCSS form
 @use 'sass:map';
 
+// Generate utility classes for custom colors defined in
+// src/css/quasar.variables.scss > $custom-variables
+@each $name, $variable in $custom-variables {
+  .text-#{$name} {
+    color: $variable;
+  }
+
+  .bg-#{$name} {
+    background-color: $variable;
+  }
+}
+
 body.desktop.body--dark {
   .q-card,
   .q-menu {

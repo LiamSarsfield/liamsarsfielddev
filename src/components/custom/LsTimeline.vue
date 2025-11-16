@@ -166,6 +166,10 @@ const computeTimestampWidth = (numMonths) => {
   return `${width.toFixed(2)}%`;
 };
 
+// TODO(refactor): This computed currently normalizes events, handles overlap,
+//   calculates layout offsets, and filters by tag selection in one block.
+//   Splitting these steps into dedicated helpers (or a composable) would make
+//   the timeline rendering logic easier to follow and test.
 const timelineEventsParsed = computed(() => {
   const events = [];
   const tags = tagsMap.value;

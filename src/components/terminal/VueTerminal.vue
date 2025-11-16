@@ -1,7 +1,6 @@
 <template>
   <div class="vue-terminal-parent terminal-text">
     <vue-command
-      class="vue-terminal-command"
       ref="vueCommandRef"
       v-model:commands="commands"
       v-model:query="query"
