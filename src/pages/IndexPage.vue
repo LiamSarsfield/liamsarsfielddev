@@ -129,6 +129,22 @@
 
                     <div class="column gap-md">
                       <InfoCard
+                        v-show="hasAnyTag(timeline.timelineEvents.automattic.tags)"
+                        title="Senior Software Engineer"
+                        subtitle="Automattic"
+                        :from="timelineDates.automattic.from"
+                        :to="timelineDates.automattic.to"
+                        :duration="timelineDates.automattic.duration"
+                        :bullets="[
+                          'Working with HTML, CSS, TypeScript/JavaScript, React, PHP, PostgreSQL.',
+                          'Lead engineer for Jetpack Boost\'s LCP Image Optimization feature, in which I developed an automated system to identify and optimize Largest Contentful Paint (LCP) elements on web pages.',
+                        ]"
+                        :tags="timeline.timelineEvents.wpe.tags"
+                        :tagMeta="timeline.tags"
+                        :selectedKeys="selectedTags"
+                        @toggle="toggleChip"
+                      />
+                      <InfoCard
                         v-show="hasAnyTag(timeline.timelineEvents.wpeSenior.tags)"
                         title="Senior Software Engineer"
                         subtitle="WP Engine"
@@ -573,8 +589,15 @@ const timeline = {
     wpeSenior: {
       label: 'Senior Software Engineer',
       tags: ['react', 'golang', 'php', 'html', 'css', 'javascript'],
-      plot: { from: { value: 2023, month: 10 }, to: { value: 'now' } },
+      plot: { from: { value: 2023, month: 10 }, to: { value: 2024, month: 12 } },
       tooltip: { label: 'Senior Software Engineer at WPEngine' },
+      borderColour: 'blue-6',
+    },
+    automattic: {
+      label: 'Senior Software Engineer',
+      tags: ['react', 'php', 'html', 'css', 'javascript'],
+      plot: { from: { value: 2025, month: 1 }, to: { value: 'now' } },
+      tooltip: { label: 'Senior Software Engineer at Automattic' },
       borderColour: 'blue-6',
     },
     groupProject: {
