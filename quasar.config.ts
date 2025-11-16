@@ -44,7 +44,13 @@ export default defineConfig((/* ctx */) => {
         // extendTsConfig (tsConfig) {}
       },
 
-      vueRouterMode: 'history', // available values: 'hash', 'history'
+      /**
+       * GitHub Pages hosts the SPA under /liamsarsfield-dev-new-quasar/,
+       * so we use hash mode to avoid history rewrites and pin the
+       * publicPath accordingly. Set PUBLIC_PATH env var if deploying elsewhere.
+       */
+      vueRouterMode: 'hash', // available values: 'hash', 'history'
+      publicPath: process.env.PUBLIC_PATH || '/liamsarsfield-dev-new-quasar/',
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,

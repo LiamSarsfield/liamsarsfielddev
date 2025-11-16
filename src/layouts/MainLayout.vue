@@ -4,7 +4,7 @@
       <q-toolbar>
         <q-toolbar-title class="row items-center">
           <q-avatar size="44px" class="q-mr-sm">
-            <img src="/logos/avatar.jpg" width="44" height="44" alt="Liam Sarsfield's Avatar" />
+            <img :src="avatarSrc" width="44" height="44" alt="Liam Sarsfield's Avatar" />
           </q-avatar>
           <span class="text-subtitle1">Liam Sarsfield</span>
           <q-space />
@@ -35,7 +35,7 @@
             icon="fas fa-file-pdf"
             type="a"
             aria-label="Liam's CV"
-            href="/cv/sarsfield-liam-cv.pdf"
+            :href="cvHref"
             target="_blank"
           />
         </q-toolbar-title>
@@ -50,4 +50,7 @@
 </template>
 
 <script setup lang="ts">
+const assetBase = import.meta.env.BASE_URL;
+const avatarSrc = `${assetBase}logos/avatar.jpg`;
+const cvHref = `${assetBase}cv/sarsfield-liam-cv.pdf`;
 </script>
