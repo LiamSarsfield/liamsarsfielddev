@@ -45,12 +45,12 @@ export default defineConfig((/* ctx */) => {
       },
 
       /**
-       * GitHub Pages hosts the SPA under /liamsarsfield-dev-new-quasar/,
+       * GitHub Pages hosts the SPA under /liamsarsfielddev/,
        * so we use hash mode to avoid history rewrites and pin the
        * publicPath accordingly. Set PUBLIC_PATH env var if deploying elsewhere.
        */
       vueRouterMode: 'hash', // available values: 'hash', 'history'
-      publicPath: process.env.PUBLIC_PATH || '/liamsarsfield-dev-new-quasar/',
+      publicPath: process.env.PUBLIC_PATH || '/liamsarsfielddev/',
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,
@@ -205,7 +205,7 @@ export default defineConfig((/* ctx */) => {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'liamsarsfield-dev-new-quasar',
+        appId: 'liamsarsfielddev',
       },
     },
 

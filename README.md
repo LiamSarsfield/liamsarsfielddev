@@ -18,7 +18,7 @@ The project targets Node 20+ (see `package.json -> engines`).
 
 ## GitHub Pages Deployment
 
-- Quasar is configured to build in **hash mode** with a default `publicPath` of `/liamsarsfield-dev-new-quasar/`, which matches the GitHub Pages project URL.
+- Quasar is configured to build in **hash mode** with a default `publicPath` of `/liamsarsfielddev/`, which matches the GitHub Pages project URL.
 - If you host the bundle somewhere else, override the base path via `PUBLIC_PATH=/your/base/ yarn build`.
 - Static assets referenced in `src/layouts/MainLayout.vue` derive from `import.meta.env.BASE_URL`, ensuring they respect whatever base path is in use.
 
