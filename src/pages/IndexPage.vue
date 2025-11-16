@@ -598,7 +598,7 @@ const timeline = {
       tags: ['react', 'php', 'html', 'css', 'javascript'],
       plot: { from: { value: 2025, month: 1 }, to: { value: 'now' } },
       tooltip: { label: 'Senior Software Engineer at Automattic' },
-      borderColour: 'blue-6',
+      borderColour: 'blue-10',
     },
     groupProject: {
       label: 'Group Project',
